@@ -1,6 +1,5 @@
-<view class="coupon">
-  <image src="/images/couponone.png" />
-</view>
-<view class="coupon">
-  <image src="/images/coupontwo.png" />
+<view class="coupon-container">
+  <view class="coupon" wx:for="{{coupons}}" wx:key="id" bindtap="useCoupon">
+    <image src="{{item.image}}" mode="widthFix" />
+  </view>
 </view> 

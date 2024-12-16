@@ -5,21 +5,17 @@ page {
   box-sizing: border-box;
 }
 
-.coupon {
-  margin-bottom: 24rpx;
-  border-radius: 16rpx;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
-  transition: transform 0.2s;
+.coupon-container {
+  padding: 20rpx;
 }
 
-.coupon:active {
-  transform: scale(0.98);
+.coupon {
+  margin-bottom: 20rpx;
 }
 
 .coupon image {
   width: 100%;
-  height: 240rpx;
-  display: block;
+  height: auto;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
 }

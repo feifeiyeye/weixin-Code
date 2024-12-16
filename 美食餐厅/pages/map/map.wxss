@@ -13,35 +13,23 @@ map {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* 优惠券banner */
 .banner {
-  width: 92%;
+  width: 100%;
   height: auto;
-  margin-bottom: 20rpx;
-  border-radius: 16rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.banner:active {
-  transform: scale(0.98);
 }
 
 /* GPS定位按钮 */
 .gps {
+  position: fixed;
+  right: 20rpx;
+  bottom: 300rpx;
   width: 80rpx;
   height: 80rpx;
-  padding: 20rpx;
+  padding: 10rpx;
   background: #fff;
   border-radius: 50%;
-  margin-bottom: 40rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.gps:active {
-  transform: scale(0.95);
+  box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
 }

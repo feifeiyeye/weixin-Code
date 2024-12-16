@@ -5,7 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    coupons: [
+      { id: 1, image: '/images/couponone.png' },
+      { id: 2, image: '/images/coupontwo.png' }
+    ]
   },
 
   /**
@@ -62,5 +65,12 @@ Page({
    */
   onShareAppMessage() {
 
+  },
+
+  useCoupon: function(e) {
+    wx.showToast({
+      title: '优惠券已领取',
+      icon: 'success'
+    });
   }
 })

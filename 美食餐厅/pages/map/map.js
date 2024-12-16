@@ -1,4 +1,4 @@
-const key = '	PMDBZ-SCFLW-IISRK-3VHQC-47WL2-RMFB2'; 
+const key = '2PYBZ-RUKOA-RRMKA-CW7LK-LSBNF-XUFQI'; 
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 const qqmapsdk = new QQMapWX({ key });
 
@@ -19,6 +19,7 @@ Page({
           longitude: res.longitude,
           latitude: res.latitude
         });
+        this.getFood(res.longitude, res.latitude);
       }
     });
   },
@@ -38,7 +39,8 @@ Page({
           latitude: item.location.lat,
           longitude: item.location.lng,
           width: 30,
-          height: 30
+          height: 30,
+          title: item.title
         }));
         markers.push({
           iconPath: '/images/center.png',

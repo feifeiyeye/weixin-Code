@@ -1,25 +1,45 @@
 {
-  "appid": "wx4b1abc202732471c",
-  "compileType": "miniprogram",
-  "libVersion": "3.7.1",
+  "description": "查看附近美食餐厅小程序",
   "packOptions": {
     "ignore": [],
     "include": []
   },
   "setting": {
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "urlCheck": true,
+    "scopeDataCheck": false,
     "coverView": true,
     "es6": true,
     "postcss": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "preloadBackgroundData": false,
     "minified": true,
+    "autoAudits": false,
+    "newFeature": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "useIsolateContext": true,
+    "nodeModules": false,
     "enhance": true,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
     "showShadowRootInWxmlPanel": true,
+    "packNpmManually": false,
     "packNpmRelationList": [],
+    "minifyWXSS": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     }
   },
+  "compileType": "miniprogram",
+  "libVersion": "2.19.4",
+  "appid": "wx4b1abc202732471c",
+  "projectname": "查看附近美食餐厅",
   "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
