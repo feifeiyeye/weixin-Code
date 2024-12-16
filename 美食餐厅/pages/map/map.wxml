@@ -1,0 +1,14 @@
+<map id="myMap" 
+     latitude="{{latitude}}" 
+     longitude="{{longitude}}" 
+     scale="{{scale}}" 
+     markers="{{markers}}" 
+     show-location
+     bindregionchange="regionChange" 
+     bindcontroltap="controlTap">
+</map>
+
+<view class="controls">
+  <image class="banner" mode="widthFix" src="/images/banner.png" bindtap="bannerTap" />
+  <image class="gps" src="/images/gps.png" bindtap="controlTap" />
+</view> 

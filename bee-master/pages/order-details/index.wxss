@@ -1,0 +1,44 @@
+page {
+    background: rgb(231, 231, 231);
+    padding-bottom: 64rpx;
+}
+.container {
+    margin: auto;
+    margin-top: 64rpx;
+    width: 650rpx;
+    background: #fff;
+    border-radius: 16rpx;
+    padding-bottom: 32rpx;
+}
+.status {
+    text-align: center;
+    padding-top: 64rpx;
+}
+.status .txt {
+    color: #666;
+    margin: 32rpx;
+}
+.times {
+    color: #999;
+    padding: 32rpx;
+    font-size: 24rpx;
+    line-height: 40rpx;
+}
+.call-value {
+    font-size:38rpx;
+    color: #333 !important;
+}
+.shop-info {
+    display: flex;
+    align-items: center;
+    padding-right: 16rpx;
+}
+.qucanghao {
+    color: #e64340;
+    font-size: 64rpx;
+}
+.hx-canvas {
+    margin: auto;
+    width: 400rpx;
+    height: 400rpx;
+}

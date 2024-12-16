@@ -1,0 +1,142 @@
+<van-cell icon="location-o" title="{{shopInfo.name}}{{shopInfo.distance ? ' ' + shopInfo.distance + 'km' : ''}}" label="{{shopInfo.address}}" is-link url="/pages/shop/select?type=pay" />
+<view class="pay-bar">
+	<view wx:if="{{ shopInfo.openWaimai && shopInfo.openZiqu }}" class="way-bar">
+		<view class="peisong ziqu {{peisongType == 'zq' ? 'active' : ''}}" bindtap="selected" data-pstype="zq">
+			<van-icon name="shop-collect-o" color="{{peisongType == 'zq' ? '#fff' : '#333'}}" />
+			<view class="ziqu-1">{{ $t.index.pickup }}</view>
+		</view>
+		<view class="peisong ziqu {{peisongType == 'kd' ? 'active' : ''}}" bindtap="selected" data-pstype="kd">
+			<van-icon name="logistics" color="{{peisongType == 'kd' ? '#fff' : '#333'}}" />
+			<view class="ziqu-1">{{ $t.index.Delivery }}</view>
+		</view>
+	</view>
+	<van-divider dashed />
+	<!-- 地址 -->
+	<view class="address-box" wx:if="{{peisongType == 'kd'}}">
+		<view class="add-address" wx:if="{{!curAddressData}}" bindtap="addAddress">
+			<van-icon name="add-o" color="#e64340" size="48rpx" />
+			<view>{{ $t.pay.Addaddress }}</view>
+		</view>
+		<view class="show-address" wx:if="{{curAddressData}}" bindtap="selectAddress">
+			<view class="l">
+				<view class="name-tel">{{curAddressData.linkMan}} {{curAddressData.mobile}}</view>
+				<view class="addr-text">{{curAddressData.address}}</view>
+			</view>
+			<view class="r">
+				<van-icon name="arrow" />
+			</view>
+		</view>
+	</view>
+	<van-field
+		wx:if="{{peisongType == 'zq'}}"
+    model:value="{{ mobile }}"
+    label="{{ $t.booking.mobile }}"
+		type="number"
+		clearable
+		focus
+    placeholder="{{ $t.pay.inputphoneNO }}">
+		<van-button slot="button" size="small" type="danger" open-type="getPhoneNumber" bind:getphonenumber="getPhoneNumber">{{ $t.pay.reBind }}</van-button>
+  </van-field>
+	<van-cell
+    wx:if="{{ create_order_select_time == '1' }}"
+	 	title="{{ peisongType == 'zq' ? $t.pay.Mealtime : $t.pay.Deliverytime }}"
+		value="{{ diningTime ? diningTime : $t.common.select }}"
+		is-link
+		bind:click="diningTimeShow"
+	/>
+	<van-divider dashed />
+</view>
+
+<view class="goods-title">{{ $t.pay.Productdetails }}</view>
+<van-row custom-class="detail" wx:for="{{goodsList}}" wx:key="index">
+	<van-col span="18">
+		<view class="detail-1 {{ (item.minBuyNumber && item.stores < item.minBuyNumber) ? 'quehuo' : '' }}">
+      {{item.name}}
+      <van-tag wx:if="{{ item.minBuyNumber && item.stores < item.minBuyNumber }}" type="danger">{{ $t.goodsDetail.storeing }}</van-tag>
+    </view>
+		<view class="goods-label">{{item.label}}
+			<block wx:for="{{item.sku}}" wx:for-item="option" wx:key="index">
+				{{option.optionName}}:{{option.optionValueName}}
+			</block>
+			<block wx:for="{{item.additions}}" wx:for-item="option" wx:key="index">
+				{{option.pname}}:{{option.name}}
+			</block>
+		</view>
+	</van-col>
+	<van-col span="3" class="num">x{{item.number}}</van-col>
+	<van-col span="3" class="price">¥{{item.price}}</van-col>
+</van-row>
+
+<view class="amount">{{ $t.pay.Total }} X{{allGoodsNumber}} ￥{{allGoodsPrice}}</view>
+
+<van-cell-group wx:if="{{coupons}}" title="{{ $t.coupons.title }}">
+	<picker bindchange="bindChangeCoupon" range="{{coupons}}" range-key="nameExt">
+		<van-cell title="{{curCouponShowText}}" is-link />
+	</picker>
+</van-cell-group>
+
+<van-radio-group wx:if="{{ peisongType == 'zq' && packaging_fee }}" value="{{ packaging_fee_use }}" bind:change="packaging_fee_Change">
+  <van-cell-group title="{{ $t.pay.Insulationbag }}">
+    <van-cell title="{{ $t.pay.Needbag }}" clickable data-name="1" bind:click="packaging_fee_Click">
+      <van-radio slot="right-icon" name="1" />
+    </van-cell>
+    <van-cell title="{{ $t.pay.UNneedbag }}" clickable data-name="2" bind:click="packaging_fee_Click">
+      <van-radio slot="right-icon" name="2" />
+    </van-cell>
+  </van-cell-group>
+</van-radio-group>
+
+<van-cell wx:if="{{ yunPrice }}" title="{{ $t.pay.DeliveryFee }}" value="¥{{ yunPrice }}" value-class="red" />
+<van-cell-group wx:if="{{ peisongfee }}" title="{{ $t.pay.DeliveryFee }}">
+	<van-cell wx:if="{{ peisongfee.amount1 }}" title="{{ peisongfee.fwf1Name }}" value="¥{{ peisongfee.amount1 }}" value-class="red" />
+	<van-cell wx:if="{{ peisongfee.amount2 }}" title="{{ peisongfee.fwf2Name }}" value="¥{{ peisongfee.amount2 }}" value-class="red" />
+	<van-cell wx:if="{{ peisongfee.amount3 }}" title="{{ peisongfee.fwf3Name }}" value="¥{{ peisongfee.amount3 }}" value-class="red" />
+</van-cell-group>
+<van-field label="{{ $t.pay.remark }}" value="{{remark}}" clearable input-align="right" placeholder="{{ $t.pay.remarkPlaceholder }}" bindblur="remarkChange" />
+<view class="bottom"></view>
+<van-submit-bar
+	wx:if="{{ nick && avatarUrl }}"
+	price="{{ amountReal*100 }}"
+  label="{{ $t.PickingUp.total }}"
+	button-text="{{peisongType == 'kd' && amountReal < shopInfo.serviceAmountMin ? ('￥' + shopInfo.serviceAmountMin + $t.pay.qisong) : $t.order.toPayTap }}"
+	bind:submit="goCreateOrder"
+	button-class="pay-btn"
+	disabled="{{(peisongType == 'kd' && amountReal < shopInfo.serviceAmountMin) || submitLoding }}"
+/>
+<van-submit-bar
+  wx:else
+	price="{{ amountReal*100 }}"
+  label="{{ $t.PickingUp.total }}"
+	button-text="{{ $t.pay.login }}"
+	bind:submit="updateUserInfo"
+	button-class="pay-btn"
+/>
+
+<van-popup
+  show="{{ diningTimeShow }}"
+	position="bottom"
+	round
+  bind:close="diningTimeHide"
+>
+<van-datetime-picker
+  type="time"
+	value="{{ currentDate }}"
+	min-hour="{{ minHour }}"
+	max-hour="{{ 22 }}"
+	min-minute="{{ minMinute }}"
+	formatter="{{ formatter }}"
+	filter="{{ filter }}"
+	bind:change="diningTimeChange"
+  bind:cancel="diningTimeHide"
+  bind:confirm="diningTimeConfirm"
+/>
+</van-popup>
+
+<payment
+  money="{{ money }}"
+  remark="{{ $t.payment.order }} ：{{ orderId }}"
+  nextAction="{{ nextAction }}"
+  show="{{ paymentShow }}"
+  bind:cancel="paymentCancel"
+  bind:ok="paymentOk"
+/>

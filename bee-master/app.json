@@ -1,0 +1,121 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/all-orders/index",
+    "pages/my/index",
+    "pages/my/feedback",
+    "pages/my/user-code",
+    "pages/ad/index",
+    "pages/pay/index",
+    "pages/shop/select",
+    "pages/shop/detail",
+    "pages/shop/join-apply",
+    "pages/youhui-pay/index",
+    "pages/member-center/index",
+    "pages/order-details/index",
+    "pages/order-details/scan-result",
+    "pages/order-details/doing",
+    "pages/about/index",
+    "pages/coupons/index",
+    "pages/booking/index",
+    "pages/asset/index",
+    "pages/asset/recharge-log",
+    "pages/asset/cash-log",
+    "pages/sign/index",
+    "pages/score/logs",
+    "pages/notice/detail",
+    "pages/queue/index",
+    "pages/cart/index",
+    "pages/cart/order",
+    "pages/goods-details/index",
+    "pages/goods/list"
+  ],
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation",
+    "chooseAddress"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#6e6d6b",
+    "selectedColor": "#e64340",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/nav/index-off.png",
+        "selectedIconPath": "images/nav/index-on.png",
+        "text": "点餐"
+      },
+      {
+        "pagePath": "pages/queue/index",
+        "iconPath": "images/nav/qh-off.png",
+        "selectedIconPath": "images/nav/qh-on.png",
+        "text": "取号"
+      },
+      {
+        "pagePath": "pages/order-details/doing",
+        "iconPath": "images/nav/qc-off.png",
+        "selectedIconPath": "images/nav/qc-on.png",
+        "text": "取餐"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "images/nav/my-off.png",
+        "selectedIconPath": "images/nav/my-on.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取离你最近的门店"
+    }
+  },
+  "usingComponents": {
+    "parser":"/components/parser.20200731.min/parser",
+    "payment": "/components/payment/index",
+    "van-button": "@vant/weapp/button/index",
+    "van-sidebar": "@vant/weapp/sidebar/index",
+    "van-sidebar-item": "@vant/weapp/sidebar-item/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index",
+    "van-card": "@vant/weapp/card/index",
+    "van-submit-bar": "@vant/weapp/submit-bar/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-stepper": "@vant/weapp/stepper/index",
+    "van-row": "@vant/weapp/row/index",
+    "van-col": "@vant/weapp/col/index",
+    "van-divider": "@vant/weapp/divider/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-empty": "@vant/weapp/empty/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-datetime-picker": "@vant/weapp/datetime-picker/index",
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index",
+    "van-tabbar": "@vant/weapp/tabbar/index",
+    "van-tabbar-item": "@vant/weapp/tabbar-item/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-goods-action": "@vant/weapp/goods-action/index",
+    "van-goods-action-icon": "@vant/weapp/goods-action-icon/index",
+    "van-goods-action-button": "@vant/weapp/goods-action-button/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-grid": "@vant/weapp/grid/index",
+    "van-grid-item": "@vant/weapp/grid-item/index",
+    "van-count-down": "@vant/weapp/count-down/index",
+    "van-progress": "@vant/weapp/progress/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index"
+  },
+  "sitemapLocation": "sitemap.json"
+}

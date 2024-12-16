@@ -1,0 +1,71 @@
+/**index.wxss**/
+page {
+  height: 100%;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+}
+
+.show {
+  display: flex;
+  flex: 1;
+  color: white;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-right: 80rpx;
+}
+
+.input {
+  display: flex;
+  color: white;
+  font-size: 50px;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-right: 80rpx;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ope-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #313131;
+  color: white;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 70rpx;
+  font-size:x-large;
+  font-family: STXihei;
+  font-weight: 500;
+}
+.ope {
+  background-color: #f69906;
+  color: white;
+}
+.con {
+  background-color: #a0a0a0;
+  color: #0b0b0b;
+}
+.zero {
+  display: flex;
+  width: 270rpx;
+  justify-content: flex-start;
+  padding-left: 50rpx;
+}

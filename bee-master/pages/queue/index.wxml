@@ -1,0 +1,13 @@
+<van-empty wx:if="{{!list}}" description="{{ $t.common.empty }}" />
+<view class="btn-groups">
+  <van-button custom-class="btn" wx:for="{{list}}" wx:key="id" type="primary" block bind:click="queuingGet" data-index="{{ index }}">{{ item.name }} ( {{item.curNumber}} / {{item.numberGet}} )</van-button>
+</view>
+<van-cell-group wx:if="{{ mylist }}" title="{{ $t.queue.myNumber }}">
+  <van-cell
+    value-class="cell-red"
+    wx:for="{{mylist}}" wx:key="id"
+    title="{{ item.typeEntity.name }}"
+    label="{{ item.statusStr }} {{ item.waitMinitus ? $t.queue.ExpectedWaiting + ': ' + item.waitMinitus + $t.queue.minutes : '' }}"
+    value="{{ item.number }}"
+  />
+</van-cell-group>

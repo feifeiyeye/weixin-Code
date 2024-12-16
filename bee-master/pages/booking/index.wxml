@@ -1,0 +1,56 @@
+<van-field
+  label="{{ $t.booking.name }}"
+  placeholder="{{ $t.booking.namePlaceholder }}"
+  size="large"
+  focus
+  clearable
+  model:value="{{ name }}"
+/>
+<van-field
+  type="number"
+  label="{{ $t.booking.mobile }}"
+  placeholder="{{ $t.booking.mobilePlaceholder }}"
+  size="large"
+  clearable
+  model:value="{{ mobile }}"
+/>
+<van-field
+  label="{{ $t.booking.time }}"
+  placeholder="{{ $t.booking.timePlaceholder }}"
+  size="large"
+  readonly
+  value="{{ time }}"
+  is-link
+  bindtap="showDatetimePop"
+/>
+<van-divider contentPosition="center">
+  {{ $t.booking.person }}
+</van-divider>
+<view class="persion-num">
+  <view wx:for="{{persionNum[language]}}" wx:key="item" class="item {{persionNumIndex == index ? 'active' : ''}}" data-idx="{{index}}" bindtap="changePersionNum">
+    {{ item }}
+    <van-icon wx:if="{{persionNumIndex == index}}" custom-class="icon" name="success" />
+  </view>
+</view>
+<view class="btn">
+  <van-button type="primary" block bind:click="submit">{{ $t.booking.title }}</van-button>
+</view>
+<view class="profile">{{ $t.booking.tip }}</view>
+
+
+<van-popup
+  show="{{ showDatetimePop }}"
+  position="bottom"
+  bind:close="onClose">
+  <van-datetime-picker
+    type="datetime"
+    value="{{ currentDate }}"
+    min-date="{{ minDate }}"
+    formatter="{{ formatter }}"
+    filter="{{ filter }}"
+    confirm-button-text="{{ $t.common.confirm }}"
+    cancel-button-text="{{ $t.common.cancel }}"
+    bind:confirm="confirm"
+    bind:cancel="hideDatetimePop"
+  />
+</van-popup>

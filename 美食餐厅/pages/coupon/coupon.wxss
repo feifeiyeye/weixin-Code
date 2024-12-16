@@ -1,0 +1,25 @@
+/* pages/coupon/coupon.wxss */
+page {
+  background: #f8f8f8;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.coupon {
+  margin-bottom: 24rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+
+.coupon:active {
+  transform: scale(0.98);
+}
+
+.coupon image {
+  width: 100%;
+  height: 240rpx;
+  display: block;
+}

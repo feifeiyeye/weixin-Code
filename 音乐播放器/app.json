@@ -1,0 +1,14 @@
+{
+  "pages": [
+  "pages/index/index"
+  ],
+  "window": {
+  "backgroundTextStyle": "light",
+  "navigationBarBackgroundColor": "#17181a",
+  "navigationBarTitleText": "音乐播放器",
+  "navigationBarTextStyle": "white"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+  }
+  

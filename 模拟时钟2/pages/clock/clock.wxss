@@ -1,0 +1,91 @@
+.clock-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.clock {
+  width: 300rpx;
+  height: 300rpx;
+  position: relative;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 4rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.clock-face {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* 时钟刻度 */
+.marks {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.mark {
+  position: absolute;
+  width: 2rpx;
+  height: 15rpx;
+  background: #333;
+  left: 50%;
+  top: 5rpx;
+  transform-origin: 50% 145rpx;
+}
+
+/* 时针 */
+.hour-hand {
+  width: 4rpx;
+  height: 60rpx;
+  background: #333;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 100%;
+  margin-left: -2rpx;
+  margin-top: -60rpx;
+}
+
+/* 分针 */
+.minute-hand {
+  width: 3rpx;
+  height: 80rpx;
+  background: #666;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 100%;
+  margin-left: -1.5rpx;
+  margin-top: -80rpx;
+}
+
+/* 秒针 */
+.second-hand {
+  width: 2rpx;
+  height: 100rpx;
+  background: #f00;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 100%;
+  margin-left: -1rpx;
+  margin-top: -100rpx;
+}
+
+/* 中心点 */
+.center-point {
+  width: 12rpx;
+  height: 12rpx;
+  background: #f00;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -6rpx;
+  margin-top: -6rpx;
+} 

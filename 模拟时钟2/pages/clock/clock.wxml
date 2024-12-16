@@ -1,0 +1,15 @@
+<view class="clock-container">
+  <view class="clock">
+    <view class="clock-face">
+      <!-- 时钟刻度 -->
+      <view class="marks">
+        <view class="mark" wx:for="{{12}}" wx:key="index" style="transform: rotate({{index * 30}}deg)"></view>
+      </view>
+      <!-- 时针、分针、秒针 -->
+      <view class="hour-hand" style="transform: rotate({{hourDeg}}deg)"></view>
+      <view class="minute-hand" style="transform: rotate({{minuteDeg}}deg)"></view>
+      <view class="second-hand" style="transform: rotate({{secondDeg}}deg)"></view>
+      <view class="center-point"></view>
+    </view>
+  </view>
+</view> 

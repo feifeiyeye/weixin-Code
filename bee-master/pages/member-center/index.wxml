@@ -1,0 +1,24 @@
+<view class="my-box">
+  <view class="head-bar">
+    <image mode='aspectFill' class='head' src='{{apiUserInfoMap.base.avatarUrl}}'></image>
+    <view class="name-box">
+      <view class="name">{{apiUserInfoMap.base.nick}}</view>
+      <view class="content">{{ $t.vip.consumption }} ￥{{totleConsumed}}</view>
+    </view>
+  </view>
+  <view wx:if="{{apiUserInfoMap.userLevel}}" class="state">{{apiUserInfoMap.userLevel.name}}</view>
+  <view wx:else class="state">{{ $t.vip.notVIP }}</view>
+  <view class="state-0">{{ $t.vip.tip }}</view>
+</view>
+<view class="system">{{ $t.vip.growth }}</view>
+<view class="title-box">
+  <view class="title1">{{ $t.vip.growthName }}</view>
+  <view class="title2">{{ $t.vip.growthDiscount }}</view>
+  <view class="title3">{{ $t.vip.growthConsumption }}</view>
+</view>
+<view wx:for="{{levelList}}" wx:key="id" class="title-box-0">
+  <view class="title1">{{item.name}}</view>
+  <view class="title2">{{item.rebate}}</view>
+  <view class="title3">{{item.upgradeAmount}}</view>
+</view>
+<view class="remark">{{ $t.vip.profile }}</view>

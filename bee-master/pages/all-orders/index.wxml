@@ -1,0 +1,43 @@
+<view class="container">
+	<view wx:if="{{apiOk && !orderList}}" class="no-order">
+		<view class="content-1">{{ $t.order.empty.t1 }}</view>
+		<view class="content-2">{{ $t.order.empty.t2 }}</view>
+		<view class="to-index-btn" bindtap="toIndexPage">{{ $t.order.empty.btn }}</view>
+	</view>
+
+	<view wx:if="{{orderList}}" class="order-list">
+		<view class="a-order" wx:for="{{orderList}}" wx:key="index">
+			<navigator url="/pages/order-details/index?id={{item.id}}" class="weui-cell weui-cell_access" hover-class="none">
+				<van-cell title="{{item.shopNameZt}}" value="{{item.statusStr}}" is-link />
+			</navigator>
+			<scroll-view class="goods-img-container" scroll-x="true">
+				<view class="img-box" wx:for="{{goodsMap[item.id]}}" wx:key="index">
+					<image mode="aspectFill" src="{{item.pic}}" class="goods-img"></image>
+				</view>
+			</scroll-view>
+			<view class="order-info-box">
+				<view class="l">
+					<view>{{ $t.order.dateAdd }}：{{item.dateAdd}}</view>
+					<view>{{ $t.order.orderNumber }}：{{item.orderNumber}}</view>
+				</view>
+				<view class="r"><text>¥</text>{{item.amountReal}}</view>
+			</view>
+			<view class="price-box">
+				<van-button wx:if="{{item.status > 0}}" type="primary" plain hairline size="small" bind:click="callShop" data-shopid="{{item.shopIdZt}}">{{ $t.order.callShop }}</van-button>
+				<van-button wx:if="{{item.status== -1}}" type="danger" plain hairline size="small" bind:click="deleteOrder" data-id="{{item.id}}">{{ $t.order.deleteOrder }}</van-button>
+				<van-button custom-class="btn" wx:if="{{item.status== 0}}" type="warning" plain hairline size="small" bind:click="cancelOrderTap" data-id="{{item.id}}">{{ $t.order.cancelOrder }}</van-button>
+				<van-button wx:if="{{item.status== 0}}" type="primary" plain hairline size="small" bind:click="toPayTap" data-id="{{item.id}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">{{ $t.order.toPayTap }}</van-button>
+			</view>
+		</view>
+	</view>
+	<view class="safeAreaOldMarginBttom safeAreaNewMarginBttom"></view>
+</view>
+
+<payment
+  money="{{ money }}"
+  remark="{{ $t.payment.order }} ：{{ orderId }}"
+  nextAction="{{ nextAction }}"
+  show="{{ paymentShow }}"
+  bind:cancel="paymentCancel"
+  bind:ok="paymentOk"
+/>

@@ -1,0 +1,6 @@
+<view class="coupon">
+  <image src="/images/couponone.png" />
+</view>
+<view class="coupon">
+  <image src="/images/coupontwo.png" />
+</view> 

@@ -1,0 +1,2 @@
+<!-- pages/smile/index.wxml -->
+<canvas canvas-id="smileCanvas" style="width: 200px; height: 200px;"></canvas>

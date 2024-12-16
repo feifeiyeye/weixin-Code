@@ -1,0 +1,27 @@
+<view class="tab">
+    <view class="tab-item {{tab == 0 ? 'active' : ''}}" bindtap="changeItem" data-item="0">音乐推荐</view>
+    <view class="tab-item {{tab == 1 ? 'active' : ''}}" bindtap="changeItem" data-item="1">播放器</view>
+    <view class="tab-item {{tab == 2 ? 'active' : ''}}" bindtap="changeItem" data-item="2">播放列表</view>
+    <view class="tab-item {{tab == 3 ? 'active' : ''}}" bindtap="changeItem" data-item="3">录音器</view>
+</view>
+
+<view class="content">
+    <swiper current="{{tab}}" bindchange="changeTab" duration="300">
+        <swiper-item>
+            <!--音乐推荐-->
+            <include src="info.wxml" />
+        </swiper-item>
+        <swiper-item>
+            <!--播放器-->
+            <include src="play.wxml" />
+        </swiper-item>
+        <swiper-item>
+            <!--播放列表-->
+            <include src="playlist.wxml" />
+        </swiper-item>
+        <swiper-item>
+            <!--录音器-->
+            <include src="recorder.wxml" />
+        </swiper-item>
+    </swiper>
+</view>

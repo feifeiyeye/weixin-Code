@@ -1,0 +1,33 @@
+<van-field
+  label="{{ $t.feedback.name }}"
+  placeholder="{{ $t.feedback.namePlaceholder }}"
+  model:value="{{ name }}"
+  clearable
+/>
+<van-field
+  label="{{ $t.feedback.mobile }}"
+  placeholder="{{ $t.feedback.mobilePlaceholder }}"
+  type="number"
+  model:value="{{ mobile }}"
+  clearable
+/>
+<view style="margin-top:16rpx;padding-left:32rpx;">
+  <van-uploader
+    accept="media"
+    multiple
+    upload-text="{{ $t.feedback.imageOrVideo }}"
+    image-fit="aspectFill"
+    file-list="{{ picsList }}"
+    bind:after-read="afterPicRead"
+    bind:delete="afterPicDel"
+  />
+</view>
+<van-field
+  model:value="{{ content }}"
+  placeholder="{{ $t.feedback.contentPlaceholder }}"
+  type="textarea"
+  autosize="{{ autosize }}"
+/>
+<view class="block-btn btn">
+  <van-button type="primary" block bind:click="bindSave">{{ $t.feedback.btn }}</van-button>
+</view>

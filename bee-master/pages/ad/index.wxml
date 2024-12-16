@@ -1,0 +1,67 @@
+<view class="container" wx:if="{{addressList.length > 0 && addressEdit == false}}">
+  <view class="address-list">
+    <view class="a-address" wx:for="{{addressList}}" wx:key="id">
+      <view class="left-text" bindtap="selectTap" data-id="{{item.id}}">
+        <view class="name-tel">
+          {{item.linkMan}} {{item.mobile}}
+        </view>
+        <view class="address-box">
+          {{item.address}}
+        </view>
+      </view>
+			<van-icon name="edit" custom-class="right-edit" size="36rpx" bind:click="editAddress" data-id="{{item.id}}" />
+			<van-icon name="delete" custom-class="right-edit" size="36rpx" bind:click="deleteAddress" data-id="{{item.id}}" />
+    </view>
+  </view>
+  <view class="bottom-box" bindtap="addAddress" wx:if="{{addressList.length > 0 && addressEdit == false}}">
+    <view class="add-btn">
+      <van-icon name="add" color="#e64340" size="36rpx" />
+      <view>{{ $t.ad_index.add }}</view>
+    </view>
+    <van-icon name="arrow" size="36rpx" />
+  </view>
+</view>
+
+<view class="" wx:if="{{addressList == null && addressEdit == false}}">
+	<view class="content-1">{{ $t.ad_index.empty }}</view>
+	<view class="content-2">{{ $t.ad_index.pleaseAdd }}</view>
+	<van-button color="#e64340" custom-class="button" bindtap="addAddress">{{ $t.ad_index.add }}</van-button>
+</view>
+
+<view class="addressEdit" wx:if="{{addressEdit}}">
+	<van-field
+    value="{{ addressData.linkMan }}"
+    label="{{ $t.ad_index.linkMan }}"
+    placeholder="{{ $t.ad_index.linkManPlaceholder }}"
+		clearable
+    bind:change="linkManChange"
+  />
+	<van-field
+    value="{{ addressData.mobile }}"
+    label="{{ $t.ad_index.mobile }}"
+    placeholder="{{ $t.ad_index.mobilePlaceholder }}"
+		type="number"
+		clearable
+    bind:change="mobileChange"
+  />
+	<picker mode="multiSelector" range="{{pickerRegionRange}}" range-key="name" value="{{pickerSelect}}" bindchange="bindchange" bindcolumnchange="bindcolumnchange">
+		<van-field
+			value="{{ showRegionStr }}"
+			label="{{ $t.ad_index.region }}"
+			readonly
+			is-link
+		/>
+	</picker>
+  <van-cell title="{{ $t.ad_index.location }}" value="{{ addressData.latitude ? (addressData.latitude + ',' + addressData.longitude) : $t.common.select }}" is-link bind:click="chooseLocation" />
+	<van-field
+    value="{{ addressData.address }}"
+    label="{{ $t.ad_index.address }}"
+    placeholder="{{ $t.ad_index.addressPlaceholder }}"
+		type="textarea"
+		autosize
+		clearable
+    bind:change="addressChange"
+  />
+	<button class="save-btn" bindtap="bindSave">{{ $t.common.save }}</button>
+	<button class="cancel-btn" bindtap="editCancel">{{ $t.common.cancel }}</button>
+</view>

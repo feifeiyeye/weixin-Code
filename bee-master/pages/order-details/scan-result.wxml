@@ -1,0 +1,74 @@
+<view class="container">
+  <view class="sec-wrap">    
+    <block wx:if="{{orderDetail.logistics}}">            
+      <view class="address-sec">
+        <view class="icon-box">
+          <van-icon name="location-o" />
+        </view>
+        <view class="right-box">
+          <view class="name-tel">{{orderDetail.logistics.linkMan}} {{orderDetail.logistics.mobile}}</view>
+          <view class="text">
+            {{orderDetail.logistics.provinceStr}} {{orderDetail.logistics.cityStr}} {{orderDetail.logistics.areaStr}} {{orderDetail.logistics.address}}
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="goods-list">
+    <view class="list-title">{{ $t.PickingUp.goodsInfo }}</view>
+    <form bindsubmit="submitReputation" report-submit="true">
+      <block wx:for="{{orderDetail.goods}}" wx:key="{{index}}">
+        <view class="a-goods">
+          <view class="img-box">
+            <image src="{{item.pic}}" class="img" />
+          </view>
+          <view class="text-box">
+            <view class="arow arow01">
+              <view class="goods-name">{{item.goodsName}}</view>
+              <view class="goods-price">¥ {{item.amount}}</view>
+            </view>
+            <view class="arow">
+              <view class="goods-label">{{item.property}}</view>
+              <view class="goods-num">x {{item.number}}</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </form>
+  </view>
+  <view class="peisong-way" hidden="true">
+    <view class="row-box">
+      <view class="row-label">{{ $t.PickingUp.DeliveryMethod }}</view>
+      <view class="right-text">{{ $t.PickingUp.sf }}</view>
+    </view>
+    <view class="row-box">
+      <view class="row-label">{{ $t.PickingUp.remark }}</view>
+      <view class="right-text">
+        <input name="remark" type="text" class="liuyan" placeholder="{{ $t.PickingUp.remarkPlaceholder }}" />
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{orderDetail.goodsCoupons}}" class="goods-info" style="margin-bottom:32rpx;">
+    <view wx:for="{{orderDetail.goodsCoupons}}" wx:key="{{item.id}}" class="row-box">
+      <view wx:if="{{item.type == 0}}" class="row-label">{{ $t.coupons.title }}</view>
+      <view wx:if="{{item.type == 0}}" class="right-text">{{item.coupon}}</view>
+      <image mode="widthFix" wx:if="{{item.type == 1}}" src="{{item.coupon}}" style="max-width:100%;"></image>
+    </view>
+  </view>
+  <view class="goods-info">
+    <view class="row-box">
+      <view class="row-label">{{ $t.PickingUp.goodsAmount }}</view>
+      <view class="right-text">¥ {{orderDetail.orderInfo.amount}}</view>
+    </view>
+    <view class="row-box">
+      <view class="row-label">{{ $t.PickingUp.freight }}</view>
+      <view class="right-text">+ ¥ {{orderDetail.orderInfo.amountLogistics}}</view>
+    </view>
+    <view class="row-box">
+      <view class="row-label">{{ $t.PickingUp.realAmount }}</view>
+      <view class="right-text">¥ {{orderDetail.orderInfo.amountReal}}</view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{orderDetail.orderInfo.status ==1 || orderDetail.orderInfo.status ==2}}" class="hx-btn" bindtap="doneHx">{{ $t.PickingUp.ConfirmVerification }}</view>

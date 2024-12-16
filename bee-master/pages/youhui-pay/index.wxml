@@ -1,0 +1,39 @@
+<view class="youhui-pay-bar">
+	<van-cell icon="location-o" title="{{shopInfo.name}}" label="{{shopInfo.address}}" is-link url="/pages/shop/select?type=pay" />
+
+  <form bindsubmit="bindSave" report-submit="true">
+	  <view class="amount-pay-bar">
+		  <view class="title">{{ $t.cart.Consumptionamount }}</view>
+		  <view class="amount">
+			  <view class="units">¥</view>
+			  <input class='describe' placeholder='{{ $t.youhuipay.askAmount }}' name="amount" type="digit"></input>
+		  </view>
+		  <view class="blank"></view>
+		  <button class="c-btn" formType="submit">{{ $t.youhuipay.btn }}</button>
+
+		  <view class="youhui-pay">{{ $t.youhuipay.youhuiList }}</view>
+      
+		  <view class="content">
+			  <block wx:if='{{rechargeSendRules}}'>
+				  <view class="charge-rule-wrap">
+					  <view wx:for='{{rechargeSendRules}}' wx:key="index" wx:for-item="item" class="charge-detail">
+						  <text>{{ $t.pay.Fullconsumption }} ￥{{item.consume}} </text>
+						  <text>{{ $t.pay.reduce }} ￥{{item.discounts}}</text>
+					  </view>
+				  </view>
+			  </block>
+		  </view>
+	  </view>
+  </form>
+
+</view>
+
+
+<payment
+  money="{{ money }}"
+  remark="{{ $t.payment.maidan }} ：{{ money }}"
+  nextAction="{{ nextAction }}"
+  show="{{ paymentShow }}"
+  bind:cancel="paymentCancel"
+  bind:ok="paymentOk"
+/>

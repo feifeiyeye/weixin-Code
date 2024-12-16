@@ -1,0 +1,27 @@
+page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    Segoe UI, Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei',
+    sans-serif;
+}
+page,view,image,input {
+  display: block;
+  box-sizing: border-box;
+}
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  width: 38rpx;
+  height: 38rpx;
+  line-height: 38rpx;
+  color: #fff;
+  font-size: 20rpx;
+  text-align: center;
+  background-color: #e64340;
+  border: 1rpx solid #fff;
+  border-radius: 50%;
+}
+.block-btn {
+  padding: 0 32rpx;
+}

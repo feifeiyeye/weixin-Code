@@ -1,0 +1,19 @@
+
+<!--index.wxml-->
+<view class="container">
+  <view class="usermotto">
+    <text class="user-motto">{{message}}</text>
+  </view>
+  
+  <block wx:for="{{file}}" wx:key="{{item}}">
+    <view  bindtap="clearFile" class="filelist {{index%2 === 0 ? 'odd' : 'even'}}" data-filePath="{{item.filePath}}" data-index="{{index}}">
+      <text>序号：{{index + 1}}</text>
+      <text>文件路径：{{item.filePath}}</text>
+      <text>文件大小：{{item.size}}B</text>
+      <text>创建时间：{{item.createTime}}</text>
+    </view>
+    <view>
+      <button></button>
+    </view>
+  </block>
+</view>

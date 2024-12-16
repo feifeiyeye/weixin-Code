@@ -1,0 +1,2 @@
+<canvas canvas-id="myCanvas" class="mycanvas"></canvas>
+<button class="from" bindtap="gettime">当前北京时间{{time}}</button>

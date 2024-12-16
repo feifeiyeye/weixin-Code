@@ -1,0 +1,242 @@
+<view class="custom-navigation" style="width: {{ menuButtonBoundingClientRect.left }}px;height: {{ menuButtonBoundingClientRect.height + menuButtonBoundingClientRect.top }}px;padding-top: {{ menuButtonBoundingClientRect.top }}px;line-height: {{ menuButtonBoundingClientRect.height }}px;">
+  <view wx:if="{{ language }}" class="language">
+    <image class="language-icon" src="/images/lang/{{language}}.png" mode="aspectFill" bind:tap="changeLang"></image>
+  </view>
+  <view class="mallName">{{ mallName }}</view>
+</view>
+<view wx:if="{{noticeLastOne}}" class="notice">
+  <van-notice-bar
+    mode="link"
+    left-icon="volume-o"
+    text="{{noticeLastOne.title}}"
+    bind:click="goNotice"
+    data-id="{{noticeLastOne.id}}"
+  />
+</view>
+<view wx:if="{{ !scanDining }}" class="box">
+  <view class="shop-name">
+    <view class="name" bindtap="selectshop">{{shopInfo.name}}</view>
+    <view wx:if="{{ shopInfo.openWaimai && shopInfo.openZiqu }}" class="select">
+      <view class="{{peisongType == 'zq' ? 'on' : 'off'}}" data-type="zq" bindtap="changePeisongType">{{ $t.index.pickup }}</view>
+      <view class="{{peisongType == 'kd' ? 'on' : 'off'}}" data-type="kd" bindtap="changePeisongType">{{ $t.index.Delivery }}</view>
+    </view>
+  </view>
+  <view class="distance-bar">
+    <view class="distance">{{shopInfo.distance}}km</view>
+    <navigator url="/pages/shop/detail?id={{shopInfo.id}}" hover-class="none">
+      <view class="shop-message">
+        <view class="message">{{ $t.index.shopDetail }}</view>
+        <van-icon name="arrow" />
+      </view>
+    </navigator>
+  </view>
+</view>
+<view class="box1">
+  <view class="box-1">
+    <van-sidebar>
+      <van-sidebar-item
+        wx:for="{{categories}}" wx:key="id"
+        title="{{item.name}}"
+        badge="{{ item.badge ? item.badge : '' }}"
+        data-idx="{{index}}" bind:click="categoryClick"
+      />
+    </van-sidebar>
+  </view>
+  <scroll-view class="box-2" scroll-y="true" scroll-top="{{scrolltop}}" bindscrolltolower="_onReachBottom">
+    <swiper wx:if="{{banners}}" class="swiper1" indicator-dots="true" autoplay circular>
+      <swiper-item wx:for="{{banners}}" wx:key="id">
+        <image  mode="aspectFill" bindtap="tapBanner" data-url="{{item.linkUrl}}" src="{{item.picUrl}}" />
+      </swiper-item>
+    </swiper>
+    <van-empty wx:if="{{!goods || goods.length == 0}}" description="{{ $t.common.empty }}" />
+    <van-card
+      wx:for="{{goods}}" wx:key="id"
+      centered="true"
+      lazy-load="true"
+      origin-price="{{ (item.originalPrice > 0 && item.originalPrice != item.minPrice) ? item.originalPrice : '' }}"
+      price="{{item.minPrice}}"
+      thumb-mode="aspectFill"
+      tag="{{ item.badge ? item.badge : '' }}"
+      title="{{item.name}}"
+      thumb-link="/pages/goods-details/index?id={{ item.id }}"
+      thumb="{{item.pic}}">
+      <view slot="desc">
+        <view wx:if="{{ item.miaosha && item.dateStartInt > 0 }}">
+          <van-count-down class="count-downno-start" time="{{ item.dateStartInt }}" format="HH时mm分ss秒"></van-count-down>
+        </view>
+        <view wx:elif="{{ item.miaosha && item.dateStartInt <= 0 && item.dateEndInt > 0 }}">
+          <van-count-down class="count-downno-start" time="{{ item.dateEndInt }}" format="HH时mm分ss秒"></van-count-down>
+        </view>
+        <view wx:elif="{{ item.kanjia }}">
+          {{ $t.index.minPrice }} {{ item.kanjiaPrice }}
+        </view>
+        <view wx:else>{{ item.characteristic }}</view>
+      </view>
+      <view class="goods-btn" slot="footer">
+        <van-button wx:if="{{ item.stores < item.minBuyNumber }}" size="small" color="#e64340" round disabled>{{ $t.goodsDetail.storeing }}</van-button>
+        <van-button wx:elif="{{ item.miaosha && item.dateStartInt > 0 }}" size="small" color="#e64340" round disabled>{{ $t.index.noStart }}</van-button>
+        <van-button wx:elif="{{ item.miaosha && item.dateEndInt <= 0 }}" size="small" color="#e64340" round disabled>{{ $t.index.miaoshaEnd }}</van-button>
+        <van-button wx:elif="{{item.kanjia}}" size="small" color="#e64340" round data-idx="{{index}}" bind:click="goGoodsDetail">{{ $t.goodsDetail.kanjia }}</van-button>
+        <van-button wx:elif="{{item.pingtuan}}" size="small" color="#e64340" round data-idx="{{index}}" bind:click="showGoodsDetailPOP">{{ $t.index.pingtuan }}</van-button>
+        <van-button wx:elif="{{item.propertyIds || item.hasAddition || item.hasGoodsTimes}}" size="small" color="#e64340" round data-idx="{{index}}" bind:click="showGoodsDetailPOP">{{ $t.index.selectSku }}</van-button>
+        <van-icon wx:else name="add" color="#e64340" size="50rpx" data-idx="{{index}}" bind:click="addCart1" />
+      </view>
+    </van-card>
+  </scroll-view>
+</view>
+
+<view class="cart-bar" wx:if="{{shippingCarInfo && shippingCarInfo.number}}">
+  <view class="l" bindtap="showCartPop">
+    <van-button type="default" round icon="shopping-cart-o">{{ $t.cart.title }}</van-button>
+    <view class="badge">{{shippingCarInfo.number}}</view>
+  </view>  
+  <view class="r">
+    <view class="amount"><text>¥</text>{{shippingCarInfo.price}}</view>
+    <view wx:if="{{shopIsOpened}}" class="topay" bindtap="goPay">{{ $t.index.submit }}</view>
+    <view wx:elif="{{ !shopInfo }}" class="topay" bindtap="getshopInfo">{{ $t.index.selectShop }}</view>
+    <view wx:else class="topay noopen">{{ $t.index.noBusiness }}</view>
+  </view>
+</view>
+
+
+
+<van-popup
+  show="{{ showGoodsDetailPOP }}"
+  custom-style="max-height: 80%;z-index:99999;"
+  closeable
+  close-icon="close"
+  position="bottom"
+  bind:close="hideGoodsDetailPOP">
+  <image wx:if="{{ showGoodsDetailPOP }}" mode='aspectFill' class='photos-00' src='{{curGoodsMap.basicInfo.pic}}'></image>
+  <view class="title-name">{{curGoodsMap.basicInfo.name}}</view>  
+  <view wx:for="{{curGoodsMap.properties}}" wx:key="id" class="content-1">
+    <view class="title">{{item.name}}</view>
+    <view class="box-1">
+      <view wx:for="{{item.childsCurGoods}}" wx:key="id" wx:for-item="small" wx:for-index="index2" class="title-1 {{small.selected?'active':''}}" data-idx1="{{index}}" data-idx2="{{index2}}" bindtap="skuClick">{{small.name}}</view>
+    </view>
+  </view>
+  <view wx:for="{{goodsAddition}}" wx:key="id" class="content-1">
+    <view class="title">{{item.name}}</view>
+    <view class="box-1">
+      <view wx:for="{{item.items}}" wx:key="id" wx:for-item="small" wx:for-index="index2" class="title-1 {{small.active?'active':''}}" data-idx1="{{index}}" data-idx2="{{index2}}" bindtap="skuClick2">{{small.name}}</view>
+    </view>
+  </view>
+  <view wx:for="{{goodsTimesSchedule}}" wx:key="id" class="content-1">
+    <view class="title">{{item.day}}</view>
+    <view class="box-1">
+      <view wx:for="{{item.items}}" wx:key="id" wx:for-item="small" wx:for-index="index2" class="title-1 {{small.active?'active':''}}" data-idx1="{{index}}" data-idx2="{{index2}}" bindtap="skuClick3">{{small.name}}</view>
+    </view>
+  </view>
+
+  <view wx:if="{{curGoodsMap.content}}" class="introduce">
+    <view class="title">{{ $t.goodsDetail.title }}</view>
+    <view class="content">
+      <parser html="{{curGoodsMap.content}}" />
+    </view>
+  </view>
+
+  <view class="blank"></view>
+  <view class="add-bar">
+    <view class="add-box">
+      <view class="price"><text>¥</text>{{curGoodsMap.price}}</view>
+      <van-stepper value="{{ curGoodsMap.number }}" min="{{curGoodsMap.basicInfo.minBuyNumber}}" max="{{ buyNumMax }}" bind:change="goodsStepChange"/>
+    </view>
+    <view class="add-cart">
+      <van-button wx:if="{{lijipingtuanbuy}}" block color="#e64340" bind:click="pingtuanbuy">{{ $t.index.pingtuan }}</van-button>
+      <van-button wx:else block color="#e64340" bind:click="addCart2">{{ $t.goodsDetail.addCartBtn }}</van-button>
+    </view>
+  </view>
+</van-popup> 
+
+<van-popup
+  show="{{ showCartPop }}"
+  position="bottom"
+  custom-style="bottom: 100rpx;max-height: 80%;"
+  bind:close="hideCartPop">
+  <view class="empty-box" bindtap="clearCart">
+    <van-icon name="delete" />
+    <view class="empty-1">{{ $t.cart.clear }}</view>
+  </view>
+  <view wx:for="{{shippingCarInfo.items}}" wx:key="key" class="cart-goods-list">
+    <view class="l">
+      <view class="title">{{item.name}}</view>
+      <view wx:if="{{item.sku}}" class="content">
+        <block wx:for="{{item.sku}}" wx:key="optionValueId" wx:for-item="_sku">{{_sku.optionValueName}} </block>
+      </view>
+      <view wx:if="{{item.additions}}" class="content">
+        <block wx:for="{{item.additions}}" wx:for-item="option" wx:key="index">{{option.name}} </block>
+      </view>
+      <view wx:if="{{item.goodsTimesDay && item.goodsTimesItem}}" class="content">
+        <block>{{ item.goodsTimesDay }} {{ item.goodsTimesItem }}</block>
+      </view>
+    </view>
+    <view class="r">
+      <view class="price">¥{{ item.price }}</view>
+      <van-stepper value="{{ item.number }}" min="0" async-change disable-input data-idx="{{index}}" bind:change="cartStepChange"/>
+    </view>
+  </view>
+</van-popup>
+
+<van-popup
+  show="{{ showPingtuanPop }}"
+  custom-style="max-height: 80%;z-index:99999;"
+  position="bottom"
+  closeable
+  bind:close="hideGoodsDetailPOP"
+>
+<view class="pingtuan-bar">
+  <image mode='aspectFill' class='photos' src='{{curGoodsMap.basicInfo.pic}}'></image>
+  <view class="pingtuan-box">
+    <view class="title">{{curGoodsMap.basicInfo.name}}</view>
+    <view class="price">
+      <view class="xianjia">¥{{curGoodsMap.basicInfo.pingtuanPrice}}</view>
+      <view wx:if="{{curGoodsMap.basicInfo.minPrice > 0 && curGoodsMap.basicInfo.minPrice != curGoodsMap.basicInfo.pingtuanPrice}}" class="yuanjia">{{ $t.goodsDetail.originalPrice }} ¥{{curGoodsMap.basicInfo.minPrice}}</view>
+    </view>
+    <view class="jilu">{{pintuanSet.numberOrder}}{{ $t.index.p_persion }} / {{ $t.index.p_numsuc }}{{curGoodsMap.basicInfo.numberSells}}</view>
+  </view>
+</view>
+<view wx:if="{{pintuanSet.numberOrder > helpNumers}}" class="pingdan-title">{{ $t.index.remain }}{{pintuanSet.numberOrder - helpNumers}}{{ $t.index.remainToSuccess }}</view>
+<view wx:else class="pingdan-title">{{ $t.index.pingSuccess }}</view>
+<view class="pingtuan-photos">
+  <image wx:for="{{helpUsers}}" wx:key="index" mode='aspectFill' class='photos' src='{{item}}'></image>
+</view>
+<view class="botton-box">
+  <van-button round type="default" bind:click="yuanjiagoumai">{{ $t.index.originalPriceBuy }}</van-button>
+  <van-button wx:if="{{pintuanSet.numberOrder > helpNumers}}" round type="default" color="#d3aa79" bind:click="_lijipingtuanbuy">{{ $t.index.pingtuan }}</van-button>
+  <van-button wx:else round type="default" color="#d3aa79" bind:click="_lijipingtuanbuy2">{{ $t.index.openNewPingtuan }}</van-button>
+</view>
+<van-divider contentPosition="center" dashed>{{ $t.index.pingtuanProcess }}</van-divider>
+<view class="liucheng">
+  <view class="liucheng-1">
+    <image mode='aspectFill' class='icon' src='/images/pay-pingtuan.png'></image>
+    <view class="content">{{ $t.index.step1 }}</view>
+  </view>
+  <view class="liucheng-1">
+    <image mode='aspectFill' class='icon' src='/images/friend.png'></image>
+    <view class="content">{{ $t.index.step2 }}</view>
+  </view>
+  <view class="liucheng-1">
+    <image mode='aspectFill' class='icon' src='/images/quhuo.png'></image>
+    <view class="content">{{ $t.index.step3 }}</view>
+  </view>
+  <view class="liucheng-1">
+    <image mode='aspectFill' class='icon' src='/images/tuikuan.png'></image>
+    <view class="content">{{ $t.index.step4 }}</view>
+  </view>
+</view>
+</van-popup> 
+
+<van-overlay show="{{ !scanDining && showCouponPop }}" bind:click="couponOverlayClick">
+  <view class="couponOverlay-container">
+    <image src="/images/coupon.png" bindtap="couponImageClick"></image>
+  </view>
+</van-overlay>
+
+
+<block wx:if="{{ scanDining }}">
+  <van-tabbar active="{{ 0 }}" fixed="{{ false }}" inactive-color="#6e6d6b" active-color="#e64340" bind:change="tabbarChange">
+    <van-tabbar-item icon="goods-collect-o">{{ $t.index.order }}</van-tabbar-item>
+    <van-tabbar-item icon="shopping-cart-o">{{ $t.cart.title }}</van-tabbar-item>
+    <van-tabbar-item icon="bill-o">{{ $t.index.ordered }}</van-tabbar-item>
+  </van-tabbar>
+</block>

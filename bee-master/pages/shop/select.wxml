@@ -1,0 +1,39 @@
+<view class="search">
+	<view class="icon">
+		<van-icon name="search" />
+	</view>
+	<input placeholder="{{ $t.common.search }}" bindinput="searchChange" bindconfirm="search" />
+</view>
+<view class="shops" wx:for="{{shops}}" wx:key="id">
+	<view class="t">
+		<view class="name">
+			<van-icon name="shop-o" />
+			<text style="color:#333">{{ item.name }}</text>
+		</view>
+		<view wx:if="{{index == 0}}" class="distance">{{ item.distance }}<text>km</text></view>
+    
+		<view wx:if="{{index > 0}}" class="distance-black" bindtap="goShop" data-idx="{{ index }}">
+			<text class="d">{{ item.distance }}</text>
+			<text class="u">km</text>
+			<van-icon name="arrow" />
+		</view>
+	</view>
+
+	<view class="p">
+		<van-icon name="location-o" color="#666" />
+		<text>{{ item.address }}</text>
+	</view>
+	<view class="p">
+		<van-icon name="clock-o" color="#666" />
+		<text>{{ item.openingHours }}</text>
+	</view>
+	<view class="p">
+		<van-icon name="phone-o" color="#666" />
+		<text>{{ item.linkPhone }}</text>
+	</view>
+
+	<button wx:if="{{index == 0}}" class="goHotel" type="default" bindtap="goShop" data-idx="{{ index }}"> {{ $t.shop.select }} </button>
+</view>
+<!-- <view class="block-btn btn">
+  <van-button type="primary" block bind:click="joinApply">商家申请入驻</van-button>
+</view> -->
