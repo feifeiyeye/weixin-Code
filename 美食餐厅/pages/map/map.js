@@ -1,4 +1,4 @@
-const key = 'OQCBZ-I363A-M34KB-CJS4E-RY2N6-JVBC6'; 
+const key = '腾讯key'; 
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 const qqmapsdk = new QQMapWX({ key });
 
