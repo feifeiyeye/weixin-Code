@@ -33,3 +33,55 @@ map {
   border-radius: 50%;
   box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
 }
+
+/* 在现有样式基础上添加 */
+.info-panel {
+  position: fixed;
+  top: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.1);
+}
+
+.search-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.stats-content {
+  display: flex;
+  align-items: baseline;
+}
+
+.count {
+  font-size: 36rpx;
+  color: #d9362c;
+  font-weight: bold;
+  margin-right: 8rpx;
+}
+
+.unit {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.searching {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 20rpx;
+}
+
+slider {
+  flex: 1;
+  margin: 0 20rpx;
+}
