@@ -1,2 +1,50 @@
 <!--pages/list/list.wxml-->
-<text>pages/list/list.wxml</text>
+<view class="discount" wx:if="{{promotion}}">
+  <text class="discount-txt">减</text>
+  满{{promotion.full}}元减{{promotion.reduce}}元（在线支付专享）
+</view>
+
+<!-- 内容区域 -->
+<view class="content">
+  <!-- 左侧菜单栏 -->
+  <scroll-view class="category" scroll-y>
+    <view 
+      wx:for="{{foodList}}" 
+      wx:key="id" 
+      class="category-item {{activeIndex === index ? 'active' : ''}}"
+      bindtap="tapCategory"
+      data-index="{{index}}">
+      <view class="category-name">{{item.name}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 右侧商品列表 -->
+  <scroll-view 
+    class="food" 
+    scroll-y 
+    scroll-into-view="category_{{tapIndex}}" 
+    scroll-with-animation 
+    bindscroll="onFoodScroll">
+    <block wx:for="{{foodList}}" wx:key="id" wx:for-item="category">
+      <view id="category_{{index}}" class="food-category">{{category.name}}</view>
+      <view class="food-item" wx:for="{{category.food}}" wx:key="id" wx:for-item="food">
+        <view class="food-item-pic">
+          <image mode="widthFix" src="{{food.image_url}}" />
+        </view>
+        <view class="food-item-info">
+          <view>{{food.name}}</view>
+          <view class="food-item-price">{{priceFormat(food.price)}}</view>
+        </view>
+        <view class="food-item-opt">
+          <i class="iconfont"></i>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>
+
+<wxs module="priceFormat">
+  module.exports = function (price) {
+    return '￥' + parseFloat(price);
+  };
+</wxs>
