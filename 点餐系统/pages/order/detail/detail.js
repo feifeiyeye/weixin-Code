@@ -1,66 +1,36 @@
 // pages/order/detail/detail.js
+const app = getApp();
+const fetch = app.fetch;
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    taken: false,     // 是否已取餐
+    code: '',         // 取餐号
+    comment: '',      // 备注
+    sn: '',          // 订单号码
+    create_time: '', // 下单时间
+    pay_time: '',    // 付款时间
+    taken_time: '',  // 取餐时间
+    is_taken: false  // 是否已取餐
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad: function(options) {
+    wx.showLoading({
+      title: '努力加载中',
+    });
+    fetch('/food/order', { 
+      id: options.order_id 
+    }).then(data => {
+      this.setData(data);
+      wx.hideLoading();
+    }, () => {
+      this.onLoad(options);
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  onUnload: function() {
+    wx.reLaunch({
+      url: '/pages/order/list/list',
+    });
   }
-})
+});

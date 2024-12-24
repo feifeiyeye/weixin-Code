@@ -1,227 +1,199 @@
-### 任务6-7 订单确认页开发文档整理
+### 开发文档：订单详情页
 
 #### 任务分析
-在用户选择商品并点击“选好了”按钮后，系统跳转到订单确认页。在该页面，系统需要请求订单接口，获取商品订单数据并渲染订单列表。页面展示基本订单信息，并允许用户添加备注。页面右下角有一个“去支付”按钮，点击后跳转至订单详情页。以下是实现过程。
+订单详情页是在用户确认商品信息后，点击“去支付”按钮跳转到的页面。该页面需要展示以下信息：
+- 取餐号
+- 订单详情
+- 订单号码
+- 下单时间
+- 付款时间
 
-### 任务实现
+#### 任务实现
 
-#### 1. 跳转到订单确认页
-1. **绑定事件**：在页面的 `wxml` 文件中，绑定“选好了”按钮的 `tap` 事件，触发跳转。
-   ```xml
-   <view class="submit" bindtap="order">选好了</view>
-   ```
+##### 1. 加载订单详情页数据
 
-2. **实现跳转逻辑**：
-   在 `js` 文件中添加 `order` 函数，发送 POST 请求给 `/food/order` 接口，传递商品 `id` 和数量，接口返回 `order_id`，并跳转到订单确认页面。
-   ```javascript
-   order: function() {
-     if (this.data.cartNumber === 0) {
-       return;
-     }
-     wx.showLoading({ title: '正在生成订单' });
-     fetch('/food/order', {
-       order: this.data.cartList
-     }, 'POST').then(data => {
-       wx.navigateTo({
-         url: '/pages/order/checkout/checkout?order_id=' + data.order_id
-       });
-     }).catch(() => {
-       this.order();
-     });
-   }
-   ```
+在 `pages/order/detail.js` 文件中编写订单详情页的逻辑：
 
-3. **配置订单确认页**：
-   在 `checkout.json` 文件中，设置订单确认页的导航栏标题：
-   ```json
-   {
-     "navigationBarTitleText": "订单确认"
-   }
-   ```
+```javascript
+const app = getApp();
+const fetch = app.fetch;
 
-#### 2. 加载订单确认页数据
-1. **获取订单数据**：在 `checkout.js` 文件中，通过 `onLoad` 方法请求订单数据并渲染。
-   ```javascript
-   onLoad: function(options) {
-     wx.showLoading({ title: '努力加载中' });
-     fetch('/food/order', { id: options.order_id }).then(data => {
-       this.setData(data);
-       wx.hideLoading();
-     }).catch(() => {
-       this.onLoad(options);
-     });
-   }
-   ```
+Page({
+  data: {},
+  onLoad: function(options) {
+    var id = options.order_id;
+    wx.showLoading({
+      title: '努力加载中',
+    });
+    fetch('/food/order', { id }).then(data => {
+      this.setData(data);
+      wx.hideLoading();
+    }, () => {
+      this.onLoad(options); // 如果请求失败，重新加载页面
+    });
+  },
+  onUnload: function() {
+    wx.reLaunch({
+      url: '/pages/order/list/list', // 返回订单列表页面
+    });
+  }
+});
+```
 
-#### 3. 页面结构和样式
-1. **页面结构**：在 `checkout.wxml` 文件中，编写页面结构，包括标题、订单信息、备注区域和支付区域。
-   ```xml
-   <view class="content">
-     <!-- 标题 -->
-     <view class="content-title">请确认您的订单</view>
-     <!-- 订单信息 -->
-     <view class="order"></view>
-     <!-- 备注 -->
-     <view class="content-comment"></view>
-   </view>
-   <!-- 支付 -->
-   <view class="operate"></view>
-   ```
+- 第10-16行代码用于加载订单详情数据。
+- 第18-21行代码用于处理返回按钮点击，跳转到订单列表页面，避免返回到订单确认页重新支付。
 
-2. **页面样式**：在 `checkout.wxss` 文件中，编写页面样式，使用 Flex 布局，设置各部分的样式。
-   ```css
-   .content {
-     display: flex;
-     flex-direction: column;
-     height: 100%;
-     background: #f8f8f8;
-   }
-   .content-title {
-     height: 80rpx;
-     line-height: 80rpx;
-     font-size: 28rpx;
-     background: white;
-     padding: 0 10rpx;
-   }
-   ```
+##### 2. 实现取餐信息区域
 
-#### 4. 订单信息区域
-1. **订单商品列表**：在 `checkout.wxml` 中使用 `wx:for` 渲染订单商品。
-   ```xml
-   <view class="order-item" wx:for="{{order_food}}" wx:key="id">
-     <view class="order-item-left">
-       <image class="order-item-image" mode="widthFix" src="{{item.image_url}}" />
-       <view>
-         <view class="order-item-name">{{item.name}}</view>
-         <view class="order-item-number">x {{item.number}}</view>
-       </view>
-     </view>
-     <view class="order-item-price">{{priceFormat(item.price * item.number)}}</view>
-   </view>
-   ```
+在 `pages/order/detail/detail.wxml` 文件中编写取餐信息区域的页面结构：
 
-2. **满减信息区域**：显示满减优惠，如果有的话。
-   ```xml
-   <view class="order-item" wx:if="{{checkPromotion(promotion)}}">
-     <view class="order-item-left">
-       <i class="order-promotion-icon">减</i> 满减优惠
-     </view>
-     <view class="order-promotion-price">-{{priceFormat(promotion)}}</view>
-   </view>
-   ```
+```xml
+<view class="top">
+  <view class="card" wx:if="{{taken}}">
+    <view class="card-title">收餐号</view>
+    <view class="card-content">
+      <view class="card-info">
+        <text class="card-code">{{code}}</text>
+        <text class="card-info-r">正在精心制作中…</text>
+      </view>
+      <view class="card-comment" wx:if="{{comment}}">注: {{comment}}</view>
+      <view class="card-tips">美食制作中，尽快为您服务</view>
+    </view>
+  </view>
+</view>
+```
 
-3. **小计区域**：显示订单总价格。
-   ```xml
-   <view class="order-item">
-     <view class="order-item-left">小计</view>
-     <view class="order-total-price">{{priceFormat(price)}}</view>
-   </view>
-   ```
+- 第2-12行代码定义了取餐卡片区域，通过 `wx:if` 控制卡片显示状态。
+- 第9行通过 `wx:if` 控制备注区域的显示。
 
-#### 5. 备注区域
-1. **备注输入框**：在 `checkout.wxml` 中添加一个文本输入框，允许用户添加备注。
-   ```xml
-   <view class="content-comment">
-     <label>备注</label>
-     <textarea placeholder="如有其他要求，请输入备注" bindinput="inputComment"></textarea>
-   </view>
-   ```
+在 `pages/order/detail/detail.wxss` 文件中添加取餐信息区域的样式：
 
-2. **备注样式**：为备注区域设置样式。
-   ```css
-   .content-comment {
-     padding: 10rpx 30rpx 20rpx;
-     background: white;
-     margin-top: 20rpx;
-   }
-   .content-comment > label {
-     font-size: 32rpx;
-     color: #a3a3a3;
-   }
-   .content-comment > textarea {
-     width: 95%;
-     font-size: 24rpx;
-     background: #f2f2f2;
-     padding: 20rpx;
-     height: 160rpx;
-     margin-top: 10rpx;
-   }
-   ```
+```css
+.card {
+  margin: 20rpx auto;
+  width: 85%;
+  background: #fef9f4;
+  display: flex;
+  font-size: 30rpx;
+}
 
-3. **保存备注信息**：在 `checkout.js` 中，处理备注输入的事件。
-   ```javascript
-   inputComment: function(e) {
-     this.comment = e.detail.value;
-   }
-   ```
+.card-title {
+  width: 28rpx;
+  padding: 30rpx;
+  background: #de5f4b;
+  border-left: 1rpx solid #de5f4b;
+  font-size: 28rpx;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
 
-#### 6. 支付区域
-1. **支付按钮**：在 `checkout.wxml` 中添加一个支付按钮。
-   ```xml
-   <view class="operate">
-     <view class="operate-info">合计: {{priceFormat(price)}}</view>
-     <view class="operate-submit" bindtap="pay">去支付</view>
-   </view>
-   ```
+.card-content {
+  flex: 1;
+  margin-left: 50rpx;
+}
 
-2. **支付样式**：为支付区域设置样式。
-   ```css
-   .operate {
-     height: 110rpx;
-     display: flex;
-   }
-   .operate-info {
-     width: 74%;
-     background: #353535;
-     color: #fff;
-     line-height: 110rpx;
-     padding-left: 40rpx;
-   }
-   .operate-submit {
-     width: 26%;
-     font-size: 30rpx;
-     text-align: center;
-     line-height: 110rpx;
-     background: #ff9c35;
-     color: #fff;
-   }
-   ```
+.card-info {
+  margin-top: 10rpx;
+}
 
-3. **支付逻辑**：在 `checkout.js` 中添加 `pay` 函数，提交订单和支付请求。
-   ```javascript
-   pay: function() {
-     var id = this.data.id;
-     wx.showLoading({ title: '正在支付' });
-     fetch('/food/order', {
-       id: id,
-       comment: this.comment
-     }, 'POST').then(() => {
-       return fetch('/food/pay', { id: id }, 'POST');
-     }).then(() => {
-       wx.hideLoading();
-       wx.showToast({
-         title: '支付成功',
-         icon: 'success',
-         duration: 2000,
-         success: () => {
-           wx.navigateTo({ url: '/pages/order/detail/detail?order_id=' + id });
-         }
-       });
-     }).catch(() => {
-       this.pay();
-     });
-   }
-   ```
+.card-code {
+  font-size: 60rpx;
+  margin-right: 40rpx;
+}
 
-#### 7. 订单详情页配置
-在 `detail.json` 文件中，配置订单详情页的导航栏标题。
-```json
-{
-  "navigationBarTitleText": "订单详情"
+.card-info-r {
+  font-size: 24rpx;
+  color: #ff9c35;
+}
+
+.card-comment {
+  color: #de5f4b;
+  font-weight: 600;
+  margin-top: 5rpx;
+}
+
+.card-tips {
+  color: #a2a1a0;
+  margin: 10rpx 0 20rpx;
+  font-size: 24rpx;
 }
 ```
 
----
+##### 3. 实现订单详情区域
 
-### 总结
-以上步骤详细描述了订单确认页的实现过程，包括页面跳转、数据加载、页面结构、样式设置、备注功能和支付功能等。
+复制 `pages/order/checkout/checkout.wxml` 文件中的订单信息区域结构，直接应用到 `pages/order/detail/detail.wxml` 中：
+
+```xml
+<view class="order">
+  <!-- 订单详情区域 -->
+</view>
+```
+
+相应的样式也可以从 `checkout.wxss` 复制到 `detail.wxss` 文件中。
+
+##### 4. 实现订单信息区域
+
+在 `pages/order/detail/detail.wxml` 文件中编写订单信息区域的页面结构：
+
+```xml
+<view class="list">
+  <view>
+    <text>订单号码</text>
+    <view>{{sn}}</view>
+  </view>
+  <view>
+    <text>下单时间</text>
+    <view>{{create_time}}</view>
+  </view>
+  <view>
+    <text>付款时间</text>
+    <view>{{pay_time}}</view>
+  </view>
+  <view wx:if="{{is_taken}}">
+    <text>取餐时间</text>
+    <view>{{taken_time}}</view>
+  </view>
+  <view wx:if="{{is_taken}}">
+    取餐号（{{code}}）您已取餐
+  </view>
+</view>
+```
+
+##### 样式（`pages/order/detail/detail.wxss`）
+
+```css
+.list {
+  background: #fff;
+  margin-top: 20rpx;
+}
+
+.list > view {
+  font-size: 30rpx;
+  color: #d1d1d1;
+  padding: 20rpx;
+  border-bottom: 1rpx #e3e3e3 solid;
+  display: flex;
+}
+
+.list > view > view {
+  color: black;
+  margin-left: 20rpx;
+}
+
+.tips {
+  width: 80%;
+  text-align: center;
+  margin: 20rpx auto 40rpx;
+  padding: 12rpx 20rpx;
+  background: #ff9c35;
+  color: #fff;
+  font-size: 36rpx;
+}
+```
+
+- 第10行代码设置 `Flex` 布局，使订单号码、下单时间、付款时间区域的内部 `view` 元素横向排列。
+
+#### 总结
+
+通过以上步骤，完成了订单详情页的开发，页面效果如图6-23所示。

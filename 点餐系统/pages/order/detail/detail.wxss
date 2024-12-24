@@ -1,1 +1,128 @@
 /* pages/order/detail/detail.wxss */
+/* 取餐信息区域样式 */
+.card {
+  margin: 20rpx auto;
+  width: 85%;
+  background: #fef9f4;
+  display: flex;
+  font-size: 30rpx;
+}
+
+.card-title {
+  width: 28rpx;
+  padding: 30rpx;
+  background: #de5f4b;
+  border-left: 1rpx solid #de5f4b;
+  font-size: 28rpx;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.card-content {
+  flex: 1;
+  margin-left: 50rpx;
+}
+
+.card-info {
+  margin-top: 10rpx;
+}
+
+.card-code {
+  font-size: 60rpx;
+  margin-right: 40rpx;
+}
+
+.card-info-r {
+  font-size: 24rpx;
+  color: #ff9c35;
+}
+
+.card-comment {
+  color: #de5f4b;
+  font-weight: 600;
+  margin-top: 5rpx;
+}
+
+.card-tips {
+  color: #a2a1a0;
+  margin: 10rpx 0 20rpx;
+  font-size: 24rpx;
+}
+
+/* 订单详情区域样式 */
+.order {
+  background: white;
+  margin-top: 20rpx;
+  padding: 0 30rpx;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f8f8f8;
+}
+
+.order-item-left {
+  display: flex;
+  align-items: center;
+}
+
+.order-item-image {
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 20rpx;
+}
+
+.order-item-name {
+  font-size: 28rpx;
+}
+
+.order-item-number {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
+.order-item-price {
+  font-size: 28rpx;
+  color: #ff9c35;
+}
+
+.order-promotion-icon {
+  color: #fff;
+  background: #ff9c35;
+  padding: 4rpx 8rpx;
+  font-size: 24rpx;
+  margin-right: 10rpx;
+}
+
+.order-promotion-price {
+  color: #ff9c35;
+}
+
+.order-total-price {
+  color: #ff9c35;
+  font-size: 32rpx;
+}
+
+/* 订单信息区域样式 */
+.list {
+  background: #fff;
+  margin-top: 20rpx;
+}
+
+.list > view {
+  font-size: 30rpx;
+  color: #d1d1d1;
+  padding: 20rpx;
+  border-bottom: 1rpx #e3e3e3 solid;
+  display: flex;
+}
+
+.list > view > view {
+  color: black;
+  margin-left: 20rpx;
+}
