@@ -1,4 +1,4 @@
-const key = 'OQCBZ-I363A-M34KB-CJS4E-RY2N6-JVBC6'; 
+const key = 'B32BZ-TA3WQ-WKL56-B46MP-2R3AH-LDBLX'; 
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 const qqmapsdk = new QQMapWX({ key });
 

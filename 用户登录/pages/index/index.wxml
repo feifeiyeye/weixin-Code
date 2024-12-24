@@ -1,0 +1,21 @@
+<!--index.wxml-->
+<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image class="avatar" mode="aspectFill" src="{{avatarUrl}}"></image>
+    </button>
+    
+    <input 
+      type="nickname" 
+      class="nickname" 
+      placeholder="请输入昵称" 
+      placeholder-style="color: #999"
+      model:value="{{nickname}}" 
+    />
+    
+    <button class="credit-btn" bindtap="credit">
+      获取用户积分
+    </button>
+  </view>
+</scroll-view>

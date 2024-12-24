@@ -1,0 +1,68 @@
+/**index.wxss**/
+page {
+  height: 100vh;
+  background-color: #f6f6f6;
+}
+
+.container {
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 头像区域样式 */
+.avatar-wrapper {
+  padding: 0;
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  margin-top: 40rpx;
+  background-color: #fff;
+  border: none;
+}
+
+.avatar-wrapper::after {
+  border: none;
+}
+
+.avatar {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+}
+
+/* 昵称输入框样式 */
+.nickname {
+  width: 80%;
+  height: 90rpx;
+  margin: 40rpx 0;
+  padding: 0 30rpx;
+  border-radius: 45rpx;
+  background-color: #fff;
+  font-size: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+/* 积分按钮样式 */
+.credit-btn {
+  width: 80%;
+  height: 90rpx;
+  margin-top: 40rpx;
+  border-radius: 45rpx;
+  background-color: #07c160;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.credit-btn::after {
+  border: none;
+}
+
+.credit-btn:active {
+  opacity: 0.8;
+}

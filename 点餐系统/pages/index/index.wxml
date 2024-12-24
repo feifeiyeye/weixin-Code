@@ -1,0 +1,9 @@
+<!--index.wxml-->
+<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <view class="header">
+      <text class="title">欢迎光临美食屋</text>
+    </view>
+  </view>
+</scroll-view>

@@ -1,0 +1,30 @@
+<view class="chat-container">
+  <scroll-view class="message-list" 
+               scroll-y 
+               scroll-into-view="{{lastMessageId}}"
+               enhanced="true"
+               show-scrollbar="false">
+    <view class="message-item {{item.isSelf ? 'self' : ''}}" 
+          wx:for="{{messages}}" 
+          wx:key="id"
+          id="msg-{{item.id}}">
+      <view class="avatar">{{item.isSelf ? '我' : '他'}}</view>
+      <view class="message-wrapper">
+        <view class="content">{{item.content}}</view>
+      </view>
+    </view>
+  </scroll-view>
+  
+  <view class="input-area">
+    <input class="message-input" 
+           value="{{inputMessage}}"
+           bindinput="onInputChange"
+           confirm-type="send"
+           bindconfirm="sendMessage"
+           placeholder="说点什么..."
+           placeholder-style="color: #999;"/>
+    <button class="send-btn" 
+            hover-class="button-hover" 
+            bindtap="sendMessage">发送</button>
+  </view>
+</view> 
