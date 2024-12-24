@@ -54,6 +54,11 @@
   <label wx:else>已满 {{ promotion.full }} 元可减 {{ promotion.reduce }} 元</label>
 </view>
 
+<!-- 购物车动画小球 -->
+<view class="cart-ball" hidden="{{!showCartBall}}" style="left:{{ballX}}px; top:{{ballY}}px; transform: translateY({{ballY2}}px);">
+  <view class="inner"></view>
+</view>
+
 <!-- 购物车区域 -->
 <view class="operate">
   <view class="operate-shopcart" bindtap="showCartList">

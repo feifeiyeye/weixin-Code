@@ -248,3 +248,19 @@ page {
   min-width: 40rpx;
   text-align: center;
 }
+
+.cart-ball {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  transition: all 0.5s cubic-bezier(0.49, -0.29, 0.75, 0.41);
+}
+
+.cart-ball .inner {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: #ff9c35;
+  transition: all 0.5s linear;
+}

@@ -12,6 +12,10 @@ Page({
     cartNumber: 0, // 购物车总数量
     cartList: [], // 购物车商品列表
     showCart: false, // 购物车显示状态
+    showCartBall: false, // 是否显示购物车动画小球
+    ballX: 0,           // 小球的起始X坐标
+    ballY: 0,           // 小球的起始Y坐标
+    ballY2: 0,          // 小球的结束Y坐标
   },
 
   onLoad: function () {
@@ -84,11 +88,43 @@ Page({
 
   // 添加购物车相关方法
   addToCart: function(e) {
+    // 获取点击的位置
+    const touches = e.touches[0];
+    
+    // 获取购物车图标的位置
+    const query = wx.createSelectorQuery();
+    query.select('.operate-shopcart-icon').boundingClientRect();
+    query.exec(res => {
+      const cartPos = res[0];
+      
+      // 设置小球的起始位置和结束位置
+      this.setData({
+        ballX: touches.clientX,
+        ballY: touches.clientY,
+        ballY2: 0,
+        showCartBall: true
+      });
+
+      // 延迟设置结束位置，触发动画
+      setTimeout(() => {
+        this.setData({
+          ballY2: cartPos.top - touches.clientY
+        });
+      }, 0);
+
+      // 动画结束后隐藏小球
+      setTimeout(() => {
+        this.setData({
+          showCartBall: false
+        });
+      }, 500);
+    });
+
+    // 原有的购物车添加逻辑
     const category_index = e.currentTarget.dataset.category_index;
     const food_index = e.currentTarget.dataset.food_index;
     const food = this.data.foodList[category_index].food[food_index];
     
-    // 使用 food.id 作为购物车列表的 key
     const cartList = this.data.cartList;
     const cartItem = cartList[food.id];
 
