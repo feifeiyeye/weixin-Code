@@ -1,264 +1,227 @@
-### 任务6-6：购物车电商项目开发文档
+### 任务6-7 订单确认页开发文档整理
 
 #### 任务分析
-在电商项目中，购物车位于商品列表页面底部，拥有以下功能：
-1. 当购物车内商品数量为0时，购物车图标为灰色且不可点击。
-2. 当购物车中有商品时，图标右上角显示商品数量，并且图标变为可点击状态，点击后可展开购物车，显示商品信息，并支持数量的增加或减少。
-3. 动态计算购物车内所有商品的总价。
+在用户选择商品并点击“选好了”按钮后，系统跳转到订单确认页。在该页面，系统需要请求订单接口，获取商品订单数据并渲染订单列表。页面展示基本订单信息，并允许用户添加备注。页面右下角有一个“去支付”按钮，点击后跳转至订单详情页。以下是实现过程。
 
-#### 任务实现
+### 任务实现
 
-##### 1. 实现底部购物车区域
+#### 1. 跳转到订单确认页
+1. **绑定事件**：在页面的 `wxml` 文件中，绑定“选好了”按钮的 `tap` 事件，触发跳转。
+   ```xml
+   <view class="submit" bindtap="order">选好了</view>
+   ```
 
-**步骤1：定义初始数据**
-在 `pages/list/list.js` 文件的 `data` 中定义初始数据：
-```javascript
-data: {
-  cartPrice: 0,  // 购物车总价格
-  cartNumber: 0, // 购物车总数量
+2. **实现跳转逻辑**：
+   在 `js` 文件中添加 `order` 函数，发送 POST 请求给 `/food/order` 接口，传递商品 `id` 和数量，接口返回 `order_id`，并跳转到订单确认页面。
+   ```javascript
+   order: function() {
+     if (this.data.cartNumber === 0) {
+       return;
+     }
+     wx.showLoading({ title: '正在生成订单' });
+     fetch('/food/order', {
+       order: this.data.cartList
+     }, 'POST').then(data => {
+       wx.navigateTo({
+         url: '/pages/order/checkout/checkout?order_id=' + data.order_id
+       });
+     }).catch(() => {
+       this.order();
+     });
+   }
+   ```
+
+3. **配置订单确认页**：
+   在 `checkout.json` 文件中，设置订单确认页的导航栏标题：
+   ```json
+   {
+     "navigationBarTitleText": "订单确认"
+   }
+   ```
+
+#### 2. 加载订单确认页数据
+1. **获取订单数据**：在 `checkout.js` 文件中，通过 `onLoad` 方法请求订单数据并渲染。
+   ```javascript
+   onLoad: function(options) {
+     wx.showLoading({ title: '努力加载中' });
+     fetch('/food/order', { id: options.order_id }).then(data => {
+       this.setData(data);
+       wx.hideLoading();
+     }).catch(() => {
+       this.onLoad(options);
+     });
+   }
+   ```
+
+#### 3. 页面结构和样式
+1. **页面结构**：在 `checkout.wxml` 文件中，编写页面结构，包括标题、订单信息、备注区域和支付区域。
+   ```xml
+   <view class="content">
+     <!-- 标题 -->
+     <view class="content-title">请确认您的订单</view>
+     <!-- 订单信息 -->
+     <view class="order"></view>
+     <!-- 备注 -->
+     <view class="content-comment"></view>
+   </view>
+   <!-- 支付 -->
+   <view class="operate"></view>
+   ```
+
+2. **页面样式**：在 `checkout.wxss` 文件中，编写页面样式，使用 Flex 布局，设置各部分的样式。
+   ```css
+   .content {
+     display: flex;
+     flex-direction: column;
+     height: 100%;
+     background: #f8f8f8;
+   }
+   .content-title {
+     height: 80rpx;
+     line-height: 80rpx;
+     font-size: 28rpx;
+     background: white;
+     padding: 0 10rpx;
+   }
+   ```
+
+#### 4. 订单信息区域
+1. **订单商品列表**：在 `checkout.wxml` 中使用 `wx:for` 渲染订单商品。
+   ```xml
+   <view class="order-item" wx:for="{{order_food}}" wx:key="id">
+     <view class="order-item-left">
+       <image class="order-item-image" mode="widthFix" src="{{item.image_url}}" />
+       <view>
+         <view class="order-item-name">{{item.name}}</view>
+         <view class="order-item-number">x {{item.number}}</view>
+       </view>
+     </view>
+     <view class="order-item-price">{{priceFormat(item.price * item.number)}}</view>
+   </view>
+   ```
+
+2. **满减信息区域**：显示满减优惠，如果有的话。
+   ```xml
+   <view class="order-item" wx:if="{{checkPromotion(promotion)}}">
+     <view class="order-item-left">
+       <i class="order-promotion-icon">减</i> 满减优惠
+     </view>
+     <view class="order-promotion-price">-{{priceFormat(promotion)}}</view>
+   </view>
+   ```
+
+3. **小计区域**：显示订单总价格。
+   ```xml
+   <view class="order-item">
+     <view class="order-item-left">小计</view>
+     <view class="order-total-price">{{priceFormat(price)}}</view>
+   </view>
+   ```
+
+#### 5. 备注区域
+1. **备注输入框**：在 `checkout.wxml` 中添加一个文本输入框，允许用户添加备注。
+   ```xml
+   <view class="content-comment">
+     <label>备注</label>
+     <textarea placeholder="如有其他要求，请输入备注" bindinput="inputComment"></textarea>
+   </view>
+   ```
+
+2. **备注样式**：为备注区域设置样式。
+   ```css
+   .content-comment {
+     padding: 10rpx 30rpx 20rpx;
+     background: white;
+     margin-top: 20rpx;
+   }
+   .content-comment > label {
+     font-size: 32rpx;
+     color: #a3a3a3;
+   }
+   .content-comment > textarea {
+     width: 95%;
+     font-size: 24rpx;
+     background: #f2f2f2;
+     padding: 20rpx;
+     height: 160rpx;
+     margin-top: 10rpx;
+   }
+   ```
+
+3. **保存备注信息**：在 `checkout.js` 中，处理备注输入的事件。
+   ```javascript
+   inputComment: function(e) {
+     this.comment = e.detail.value;
+   }
+   ```
+
+#### 6. 支付区域
+1. **支付按钮**：在 `checkout.wxml` 中添加一个支付按钮。
+   ```xml
+   <view class="operate">
+     <view class="operate-info">合计: {{priceFormat(price)}}</view>
+     <view class="operate-submit" bindtap="pay">去支付</view>
+   </view>
+   ```
+
+2. **支付样式**：为支付区域设置样式。
+   ```css
+   .operate {
+     height: 110rpx;
+     display: flex;
+   }
+   .operate-info {
+     width: 74%;
+     background: #353535;
+     color: #fff;
+     line-height: 110rpx;
+     padding-left: 40rpx;
+   }
+   .operate-submit {
+     width: 26%;
+     font-size: 30rpx;
+     text-align: center;
+     line-height: 110rpx;
+     background: #ff9c35;
+     color: #fff;
+   }
+   ```
+
+3. **支付逻辑**：在 `checkout.js` 中添加 `pay` 函数，提交订单和支付请求。
+   ```javascript
+   pay: function() {
+     var id = this.data.id;
+     wx.showLoading({ title: '正在支付' });
+     fetch('/food/order', {
+       id: id,
+       comment: this.comment
+     }, 'POST').then(() => {
+       return fetch('/food/pay', { id: id }, 'POST');
+     }).then(() => {
+       wx.hideLoading();
+       wx.showToast({
+         title: '支付成功',
+         icon: 'success',
+         duration: 2000,
+         success: () => {
+           wx.navigateTo({ url: '/pages/order/detail/detail?order_id=' + id });
+         }
+       });
+     }).catch(() => {
+       this.pay();
+     });
+   }
+   ```
+
+#### 7. 订单详情页配置
+在 `detail.json` 文件中，配置订单详情页的导航栏标题。
+```json
+{
+  "navigationBarTitleText": "订单详情"
 }
 ```
 
-**步骤2：编写底部购物车区域的页面结构**
-在 `pages/list/list.wxml` 文件的菜单列表区域下方添加购物车区域的页面结构：
-```xml
-<view class="operate">
-  <view class="operate-shopcart">
-    <i class="iconfont operate-shopcart-icon {{ cartNumber > 0 ? 'operate-shopcart-icon-activity' : '' }}">
-      <span wx:if="{{ cartNumber > 0 }}">{{ cartNumber }}</span>
-    </i>
-    <view class="operate-shopcart-empty" wx:if="{{ cartNumber == 0 }}">购物车是空的</view>
-    <view class="operate-shopcart-price" wx:else>
-      <block wx:if="{{ cartPrice >= promotion.k }}">
-        <view>{{ priceFormat(cartPrice - promotion.v) }}</view>
-        <text>{{ priceFormat(cartPrice) }}</text>
-      </block>
-      <view wx:else>{{ priceFormat(cartPrice) }}</view>
-    </view>
-  </view>
-  <view class="operate-submit {{ cartNumber !== 0 ? 'operate-submit-activity' : '' }}">选好了</view>
-</view>
-```
+---
 
-**步骤3：编写购物车区域样式**
-在 `pages/list/list.wxss` 中添加底部购物车区域样式：
-```css
-.operate {
-  height: 110rpx;
-  display: flex;
-}
-.operate-shopcart {
-  display: flex;
-  width: 74%;
-  padding: 10rpx;
-  background: #353535;
-}
-.operate-submit {
-  width: 26%;
-  font-size: 30rpx;
-  background: #eee;
-  color: #aaa;
-  text-align: center;
-  line-height: 110rpx;
-}
-.operate-submit-activity {
-  background: #ff9c35;
-  color: #fff;
-}
-```
-
-**步骤4：编写购物车图标样式**
-```css
-.operate-shopcart-icon {
-  font-size: 80rpx;
-  color: #87888e;
-  margin-left: 20rpx;
-  position: relative;
-}
-.operate-shopcart-icon:before {
-  content: "\e73c";
-}
-.operate-shopcart-icon-activity {
-  color: #ff9c35;
-}
-```
-
-**步骤5：编写购物车为空的样式**
-```css
-.operate-shopcart-empty {
-  color: #a9a9a9;
-  line-height: 58rpx;
-  font-size: 30rpx;
-  margin-left: 20rpx;
-}
-```
-
-##### 2. 实现添加商品到购物车
-
-**步骤1：定义购物车数据**
-在 `pages/list/list.js` 中定义 `cartList` 属性保存购物车商品：
-```javascript
-cartList: [],
-```
-
-**步骤2：修改商品列表按钮，绑定 `addToCart` 事件**
-在商品列表区域的按钮中绑定 `tap` 事件：
-```xml
-<i class="iconfont" data-category_index="{{ category_index }}" data-index="{{ index }}" bindtap="addToCart"></i>
-```
-
-**步骤3：实现 `addToCart` 函数**
-```javascript
-addToCart: function(e) {
-  const index = e.currentTarget.dataset.index;
-  const category_index = e.currentTarget.dataset.category_index;
-  const food = this.data.foodList[category_index].food[index];
-  const cartList = this.data.cartList;
-
-  if (cartList[index]) {
-    ++cartList[index].number;
-  } else {
-    cartList[index] = {
-      id: food.id,
-      name: food.name,
-      price: parseFloat(food.price),
-      number: 1,
-    };
-  }
-
-  this.setData({
-    cartList,
-    cartPrice: this.data.cartPrice + cartList[index].price,
-    cartNumber: this.data.cartNumber + 1
-  });
-}
-```
-
-**步骤4：编写商品数量样式**
-```css
-.operate-shopcart-icon > span {
-  padding: 2rpx 14rpx;
-  border-radius: 50%;
-  background: red;
-  color: white;
-  font-size: 28rpx;
-  position: absolute;
-  top: 0px;
-  right: -10rpx;
-  text-align: center;
-}
-```
-
-**步骤5：编写商品价格样式**
-```css
-.operate-shopcart-price {
-  display: flex;
-}
-.operate-shopcart-price > view {
-  font-size: 40rpx;
-  line-height: 88rpx;
-  margin-left: 25rpx;
-  color: #fff;
-}
-.operate-shopcart-price > text {
-  font-size: 24rpx;
-  line-height: 92rpx;
-  margin-left: 15rpx;
-  color: #aaa;
-  text-decoration: line-through;
-}
-```
-
-##### 3. 实现小球动画效果
-
-**步骤1：引入动画模块**
-在 `pages/list/list.js` 的开头引入购物车动画模块：
-```javascript
-const shopcartAnimate = require(.../utils/shopcartAnimate.js);
-```
-
-**步骤2：获取节点信息**
-在 `onLoad` 方法中获取购物车图标节点信息：
-```javascript
-onLoad: function() {
-  this.shopcartAnimate = shopcartAnimate('.operate-shopcart-icon', this);
-}
-```
-
-**步骤3：修改 `addToCart` 函数，添加动画**
-```javascript
-addToCart: function(e) {
-  // 其他代码
-  this.shopcartAnimate.start(e);
-}
-```
-
-**步骤4：编写小球的页面结构**
-```xml
-<view class="operate">
-  <view class="operate-shopcart-ball" hidden="{{ !cartBall.show }}" style="left: {{ cartBall.x }}px; top: {{ cartBall.y }}px;"></view>
-</view>
-```
-
-**步骤5：编写小球样式**
-```css
-.operate-shopcart-ball {
-  width: 36rpx;
-  height: 36rpx;
-  position: fixed;
-  border-radius: 50%;
-  left: 50%;
-  top: 50%;
-  background: #ff9c35;
-}
-```
-
-##### 4. 实现满减优惠信息区域
-
-**步骤1：编写满减优惠信息的页面结构**
-```xml
-<view class="promotion">
-  <label wx:if="{{ promotion.k - cartPrice > 0 }}">满 {{ promotion.k }} 元立减 {{ promotion.v }} 元，还差 {{ promotion.k - cartPrice }} 元</label>
-  <label wx:else>已满 {{ promotion.k }} 元可减 {{ promotion.v }} 元</label>
-</view>
-```
-
-**步骤2：编写满减优惠信息区域样式**
-```css
-.promotion {
-  padding: 7rpx 0 9rpx;
-  background: #ffcd9b;
-  color: #fff7ec;
-  font-size: 28rpx;
-  text-align: center;
-}
-```
-
-##### 5. 实现购物车界面区域
-
-**步骤1：定义购物车显示状态**
-在 `pages/list/list.js` 中定义 `showCart` 属性：
-```javascript
-showCart: false,
-```
-
-**步骤2：绑定购物车图标点击事件**
-```xml
-<view class="operate-shopcart" bindtap="showCartList"></view>
-```
-
-**步骤3：编写 `showCartList` 方法**
-```javascript
-showCartList: function() {
-  if (this.data.cartNumber > 0) {
-    this.setData({
-      showCart: !this.data.showCart
-    });
-  }
-}
-```
-
-**步骤4：编写购物车界面结构和样式**
-在 `pages/list/list.wxml` 和 `pages/list/list.wxss` 文件中编写购物车界面的页面结构和样式，具体参考购物车商品列表区域的样式配置。
-
-通过上述步骤，可以实现一个完整的购物车功能，包括添加商品、展示商品、数量修改、优惠展示、购物车展开和小球动画效果等功能。
+### 总结
+以上步骤详细描述了订单确认页的实现过程，包括页面跳转、数据加载、页面结构、样式设置、备注功能和支付功能等。

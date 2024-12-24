@@ -154,5 +154,22 @@ Page({
         cartNumber: this.data.cartNumber - 1
       });
     }
+  },
+
+  // 在现有代码中添加order函数
+  order: function() {
+    if (this.data.cartNumber === 0) {
+      return;
+    }
+    wx.showLoading({ title: '正在生成订单' });
+    app.fetch('/food/order', {
+      order: this.data.cartList
+    }, 'POST').then(data => {
+      wx.navigateTo({
+        url: '/pages/order/checkout/checkout?order_id=' + data.order_id
+      });
+    }).catch(() => {
+      this.order();
+    });
   }
 });

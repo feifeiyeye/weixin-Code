@@ -1,66 +1,63 @@
 // pages/order/checkout/checkout.js
+const app = getApp();
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    order_food: [], // 订单商品列表
+    price: 0,      // 订单总价
+    promotion: 0,  // 优惠金额
+    id: ''         // 订单ID
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
+  comment: '', // 用户备注
 
+  onLoad: function(options) {
+    wx.showLoading({ title: '努力加载中' });
+    app.fetch('/food/order', { 
+      id: options.order_id 
+    }).then(data => {
+      this.setData({
+        order_food: data.order_food,
+        price: data.price,
+        promotion: data.promotion,
+        id: options.order_id
+      });
+      wx.hideLoading();
+    }).catch(() => {
+      this.onLoad(options);
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  inputComment: function(e) {
+    this.comment = e.detail.value;
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  pay: function() {
+    var id = this.data.id;
+    wx.showLoading({ title: '正在支付' });
+    app.fetch('/food/order', {
+      id: id,
+      comment: this.comment
+    }, 'POST').then(() => {
+      return app.fetch('/food/pay', { id: id }, 'POST');
+    }).then(() => {
+      wx.hideLoading();
+      wx.showToast({
+        title: '支付成功',
+        icon: 'success',
+        duration: 2000,
+        success: () => {
+          wx.navigateTo({ 
+            url: '/pages/order/detail/detail?order_id=' + id 
+          });
+        }
+      });
+    }).catch(() => {
+      this.pay();
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  checkPromotion: function(promotion) {
+    return promotion > 0;
   }
-})
+});
