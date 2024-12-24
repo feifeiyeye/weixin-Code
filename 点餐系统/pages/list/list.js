@@ -8,6 +8,10 @@ Page({
     promotion: {},   // 保存优惠券信息
     activeIndex: 0,  // 当前激活的分类索引
     tapIndex: 0,     // 点击的分类索引
+    cartPrice: 0,  // 购物车总价格
+    cartNumber: 0, // 购物车总数量
+    cartList: [], // 购物车商品列表
+    showCart: false, // 购物车显示状态
   },
 
   onLoad: function () {
@@ -77,4 +81,78 @@ Page({
       this.setData({ activeIndex });
     }
   },
+
+  // 添加购物车相关方法
+  addToCart: function(e) {
+    const category_index = e.currentTarget.dataset.category_index;
+    const food_index = e.currentTarget.dataset.food_index;
+    const food = this.data.foodList[category_index].food[food_index];
+    
+    // 使用 food.id 作为购物车列表的 key
+    const cartList = this.data.cartList;
+    const cartItem = cartList[food.id];
+
+    if (cartItem) {
+      cartItem.number++;
+    } else {
+      cartList[food.id] = {
+        id: food.id,
+        name: food.name,
+        price: parseFloat(food.price),
+        number: 1,
+      };
+    }
+
+    this.setData({
+      cartList,
+      cartPrice: this.data.cartPrice + parseFloat(food.price),
+      cartNumber: this.data.cartNumber + 1
+    });
+  },
+
+  // 显示/隐藏购物车列表
+  showCartList: function() {
+    if (this.data.cartNumber > 0) {
+      this.setData({
+        showCart: !this.data.showCart
+      });
+    }
+  },
+
+  // 清空购物车
+  clearCart: function() {
+    this.setData({
+      cartList: [],
+      cartPrice: 0,
+      cartNumber: 0,
+      showCart: false
+    });
+  },
+
+  // 修改商品数量
+  changeNumber: function(e) {
+    const index = e.currentTarget.dataset.index;
+    const type = e.currentTarget.dataset.type;
+    const cartList = this.data.cartList;
+    const item = cartList[index];
+    
+    if (type === 'add') {
+      item.number++;
+      this.setData({
+        cartList,
+        cartPrice: this.data.cartPrice + item.price,
+        cartNumber: this.data.cartNumber + 1
+      });
+    } else {
+      item.number--;
+      if (item.number === 0) {
+        delete cartList[index];
+      }
+      this.setData({
+        cartList,
+        cartPrice: this.data.cartPrice - item.price,
+        cartNumber: this.data.cartNumber - 1
+      });
+    }
+  }
 });

@@ -95,3 +95,156 @@ page {
   display: flex;
   align-items: center;
 }
+
+/* 满减优惠信息样式 */
+.promotion {
+  padding: 7rpx 0 9rpx;
+  background: #ffcd9b;
+  color: #fff7ec;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+/* 购物车区域样式 */
+.operate {
+  height: 110rpx;
+  display: flex;
+}
+
+.operate-shopcart {
+  display: flex;
+  width: 74%;
+  padding: 10rpx;
+  background: #353535;
+}
+
+.operate-submit {
+  width: 26%;
+  font-size: 30rpx;
+  background: #eee;
+  color: #aaa;
+  text-align: center;
+  line-height: 110rpx;
+}
+
+.operate-submit-activity {
+  background: #ff9c35;
+  color: #fff;
+}
+
+.operate-shopcart-icon {
+  font-size: 80rpx;
+  color: #87888e;
+  margin-left: 20rpx;
+  position: relative;
+}
+
+.operate-shopcart-icon:before {
+  content: "\e73c";
+}
+
+.operate-shopcart-icon-activity {
+  color: #ff9c35;
+}
+
+.operate-shopcart-icon > span {
+  padding: 2rpx 14rpx;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 28rpx;
+  position: absolute;
+  top: 0px;
+  right: -10rpx;
+  text-align: center;
+}
+
+.operate-shopcart-empty {
+  color: #a9a9a9;
+  line-height: 58rpx;
+  font-size: 30rpx;
+  margin-left: 20rpx;
+}
+
+.operate-shopcart-price {
+  display: flex;
+}
+
+.operate-shopcart-price > view {
+  font-size: 40rpx;
+  line-height: 88rpx;
+  margin-left: 25rpx;
+  color: #fff;
+}
+
+.operate-shopcart-price > text {
+  font-size: 24rpx;
+  line-height: 92rpx;
+  margin-left: 15rpx;
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+/* 购物车列表样式 */
+.cart-list {
+  position: fixed;
+  bottom: 110rpx;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 100;
+}
+
+.cart-list-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx;
+  background: #f7f7f7;
+}
+
+.cart-list-title {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.cart-list-clear {
+  font-size: 28rpx;
+  color: #ff9c35;
+}
+
+.cart-list-content {
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.cart-list-item {
+  display: flex;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.cart-list-name {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.cart-list-price {
+  width: 150rpx;
+  color: #f05a86;
+  font-size: 28rpx;
+  text-align: right;
+}
+
+.cart-list-operate {
+  width: 200rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 20rpx;
+}
+
+.cart-list-operate text {
+  font-size: 28rpx;
+  min-width: 40rpx;
+  text-align: center;
+}

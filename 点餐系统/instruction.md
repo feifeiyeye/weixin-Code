@@ -1,232 +1,264 @@
-整理完成的开发文档如下：
+### 任务6-6：购物车电商项目开发文档
 
----
+#### 任务分析
+在电商项目中，购物车位于商品列表页面底部，拥有以下功能：
+1. 当购物车内商品数量为0时，购物车图标为灰色且不可点击。
+2. 当购物车中有商品时，图标右上角显示商品数量，并且图标变为可点击状态，点击后可展开购物车，显示商品信息，并支持数量的增加或减少。
+3. 动态计算购物车内所有商品的总价。
 
-## 【任务6-5】菜单列表页开发文档
+#### 任务实现
 
-### **任务分析**
-在商家首页点击“开启订餐之旅”按钮后跳转到菜单列表页。该页面分为以下区域：
-1. **折扣信息区域**：显示商家折扣活动信息。
-2. **菜单列表区域**：
-   - **菜单栏区域**：左侧菜单分类。
-   - **商品列表区域**：右侧展示具体商品。
-3. **购物车区域**：因实现复杂，将在后续任务中讲解。
+##### 1. 实现底部购物车区域
 
-### **实现步骤**
-#### 1. 加载菜单列表页数据
-在 `pages/list/list.js` 文件中编写数据加载逻辑：
+**步骤1：定义初始数据**
+在 `pages/list/list.js` 文件的 `data` 中定义初始数据：
 ```javascript
-const app = getApp();
-const fetch = app.fetch;
-
-Page({
-  data: {
-    foodList: [],    // 保存分类和商品信息
-    promotion: {},   // 保存优惠券信息
-  },
-  onLoad: function () {
-    wx.showLoading({ title: '努力加载中' });
-    fetch('/food/list').then(data => {
-      wx.hideLoading();
-      this.setData({
-        foodList: data.list,
-        promotion: data.promotion[0],
-      });
-    }, () => {
-      this.onLoad();
-    });
-  },
-});
-```
-**说明**：
-- `foodList`：用于保存菜单分类及商品信息。
-- `promotion`：保存优惠信息，包括满减金额。
-- 使用 `setData()` 方法将数据保存到 `data` 中。
-
----
-
-#### 2. 实现折扣信息区域
-##### **页面结构**
-`pages/list/list.wxml` 文件：
-```xml
-<view class="discount">
-  <text class="discount-txt">减</text>
-  满{{promotion.full}}元减{{promotion.reduce}}元（在线支付专享）
-</view>
-```
-##### **样式定义**
-`pages/list/list.wxss` 文件：
-```css
-.discount {
-  width: 100%;
-  height: 70rpx;
-  line-height: 70rpx;
-  background: #fef9e6;
-  font-size: 28rpx;
-  text-align: center;
-  color: #999;
-}
-.discount-txt {
-  color: #fff;
-  padding: 5rpx 10rpx;
-  background: red;
-  margin-right: 15rpx;
+data: {
+  cartPrice: 0,  // 购物车总价格
+  cartNumber: 0, // 购物车总数量
 }
 ```
 
----
-
-#### 3. 实现菜单列表区域
-##### **整体区域**
-###### **页面结构**
+**步骤2：编写底部购物车区域的页面结构**
+在 `pages/list/list.wxml` 文件的菜单列表区域下方添加购物车区域的页面结构：
 ```xml
-<view class="content">
-  <!-- 左侧菜单栏 -->
-  <scroll-view class="category" scroll-y>
-    <view wx:for="{{foodList}}" wx:key="id" class="category-item">
-      <view class="category-name">{{item.name}}</view>
+<view class="operate">
+  <view class="operate-shopcart">
+    <i class="iconfont operate-shopcart-icon {{ cartNumber > 0 ? 'operate-shopcart-icon-activity' : '' }}">
+      <span wx:if="{{ cartNumber > 0 }}">{{ cartNumber }}</span>
+    </i>
+    <view class="operate-shopcart-empty" wx:if="{{ cartNumber == 0 }}">购物车是空的</view>
+    <view class="operate-shopcart-price" wx:else>
+      <block wx:if="{{ cartPrice >= promotion.k }}">
+        <view>{{ priceFormat(cartPrice - promotion.v) }}</view>
+        <text>{{ priceFormat(cartPrice) }}</text>
+      </block>
+      <view wx:else>{{ priceFormat(cartPrice) }}</view>
     </view>
-  </scroll-view>
-
-  <!-- 右侧商品列表 -->
-  <scroll-view class="food" scroll-y>
-    <block wx:for="{{foodList}}" wx:key="id" wx:for-item="category">
-      <view class="food-category">{{category.name}}</view>
-      <view class="food-item" wx:for="{{category.food}}" wx:key="id" wx:for-item="food">
-        <view class="food-item-pic">
-          <image mode="widthFix" src="{{food.image_url}}" />
-        </view>
-        <view class="food-item-info">
-          <view>{{food.name}}</view>
-          <view class="food-item-price">{{priceFormat(food.price)}}</view>
-        </view>
-        <view class="food-item-opt">
-          <i class="iconfont"></i>
-        </view>
-      </view>
-    </block>
-  </scroll-view>
+  </view>
+  <view class="operate-submit {{ cartNumber !== 0 ? 'operate-submit-activity' : '' }}">选好了</view>
 </view>
 ```
-###### **样式定义**
+
+**步骤3：编写购物车区域样式**
+在 `pages/list/list.wxss` 中添加底部购物车区域样式：
 ```css
-.content {
+.operate {
+  height: 110rpx;
   display: flex;
-  flex: 1;
-  overflow: hidden;
 }
-.category {
-  width: 202rpx;
-  height: 100%;
-  background: #fcfcfc;
-}
-.category-item {
-  height: 100rpx;
-  line-height: 100rpx;
-  text-align: center;
-}
-.food {
-  flex: 1;
-}
-.food-category {
-  font-size: 24rpx;
-  background: #f3f4f6;
+.operate-shopcart {
+  display: flex;
+  width: 74%;
   padding: 10rpx;
+  background: #353535;
+}
+.operate-submit {
+  width: 26%;
+  font-size: 30rpx;
+  background: #eee;
+  color: #aaa;
+  text-align: center;
+  line-height: 110rpx;
+}
+.operate-submit-activity {
+  background: #ff9c35;
+  color: #fff;
+}
+```
+
+**步骤4：编写购物车图标样式**
+```css
+.operate-shopcart-icon {
+  font-size: 80rpx;
+  color: #87888e;
+  margin-left: 20rpx;
+  position: relative;
+}
+.operate-shopcart-icon:before {
+  content: "\e73c";
+}
+.operate-shopcart-icon-activity {
   color: #ff9c35;
 }
-.food-item {
-  display: flex;
-  margin: 40rpx 20rpx;
-}
-.food-item-pic {
-  width: 94rpx;
-  height: 94rpx;
-  margin-right: 20rpx;
-}
-.food-item-info {
-  flex: 1;
+```
+
+**步骤5：编写购物车为空的样式**
+```css
+.operate-shopcart-empty {
+  color: #a9a9a9;
+  line-height: 58rpx;
   font-size: 30rpx;
-}
-.food-item-price {
-  color: #f05a86;
-  margin-top: 14rpx;
+  margin-left: 20rpx;
 }
 ```
-##### **金额处理**
-在 `pages/list/list.wxml` 文件底部定义金额格式化函数：
-```xml
-<wxs module="priceFormat">
-  module.exports = function (price) {
-    return '￥' + parseFloat(price);
-  };
-</wxs>
-```
 
----
+##### 2. 实现添加商品到购物车
 
-#### 4. 实现左侧菜单点击滚动右侧商品列表
-##### **点击菜单项**
-`pages/list/list.js` 文件中：
+**步骤1：定义购物车数据**
+在 `pages/list/list.js` 中定义 `cartList` 属性保存购物车商品：
 ```javascript
-tapCategory: function (e) {
+cartList: [],
+```
+
+**步骤2：修改商品列表按钮，绑定 `addToCart` 事件**
+在商品列表区域的按钮中绑定 `tap` 事件：
+```xml
+<i class="iconfont" data-category_index="{{ category_index }}" data-index="{{ index }}" bindtap="addToCart"></i>
+```
+
+**步骤3：实现 `addToCart` 函数**
+```javascript
+addToCart: function(e) {
   const index = e.currentTarget.dataset.index;
-  this.disableNextScroll = true;
-  this.setData({
-    activeIndex: index,
-    tapIndex: index,
-  });
-},
-```
-##### **商品列表绑定滚动事件**
-```xml
-<scroll-view class="food" scroll-y scroll-into-view="category_{{tapIndex}}" scroll-with-animation bindscroll="onFoodScroll">
-```
+  const category_index = e.currentTarget.dataset.category_index;
+  const food = this.data.foodList[category_index].food[index];
+  const cartList = this.data.cartList;
 
-##### **滚动事件处理**
-```javascript
-onFoodScroll: function (e) {
-  const scrollTop = e.detail.scrollTop;
-  let activeIndex = 0;
-  categoryPosition.forEach((item, i) => {
-    if (scrollTop >= item) {
-      activeIndex = i;
-    }
-  });
-  if (activeIndex !== this.data.activeIndex) {
-    this.setData({ activeIndex });
+  if (cartList[index]) {
+    ++cartList[index].number;
+  } else {
+    cartList[index] = {
+      id: food.id,
+      name: food.name,
+      price: parseFloat(food.price),
+      number: 1,
+    };
   }
-},
-```
 
-##### **分类高度计算**
-在 `onLoad` 方法中：
-```javascript
-const query = wx.createSelectorQuery();
-query.select('.food').boundingClientRect(rect => {
-  top = rect.top;
-  height = rect.height;
-});
-query.selectAll('.food-category').boundingClientRect(res => {
-  res.forEach(rect => {
-    categoryPosition.push(rect.top - top - height / 3);
+  this.setData({
+    cartList,
+    cartPrice: this.data.cartPrice + cartList[index].price,
+    cartNumber: this.data.cartNumber + 1
   });
-});
-query.exec();
+}
 ```
 
----
+**步骤4：编写商品数量样式**
+```css
+.operate-shopcart-icon > span {
+  padding: 2rpx 14rpx;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 28rpx;
+  position: absolute;
+  top: 0px;
+  right: -10rpx;
+  text-align: center;
+}
+```
 
-#### 5. 实现右侧商品列表滚动激活左侧菜单项
-通过对 `scrollTop` 值与 `categoryPosition` 中的高度对比，动态激活左侧菜单项。为防止点击左侧菜单项触发滚动，增加 `disableNextScroll` 属性进行控制。
+**步骤5：编写商品价格样式**
+```css
+.operate-shopcart-price {
+  display: flex;
+}
+.operate-shopcart-price > view {
+  font-size: 40rpx;
+  line-height: 88rpx;
+  margin-left: 25rpx;
+  color: #fff;
+}
+.operate-shopcart-price > text {
+  font-size: 24rpx;
+  line-height: 92rpx;
+  margin-left: 15rpx;
+  color: #aaa;
+  text-decoration: line-through;
+}
+```
 
----
+##### 3. 实现小球动画效果
 
-### **页面效果**
-完成以上步骤后，菜单列表页的页面效果如下：
-1. 折扣信息区域显示折扣活动。
-2. 点击左侧菜单项，右侧商品列表滚动到对应分类。
-3. 滚动右侧商品列表时，左侧菜单项动态激活。
+**步骤1：引入动画模块**
+在 `pages/list/list.js` 的开头引入购物车动画模块：
+```javascript
+const shopcartAnimate = require(.../utils/shopcartAnimate.js);
+```
 
---- 
+**步骤2：获取节点信息**
+在 `onLoad` 方法中获取购物车图标节点信息：
+```javascript
+onLoad: function() {
+  this.shopcartAnimate = shopcartAnimate('.operate-shopcart-icon', this);
+}
+```
 
-是否需要补充其他内容？
+**步骤3：修改 `addToCart` 函数，添加动画**
+```javascript
+addToCart: function(e) {
+  // 其他代码
+  this.shopcartAnimate.start(e);
+}
+```
+
+**步骤4：编写小球的页面结构**
+```xml
+<view class="operate">
+  <view class="operate-shopcart-ball" hidden="{{ !cartBall.show }}" style="left: {{ cartBall.x }}px; top: {{ cartBall.y }}px;"></view>
+</view>
+```
+
+**步骤5：编写小球样式**
+```css
+.operate-shopcart-ball {
+  width: 36rpx;
+  height: 36rpx;
+  position: fixed;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  background: #ff9c35;
+}
+```
+
+##### 4. 实现满减优惠信息区域
+
+**步骤1：编写满减优惠信息的页面结构**
+```xml
+<view class="promotion">
+  <label wx:if="{{ promotion.k - cartPrice > 0 }}">满 {{ promotion.k }} 元立减 {{ promotion.v }} 元，还差 {{ promotion.k - cartPrice }} 元</label>
+  <label wx:else>已满 {{ promotion.k }} 元可减 {{ promotion.v }} 元</label>
+</view>
+```
+
+**步骤2：编写满减优惠信息区域样式**
+```css
+.promotion {
+  padding: 7rpx 0 9rpx;
+  background: #ffcd9b;
+  color: #fff7ec;
+  font-size: 28rpx;
+  text-align: center;
+}
+```
+
+##### 5. 实现购物车界面区域
+
+**步骤1：定义购物车显示状态**
+在 `pages/list/list.js` 中定义 `showCart` 属性：
+```javascript
+showCart: false,
+```
+
+**步骤2：绑定购物车图标点击事件**
+```xml
+<view class="operate-shopcart" bindtap="showCartList"></view>
+```
+
+**步骤3：编写 `showCartList` 方法**
+```javascript
+showCartList: function() {
+  if (this.data.cartNumber > 0) {
+    this.setData({
+      showCart: !this.data.showCart
+    });
+  }
+}
+```
+
+**步骤4：编写购物车界面结构和样式**
+在 `pages/list/list.wxml` 和 `pages/list/list.wxss` 文件中编写购物车界面的页面结构和样式，具体参考购物车商品列表区域的样式配置。
+
+通过上述步骤，可以实现一个完整的购物车功能，包括添加商品、展示商品、数量修改、优惠展示、购物车展开和小球动画效果等功能。
