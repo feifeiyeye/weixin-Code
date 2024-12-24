@@ -1,66 +1,72 @@
 // pages/order/list/list.js
+const app = getApp();
+const fetch = app.fetch;
+
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    is_last: true,
+    order: [],
+    last_id: 0,
+    row: 10,
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad: function () {
+    wx.showLoading({ title: '加载中...' });
+    this.loadData({
+      last_id: 0,
+      success: data => {
+        this.setData({ order: data.list });
+      },
+      fail: () => this.onLoad(),
+    });
+    wx.hideLoading();
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  loadData: function (options) {
+    wx.showNavigationBarLoading();
+    fetch('/food/orderlist', {
+      last_id: options.last_id,
+      row: this.data.row,
+    }).then(data => {
+      this.setData({
+        order: [...this.data.order, ...data.list],
+        is_last: data.list.length < this.data.row,
+        last_id: data.last_id,
+      });
+      options.success(data);
+    }).catch(() => {
+      options.fail();
+    }).finally(() => {
+      wx.hideNavigationBarLoading();
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  onPullDownRefresh: function () {
+    wx.showLoading({ title: '加载中...' });
+    this.loadData({
+      last_id: 0,
+      success: data => {
+        this.setData({ order: data.list });
+        wx.stopPullDownRefresh();
+      },
+      fail: () => this.onLoad(),
+    });
+    wx.hideLoading();
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  onReachBottom: function () {
+    if (this.data.is_last) return;
+    this.loadData({
+      last_id: this.data.last_id,
+      success: data => {
+        this.setData({ order: [...this.data.order, ...data.list] });
+      },
+      fail: () => this.onReachBottom(),
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  detail: function (e) {
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({ url: `/pages/order/detail/detail?order_id=${id}` });
   }
-})
+});

@@ -1,199 +1,225 @@
-### 开发文档：订单详情页
+### 订单列表页开发文档
 
-#### 任务分析
-订单详情页是在用户确认商品信息后，点击“去支付”按钮跳转到的页面。该页面需要展示以下信息：
-- 取餐号
-- 订单详情
-- 订单号码
-- 下单时间
-- 付款时间
+#### **任务分析**
+订单列表页展示用户的所有订单信息，包括订单时间、总价及取餐状态。功能详情：
+1. **订单详情跳转**：点击“查看详情”按钮，跳转至订单详情页。
+2. **页面入口**：
+   - 底部标签栏的“订单”标签。
+   - 订单支付成功后点击左上角返回按钮。
+3. **页面效果**：图示参考图6-24。
 
-#### 任务实现
+---
 
-##### 1. 加载订单详情页数据
+### **任务实现**
 
-在 `pages/order/detail.js` 文件中编写订单详情页的逻辑：
+#### 1. **加载订单列表页数据**
 
+##### **封装数据请求方法**
+
+在 `pages/order/list/list.js` 文件中封装 `loadData()` 方法：
 ```javascript
 const app = getApp();
 const fetch = app.fetch;
 
 Page({
-  data: {},
-  onLoad: function(options) {
-    var id = options.order_id;
-    wx.showLoading({
-      title: '努力加载中',
-    });
-    fetch('/food/order', { id }).then(data => {
-      this.setData(data);
-      wx.hideLoading();
-    }, () => {
-      this.onLoad(options); // 如果请求失败，重新加载页面
-    });
+  data: {
+    is_last: true,
+    order: [],
+    last_id: 0,
+    row: 10,
   },
-  onUnload: function() {
-    wx.reLaunch({
-      url: '/pages/order/list/list', // 返回订单列表页面
+
+  loadData: function (options) {
+    wx.showNavigationBarLoading();
+    fetch('/food/orderlist', {
+      last_id: options.last_id,
+      row: this.data.row,
+    }).then(data => {
+      this.setData({
+        order: [...this.data.order, ...data.list],
+        is_last: data.list.length < this.data.row,
+        last_id: data.last_id,
+      });
+      options.success(data);
+    }).catch(() => {
+      options.fail();
+    }).finally(() => {
+      wx.hideNavigationBarLoading();
     });
   }
 });
 ```
 
-- 第10-16行代码用于加载订单详情数据。
-- 第18-21行代码用于处理返回按钮点击，跳转到订单列表页面，避免返回到订单确认页重新支付。
-
-##### 2. 实现取餐信息区域
-
-在 `pages/order/detail/detail.wxml` 文件中编写取餐信息区域的页面结构：
-
-```xml
-<view class="top">
-  <view class="card" wx:if="{{taken}}">
-    <view class="card-title">收餐号</view>
-    <view class="card-content">
-      <view class="card-info">
-        <text class="card-code">{{code}}</text>
-        <text class="card-info-r">正在精心制作中…</text>
-      </view>
-      <view class="card-comment" wx:if="{{comment}}">注: {{comment}}</view>
-      <view class="card-tips">美食制作中，尽快为您服务</view>
-    </view>
-  </view>
-</view>
-```
-
-- 第2-12行代码定义了取餐卡片区域，通过 `wx:if` 控制卡片显示状态。
-- 第9行通过 `wx:if` 控制备注区域的显示。
-
-在 `pages/order/detail/detail.wxss` 文件中添加取餐信息区域的样式：
-
-```css
-.card {
-  margin: 20rpx auto;
-  width: 85%;
-  background: #fef9f4;
-  display: flex;
-  font-size: 30rpx;
-}
-
-.card-title {
-  width: 28rpx;
-  padding: 30rpx;
-  background: #de5f4b;
-  border-left: 1rpx solid #de5f4b;
-  font-size: 28rpx;
-  color: #fff;
-  display: flex;
-  align-items: center;
-}
-
-.card-content {
-  flex: 1;
-  margin-left: 50rpx;
-}
-
-.card-info {
-  margin-top: 10rpx;
-}
-
-.card-code {
-  font-size: 60rpx;
-  margin-right: 40rpx;
-}
-
-.card-info-r {
-  font-size: 24rpx;
-  color: #ff9c35;
-}
-
-.card-comment {
-  color: #de5f4b;
-  font-weight: 600;
-  margin-top: 5rpx;
-}
-
-.card-tips {
-  color: #a2a1a0;
-  margin: 10rpx 0 20rpx;
-  font-size: 24rpx;
+##### **页面加载数据**
+在 `onLoad()` 函数中调用 `loadData()` 方法：
+```javascript
+onLoad: function () {
+  wx.showLoading({ title: '加载中...' });
+  this.loadData({
+    last_id: 0,
+    success: data => {
+      this.setData({ order: data.list });
+    },
+    fail: () => this.onLoad(),
+  });
+  wx.hideLoading();
 }
 ```
 
-##### 3. 实现订单详情区域
+---
 
-复制 `pages/order/checkout/checkout.wxml` 文件中的订单信息区域结构，直接应用到 `pages/order/detail/detail.wxml` 中：
+#### 2. **订单列表页的页面结构**
 
-```xml
-<view class="order">
-  <!-- 订单详情区域 -->
-</view>
-```
-
-相应的样式也可以从 `checkout.wxss` 复制到 `detail.wxss` 文件中。
-
-##### 4. 实现订单信息区域
-
-在 `pages/order/detail/detail.wxml` 文件中编写订单信息区域的页面结构：
-
+在 `pages/order/list/list.wxml` 文件中定义页面结构：
 ```xml
 <view class="list">
-  <view>
-    <text>订单号码</text>
-    <view>{{sn}}</view>
+  <view class="list-empty" wx:if="{{order.length === 0}}">您还没有下过订单</view>
+  <view class="list-item" wx:for="{{order}}" wx:key="id">
+    <view class="list-item-l">
+      <view class="list-item-t">下单时间：{{formatDate(item.create_time)}}</view>
+      <view class="list-item-name">{{item.first_food_name}}</view>
+      <view>等{{item.number}}件商品 <text class="list-item-price">{{priceFormat(item.price)}}</text></view>
+    </view>
+    <view class="list-item-r">
+      <view bindtap="detail" data-id="{{item.id}}" class="list-item-detail">查看详情</view>
+      <view wx:if="{{item.is_taken}}" class="list-item-taken list-item-taken-yes">已取餐</view>
+      <view wx:else class="list-item-taken list-item-taken-no">未取餐</view>
+    </view>
   </view>
-  <view>
-    <text>下单时间</text>
-    <view>{{create_time}}</view>
-  </view>
-  <view>
-    <text>付款时间</text>
-    <view>{{pay_time}}</view>
-  </view>
-  <view wx:if="{{is_taken}}">
-    <text>取餐时间</text>
-    <view>{{taken_time}}</view>
-  </view>
-  <view wx:if="{{is_taken}}">
-    取餐号（{{code}}）您已取餐
-  </view>
+  <view class="list-item-last" wx:if="{{is_last}}">已经到底啦</view>
+  <view class="list-item-last" wx:else>加载中...</view>
 </view>
 ```
 
-##### 样式（`pages/order/detail/detail.wxss`）
+##### **辅助工具**
+- **价格格式化模块：**
+```xml
+<wxs module="priceFormat">
+module.exports = function(price) {
+  return '￥' + parseFloat(price).toFixed(2);
+};
+</wxs>
+```
 
+- **时间格式化模块：**
+```xml
+<wxs module="formatDate">
+module.exports = function(time) {
+  var date = new Date(time);
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+};
+</wxs>
+```
+
+---
+
+#### 3. **订单列表页样式**
+
+在 `pages/order/list/list.wxss` 文件中定义样式：
+
+- **列表样式**
 ```css
-.list {
-  background: #fff;
-  margin-top: 20rpx;
-}
-
-.list > view {
-  font-size: 30rpx;
-  color: #d1d1d1;
-  padding: 20rpx;
-  border-bottom: 1rpx #e3e3e3 solid;
+.list-item {
   display: flex;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #ececec;
+  color: #999;
+  font-size: 26rpx;
 }
-
-.list > view > view {
-  color: black;
-  margin-left: 20rpx;
-}
-
-.tips {
-  width: 80%;
-  text-align: center;
-  margin: 20rpx auto 40rpx;
-  padding: 12rpx 20rpx;
-  background: #ff9c35;
-  color: #fff;
-  font-size: 36rpx;
+.list-item:last-child {
+  border-bottom: 0;
 }
 ```
 
-- 第10行代码设置 `Flex` 布局，使订单号码、下单时间、付款时间区域的内部 `view` 元素横向排列。
+- **取餐状态样式**
+```css
+.list-item-taken {
+  font-size: 24rpx;
+  padding: 17rpx 10rpx;
+}
+.list-item-taken-yes {
+  background: #d2d2d2;
+  color: #999;
+}
+.list-item-taken-no {
+  background: #ffd161;
+  color: #fff;
+}
+```
 
-#### 总结
+- **空列表提示**
+```css
+.list-empty {
+  margin-top: 80rpx;
+  text-align: center;
+}
+```
 
-通过以上步骤，完成了订单详情页的开发，页面效果如图6-23所示。
+---
+
+#### 4. **下拉刷新功能**
+
+- **开启下拉刷新**
+在 `pages/order/list/list.json` 文件中添加：
+```json
+{
+  "enablePullDownRefresh": true
+}
+```
+
+- **下拉刷新逻辑**
+```javascript
+onPullDownRefresh: function () {
+  wx.showLoading({ title: '加载中...' });
+  this.loadData({
+    last_id: 0,
+    success: data => {
+      this.setData({ order: data.list });
+      wx.stopPullDownRefresh();
+    },
+    fail: () => this.onLoad(),
+  });
+  wx.hideLoading();
+}
+```
+
+---
+
+#### 5. **上拉触底加载**
+
+- **逻辑实现**
+```javascript
+onReachBottom: function () {
+  if (this.data.is_last) return;
+  this.loadData({
+    last_id: this.data.last_id,
+    success: data => {
+      this.setData({ order: [...this.data.order, ...data.list] });
+    },
+    fail: () => this.onReachBottom(),
+  });
+}
+```
+
+---
+
+#### 6. **跳转订单详情页**
+
+- **绑定事件**
+在按钮中绑定点击事件：
+```xml
+<view bindtap="detail" data-id="{{item.id}}" class="list-item-detail">查看详情</view>
+```
+
+- **跳转逻辑**
+```javascript
+detail: function (e) {
+  const id = e.currentTarget.dataset.id;
+  wx.navigateTo({ url: `/pages/order/detail/detail?order_id=${id}` });
+}
+```
+
+---
+
+### **开发总结**
+至此，订单列表页的主要功能，包括数据加载、页面渲染、上下拉交互以及跳转详情页，均已完成。页面效果与图6-24一致。
