@@ -1,4 +1,8 @@
 const config = require('./config.js');
+const decodeCookie = require('../utils/decodeCookie.js');
+
+// 读取缓存中的 Cookie
+var sess = wx.getStorageSync('PHPSESSID');
 
 module.exports = function (path, data, method) {
   return new Promise((resolve, reject) => {
@@ -6,7 +10,16 @@ module.exports = function (path, data, method) {
       url: config.baseUrl + path,
       method: method,
       data: data,
+      header: {
+        'Cookie': sess ? 'PHPSESSID=' + sess : ''
+      },
       success: res => {
+        // 保存服务器返回的Cookie
+        if (res.header['Set-Cookie'] !== undefined) {
+          sess = decodeCookie(res.header['Set-Cookie'])['PHPSESSID'];
+          wx.setStorageSync('PHPSESSID', sess);
+        }
+
         if (res.statusCode !== 200) {
           fail('服务器异常', reject);
           return;

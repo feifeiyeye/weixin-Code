@@ -1,27 +1,47 @@
 // index.js
 const app = getApp();
-const fetch = app.fetch;
 
 Page({
   data: {
-    // 页面数据
+    swiper: [], // 轮播图数据
+    ad: '', // 广告图
+    category: [], // 分类图片
+    loading: false,
+    error: null
   },
 
   onLoad: function() {
-    wx.showLoading({
-      title: '努力加载中',
-      mask: true
-    });
-
-    fetch('/food/index', {}, 'GET').then(data => {
-      wx.hideLoading();
-      console.log(data);
-      this.setData({
-        // 设置获取到的数据
+    var callback = () => {
+      wx.showLoading({
+        title: '努力加载中',
+        mask: true
       });
-    }, () => {
-      wx.hideLoading();
-      console.log('请求失败');
+
+      app.fetch('/food/index').then(data => {
+        wx.hideLoading();
+        this.setData({
+          swiper: data.img_swiper,
+          ad: data.img_ad,
+          category: data.img_category
+        });
+      }).catch(err => {
+        this.setData({
+          error: err.message || '加载失败'
+        });
+      });
+    };
+
+    if (app.userLoginReady) {
+      callback();
+    } else {
+      app.userLoginReadyCallback = callback;
+    }
+  },
+
+  // 跳转到菜单列表页
+  start: function() {
+    wx.navigateTo({
+      url: '/pages/list/list'
     });
   }
 });

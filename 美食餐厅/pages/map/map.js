@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const key = 'B32BZ-TA3WQ-WKL56-B46MP-2R3AH-LDBLX'; 
+=======
+const key = '腾讯key'; 
+>>>>>>> 62df480368d05f2ac685e95b34fc4e1f5ce0aa9a
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.js');
 const qqmapsdk = new QQMapWX({ key });
 
