@@ -1,28 +1,55 @@
 /* pages/order/checkout/checkout.wxss */
-page {
-  height: 100vh;
+.page-container {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: #f8f8f8;
 }
 
-.content {
+/* 加载状态 */
+.loading-container,
+.error-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+  color: #666;
+}
+
+.error-container text {
+  color: #f56c6c;
+  margin-bottom: 20rpx;
+}
+
+.retry-btn {
+  width: 200rpx;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  background: #ff9c35;
+  color: #fff;
+  border: none;
+}
+
+/* 内容区域 */
+.content {
   flex: 1;
-  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
 }
 
 .content-title {
   height: 80rpx;
   line-height: 80rpx;
   font-size: 28rpx;
-  background: white;
+  background: #fff;
   padding: 0 30rpx;
+  color: #333;
 }
 
-/* 订单信息区域 */
+/* 订单信息 */
 .order {
-  background: white;
+  background: #fff;
   margin-top: 20rpx;
   padding: 0 30rpx;
 }
@@ -41,13 +68,20 @@ page {
 }
 
 .order-item-image {
-  width: 100rpx;
-  height: 100rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
   margin-right: 20rpx;
+}
+
+.order-item-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .order-item-name {
   font-size: 28rpx;
+  color: #333;
 }
 
 .order-item-number {
@@ -59,66 +93,88 @@ page {
 .order-item-price {
   font-size: 28rpx;
   color: #ff9c35;
+  font-weight: bold;
 }
 
-.order-promotion-icon {
+/* 优惠信息 */
+.promotion-tag {
   color: #fff;
   background: #ff9c35;
   padding: 4rpx 8rpx;
+  border-radius: 4rpx;
   font-size: 24rpx;
   margin-right: 10rpx;
 }
 
-.order-promotion-price {
+.promotion-price {
   color: #ff9c35;
+  font-weight: bold;
 }
 
-.order-total-price {
+.total-price {
   color: #ff9c35;
   font-size: 32rpx;
+  font-weight: bold;
 }
 
 /* 备注区域 */
-.content-comment {
-  padding: 20rpx 30rpx;
-  background: white;
+.comment-section {
   margin-top: 20rpx;
+  padding: 20rpx 30rpx;
+  background: #fff;
 }
 
-.content-comment > label {
+.comment-label {
   font-size: 28rpx;
-  color: #999;
+  color: #666;
 }
 
-.content-comment > textarea {
+.comment-input {
   width: 100%;
   height: 160rpx;
   font-size: 28rpx;
   background: #f8f8f8;
   padding: 20rpx;
   margin-top: 20rpx;
+  border-radius: 8rpx;
   box-sizing: border-box;
 }
 
 /* 支付区域 */
 .operate {
-  height: 110rpx;
+  height: 100rpx;
   display: flex;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
-.operate-info {
-  width: 74%;
-  background: #353535;
+.price-info {
+  flex: 1;
+  padding-left: 30rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ff9c35;
+}
+
+.submit-btn {
+  width: 240rpx;
+  height: 100%;
+  font-size: 32rpx;
   color: #fff;
-  line-height: 110rpx;
-  padding-left: 40rpx;
-}
-
-.operate-submit {
-  width: 26%;
-  font-size: 30rpx;
-  text-align: center;
-  line-height: 110rpx;
   background: #ff9c35;
-  color: #fff;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-btn.disabled {
+  background: #ccc;
+}
+
+/* 适配 iPhone X 底部区域 */
+.operate {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }

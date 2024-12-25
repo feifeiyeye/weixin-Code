@@ -1,69 +1,105 @@
 <!--pages/order/detail/detail.wxml-->
-<view class="top">
-  <view class="card" wx:if="{{!is_taken}}">
-    <view class="card-title">收餐号</view>
-    <view class="card-content">
-      <view class="card-info">
-        <text class="card-code">{{code}}</text>
-        <text class="card-info-r">正在精心制作中…</text>
-      </view>
-      <view class="card-comment" wx:if="{{comment}}">注: {{comment}}</view>
-      <view class="card-tips">美食制作中，尽快为您服务</view>
-    </view>
-  </view>
-</view>
-
-<!-- 订单详情区域 -->
-<view class="order">
-  <view class="order-item" wx:for="{{order_food}}" wx:key="id">
-    <view class="order-item-left">
-      <image class="order-item-image" mode="widthFix" src="{{item.image_url}}" />
-      <view>
-        <view class="order-item-name">{{item.name}}</view>
-        <view class="order-item-number">x {{item.number}}</view>
-      </view>
-    </view>
-    <view class="order-item-price">{{priceFormat(item.price * item.number)}}</view>
-  </view>
-
-  <view class="order-item" wx:if="{{promotion > 0}}">
-    <view class="order-item-left">
-      <i class="order-promotion-icon">减</i> 满减优惠
-    </view>
-    <view class="order-promotion-price">-{{priceFormat(promotion)}}</view>
-  </view>
-
-  <view class="order-item">
-    <view class="order-item-left">小计</view>
-    <view class="order-total-price">{{priceFormat(price)}}</view>
-  </view>
-</view>
-
-<!-- 订单信息区域 -->
-<view class="list">
-  <view>
-    <text>订单号码</text>
-    <view>{{sn}}</view>
-  </view>
-  <view>
-    <text>下单时间</text>
-    <view>{{create_time}}</view>
-  </view>
-  <view>
-    <text>付款时间</text>
-    <view>{{pay_time}}</view>
-  </view>
-  <view wx:if="{{is_taken}}">
-    <text>取餐时间</text>
-    <view>{{taken_time}}</view>
-  </view>
-  <view wx:if="{{is_taken}}">
-    取餐号（{{code}}）您已取餐
-  </view>
-</view>
-
-<wxs module="priceFormat">
-module.exports = function(price) {
-  return '￥' + parseFloat(price);
+<wxs module="utils">
+module.exports = {
+  formatPrice: function(price) {
+    return '￥' + parseFloat(price).toFixed(2)
+  }
 }
 </wxs>
+
+<view class="page-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误提示 -->
+  <view wx:elif="{{error}}" class="error-container">
+    <text>{{error}}</text>
+    <button class="retry-btn" bindtap="retry">重试</button>
+  </view>
+
+  <!-- 订单内容 -->
+  <block wx:else>
+    <!-- 取餐信息卡片 -->
+    <view class="card" wx:if="{{!orderInfo.is_taken}}">
+      <view class="card-title">收餐号</view>
+      <view class="card-content">
+        <view class="card-info">
+          <text class="card-code">{{orderInfo.code}}</text>
+          <text class="card-status">正在精心制作中…</text>
+        </view>
+        <view class="card-comment" wx:if="{{orderInfo.comment}}">
+          注: {{orderInfo.comment}}
+        </view>
+        <view class="card-tips">美食制作中，尽快为您服务</view>
+      </view>
+    </view>
+
+    <!-- 订单详情 -->
+    <view class="order">
+      <!-- 商品列表 -->
+      <view 
+        class="order-item" 
+        wx:for="{{orderInfo.foods}}" 
+        wx:key="id">
+        <view class="order-item-left">
+          <image 
+            class="order-item-image" 
+            mode="aspectFill" 
+            src="{{item.image_url}}"
+            lazy-load />
+          <view class="order-item-info">
+            <view class="order-item-name">{{item.name}}</view>
+            <view class="order-item-number">x {{item.number}}</view>
+          </view>
+        </view>
+        <view class="order-item-price">
+          {{utils.formatPrice(item.price * item.number)}}
+        </view>
+      </view>
+
+      <!-- 满减信息 -->
+      <view class="order-item" wx:if="{{hasPromotion()}}">
+        <view class="order-item-left">
+          <text class="promotion-tag">减</text>
+          <text>满减优惠</text>
+        </view>
+        <view class="promotion-price">
+          -{{utils.formatPrice(orderInfo.promotion)}}
+        </view>
+      </view>
+
+      <!-- 小计 -->
+      <view class="order-item">
+        <view class="order-item-left">小计</view>
+        <view class="total-price">
+          {{utils.formatPrice(orderInfo.price)}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="info-list">
+      <view class="info-item">
+        <text class="info-label">订单号码</text>
+        <text class="info-value">{{orderInfo.sn}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">下单时间</text>
+        <text class="info-value">{{orderInfo.create_time}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">付款时间</text>
+        <text class="info-value">{{orderInfo.pay_time}}</text>
+      </view>
+      <view class="info-item" wx:if="{{orderInfo.is_taken}}">
+        <text class="info-label">取餐时间</text>
+        <text class="info-value">{{orderInfo.taken_time}}</text>
+      </view>
+      <view class="info-taken" wx:if="{{orderInfo.is_taken}}">
+        取餐号（{{orderInfo.code}}）您已取餐
+      </view>
+    </view>
+  </block>
+</view>

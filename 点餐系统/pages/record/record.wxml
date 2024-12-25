@@ -1,28 +1,68 @@
 <!--pages/record/record.wxml-->
-<view class="head">
-  <button class="avatar-wrapper" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
-    <image class="avatar" src="{{ avatarUrl }}" />
-  </button>
-</view>
+<wxs module="utils">
+module.exports = {
+  formatPrice: function(price) {
+    return '￥' + parseFloat(price).toFixed(2)
+  }
+}
+</wxs>
 
-<view class="content">
-  <view class="list-title">消费记录</view>
-  <view class="list-item" wx:for="{{ list }}" wx:key="id">
-    <view class="list-item-l">
-      <view>消费</view>
-      <view class="list-item-time">
-        <text>{{ item.dateStr }}</text>
-        <text class="time">{{ item.timeStr }}</text>
+<view class="page-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误提示 -->
+  <view wx:elif="{{error}}" class="error-container">
+    <text>{{error}}</text>
+    <button class="retry-btn" bindtap="retry">重试</button>
+  </view>
+
+  <!-- 页面内容 -->
+  <block wx:else>
+    <!-- 头部区域 -->
+    <view class="header">
+      <button 
+        class="avatar-wrapper" 
+        open-type="chooseAvatar" 
+        bindchooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{userInfo.avatarUrl}}" />
+      </button>
+      <view class="total-amount">
+        <text>总消费</text>
+        <text class="amount">{{utils.formatPrice(totalAmount)}}</text>
       </view>
     </view>
-    <view class="list-item-r">
-      <text>{{ priceFormat(item.price) }}</text>
-    </view>
-  </view>
-</view>
 
-<wxs module="priceFormat">
-module.exports = function(price) {
-  return '￥' + parseFloat(price);
-};
-</wxs>
+    <!-- 记录列表 -->
+    <view class="content">
+      <view class="list-title">消费记录</view>
+      
+      <!-- 空状态 -->
+      <view wx:if="{{recordList.length === 0}}" class="empty-container">
+        <image class="empty-icon" src="/assets/images/empty.png" />
+        <text>暂无消费记录</text>
+      </view>
+
+      <!-- 记录列表 -->
+      <view class="record-list" wx:else>
+        <view 
+          class="record-item" 
+          wx:for="{{recordList}}" 
+          wx:key="id">
+          <view class="record-info">
+            <view class="record-type">消费</view>
+            <view class="record-time">
+              <text>{{item.dateStr}}</text>
+              <text class="time">{{item.timeStr}}</text>
+            </view>
+          </view>
+          <view class="record-amount">
+            {{utils.formatPrice(item.price)}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

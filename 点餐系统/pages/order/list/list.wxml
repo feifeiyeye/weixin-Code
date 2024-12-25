@@ -1,38 +1,72 @@
 <!--pages/order/list/list.wxml-->
-<wxs module="priceFormat">
-module.exports = function(price) {
-  return '￥' + parseFloat(price).toFixed(2);
-};
+<wxs module="utils">
+module.exports = {
+  formatPrice: function(price) {
+    return '￥' + parseFloat(price).toFixed(2)
+  },
+  formatDate: function(timestamp) {
+    var date = getDate(timestamp)
+    var year = date.getFullYear()
+    var month = (date.getMonth() + 1).toString().padStart(2, '0')
+    var day = date.getDate().toString().padStart(2, '0')
+    return year + '-' + month + '-' + day
+  }
+}
 </wxs>
 
-<wxs module="formatDate">
-module.exports = function(timestamp) {
-  var date = getDate(timestamp);
-  var year = date.getFullYear();
-  var month = date.getMonth() + 1;
-  var day = date.getDate();
-  
-  month = month < 10 ? '0' + month : month;
-  day = day < 10 ? '0' + day : day;
-  
-  return year + '-' + month + '-' + day;
-};
-</wxs>
-
-<view class="list">
-  <view class="list-empty" wx:if="{{order.length === 0}}">您还没有下过订单</view>
-  <view class="list-item" wx:for="{{order}}" wx:key="id">
-    <view class="list-item-l">
-      <view class="list-item-t">下单时间：{{formatDate(item.create_time)}}</view>
-      <view class="list-item-name">{{item.first_food_name}}</view>
-      <view>等{{item.number}}件商品 <text class="list-item-price">{{priceFormat(item.price)}}</text></view>
-    </view>
-    <view class="list-item-r">
-      <view bindtap="detail" data-id="{{item.id}}" class="list-item-detail">查看详情</view>
-      <view wx:if="{{item.is_taken}}" class="list-item-taken list-item-taken-yes">已取餐</view>
-      <view wx:else class="list-item-taken list-item-taken-no">未取餐</view>
-    </view>
+<view class="page-container">
+  <!-- 加载状态 -->
+  <view wx:if="{{loading && !refreshing}}" class="loading-container">
+    <text>加载中...</text>
   </view>
-  <view class="list-item-last" wx:if="{{is_last}}">已经到底啦</view>
-  <view class="list-item-last" wx:else>加载中...</view>
+
+  <!-- 错误提示 -->
+  <view wx:elif="{{error}}" class="error-container">
+    <text>{{error}}</text>
+    <button class="retry-btn" bindtap="retry">重试</button>
+  </view>
+
+  <!-- 订单列表 -->
+  <block wx:else>
+    <!-- 空状态 -->
+    <view wx:if="{{orderList.length === 0}}" class="empty-container">
+      <image class="empty-icon" src="/assets/images/empty.png" />
+      <text>您还没有下过订单</text>
+    </view>
+
+    <!-- 订单列表 -->
+    <view class="order-list">
+      <view 
+        class="order-item" 
+        wx:for="{{orderList}}" 
+        wx:key="id"
+        bindtap="goToDetail"
+        data-id="{{item.id}}">
+        <view class="order-info">
+          <view class="order-header">
+            <text class="order-time">下单时间：{{utils.formatDate(item.create_time)}}</text>
+            <text class="order-status {{item.is_taken ? 'taken' : ''}}">
+              {{item.is_taken ? '已取餐' : '未取餐'}}
+            </text>
+          </view>
+          <view class="order-content">
+            <text class="food-name">{{item.first_food_name}}</text>
+            <text class="food-count">等{{item.number}}件商品</text>
+            <text class="food-price">{{utils.formatPrice(item.price)}}</text>
+          </view>
+          <view class="order-footer">
+            <text class="detail-btn">查看详情</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部提示 -->
+      <view class="list-footer">
+        <block wx:if="{{pagination.isLast}}">
+          <text wx:if="{{orderList.length > 0}}">已经到底啦</text>
+        </block>
+        <text wx:else>加载中...</text>
+      </view>
+    </view>
+  </block>
 </view>

@@ -1,29 +1,53 @@
 <!--index.wxml-->
-<navigation-bar title="美食屋" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<!--<navigation-bar title="美食屋" back="{{false}}" color="black" background="#FFF"></navigation-bar>-->
 <scroll-view class="scrollarea" scroll-y type="list">
-  <!-- 轮播图区域 -->
-  <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000">
-    <block wx:for="{{swiper}}" wx:key="*this">
-      <swiper-item>
-        <image src="{{item}}" />
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误提示 -->
+  <view wx:elif="{{error}}" class="error-container">
+    <text>{{error}}</text>
+    <button class="retry-btn" bindtap="retry">重试</button>
+  </view>
+
+  <!-- 页面内容 -->
+  <block wx:else>
+    <!-- 轮播图区域 -->
+    <swiper class="swiper" 
+      indicator-dots
+      autoplay
+      interval="5000" 
+      duration="1000">
+      <swiper-item wx:for="{{swiper}}" 
+        wx:key="*this">
+        <image src="{{item}}" mode="aspectFill"/>
       </swiper-item>
-    </block>
-  </swiper>
+    </swiper>
 
-  <!-- 中间区域 -->
-  <view class="menu-bar">
-    <view class="menu-block" bindtap="start">
-      <view class="menu-start">开启点餐之旅→</view>
+    <!-- 中间区域 -->
+    <view class="menu-bar">
+      <view class="menu-block" bindtap="start">
+        <view class="menu-start">开启点餐之旅→</view>
+      </view>
     </view>
-  </view>
-  <view class="ad-box">
-    <image src="{{ad}}" class="ad-image" />
-  </view>
 
-  <!-- 底部区域 -->
-  <view class="bottom-box">
-    <view class="bottom-pic" wx:for="{{category}}" wx:key="index">
-      <image src="{{item}}" class="bottom-image" />
+    <view class="ad-box">
+      <image src="{{ad}}" 
+        class="ad-image" 
+        mode="aspectFill"/>
     </view>
-  </view>
+
+    <!-- 底部区域 -->
+    <view class="bottom-box">
+      <view class="bottom-pic" 
+        wx:for="{{category}}" 
+        wx:key="index">
+        <image src="{{item}}" 
+          class="bottom-image"
+          mode="aspectFill"/>
+      </view>
+    </view>
+  </block>
 </scroll-view>

@@ -1,211 +1,259 @@
 // pages/list/list.js
 const app = getApp();
-const fetch = app.fetch;
+const shopcartAnimate = require('../../utils/shopcartAnimate.js')
 
 Page({
   data: {
-    foodList: [],    // 保存分类和商品信息
-    promotion: {},   // 保存优惠券信息
-    activeIndex: 0,  // 当前激活的分类索引
-    tapIndex: 0,     // 点击的分类索引
-    cartPrice: 0,  // 购物车总价格
-    cartNumber: 0, // 购物车总数量
-    cartList: [], // 购物车商品列表
-    showCart: false, // 购物车显示状态
-    showCartBall: false, // 是否显示购物车动画小球
-    ballX: 0,           // 小球的起始X坐标
-    ballY: 0,           // 小球的起始Y坐标
-    ballY2: 0,          // 小球的结束Y坐标
+    foodList: [],    
+    promotion: {},   
+    activeIndex: 0,  
+    tapIndex: 0,     
+    cart: {
+      price: 0,    // 购物车总价格
+      number: 0,   // 购物车总数量
+      list: [],    // 购物车商品列表
+      show: false, // 购物车显示状态
+    },
+    ball: {
+      show: false, // 是否显示购物车动画小球
+      x: 0,        // 小球的起始X坐标
+      y: 0,        // 小球的起始Y坐标
+      y2: 0,       // 小球的结束Y坐标
+    },
+    cartBall: {
+      show: false,
+      x: 0,
+      y: 0
+    }
   },
 
-  onLoad: function () {
-    wx.showLoading({ title: '努力加载中' });
-    fetch('/food/list').then(data => {
-      wx.hideLoading();
+  onLoad() {
+    this.loadFoodList()
+    // 延迟初始化购物车动画，确保页面已渲染
+    wx.nextTick(() => {
+      this.cartAnimate = shopcartAnimate('.cart-icon', this)
+    })
+  },
+
+  // 加载商品列表
+  async loadFoodList() {
+    try {
+      wx.showLoading({ title: '努力加载中' })
+      const data = await app.fetch('/food/list')
       this.setData({
         foodList: data.list,
-        promotion: data.promotion[0],
-      });
-      
-      // 计算分类位置
-      this.calculateCategoryPositions();
-    }, () => {
-      this.onLoad();
-    });
+        promotion: data.promotion[0] || {}
+      }, () => {
+        // 在 setData 的回调中执行，确保数据更新后再计算位置
+        wx.nextTick(() => {
+          this.calculateCategoryPositions()
+        })
+      })
+    } catch (err) {
+      wx.showToast({
+        title: '加载失败，请重试',
+        icon: 'none'
+      })
+    } finally {
+      wx.hideLoading()
+    }
   },
 
-  // 计算各个分类的位置
-  calculateCategoryPositions: function() {
-    let top = 0;
-    let height = 0;
-    let categoryPosition = [];
-
-    const query = wx.createSelectorQuery();
+  // 计算分类位置
+  calculateCategoryPositions() {
+    const query = wx.createSelectorQuery()
     query.select('.food').boundingClientRect(rect => {
-      top = rect.top;
-      height = rect.height;
-    });
-    query.selectAll('.food-category').boundingClientRect(res => {
-      res.forEach(rect => {
-        categoryPosition.push(rect.top - top - height / 3);
-      });
-    });
-    query.exec();
-
-    this.categoryPosition = categoryPosition;
+      if (!rect) {
+        console.warn('未找到.food元素，将在onShow中重试')
+        return
+      }
+      const top = rect.top
+      const height = rect.height
+      
+      query.selectAll('.food-category').boundingClientRect(res => {
+        if (!res || !res.length) {
+          console.warn('未找到.food-category元素，将在onShow中重试')
+          return
+        }
+        this.categoryPosition = res.map(rect => 
+          rect.top - top - height / 3
+        )
+      }).exec()
+    }).exec()
   },
 
-  // 点击左侧菜单
-  tapCategory: function (e) {
-    const index = e.currentTarget.dataset.index;
-    this.disableNextScroll = true;
+  // 点击分类
+  tapCategory(e) {
+    const { index } = e.currentTarget.dataset
     this.setData({
       activeIndex: index,
-      tapIndex: index,
-    });
+      tapIndex: index
+    })
+    this.disableNextScroll = true
   },
 
-  // 右侧商品列表滚动事件
-  onFoodScroll: function (e) {
+  // 滚动监听
+  onFoodScroll: throttle(function(e) {
     if (this.disableNextScroll) {
-      this.disableNextScroll = false;
-      return;
+      this.disableNextScroll = false
+      return
     }
 
-    const scrollTop = e.detail.scrollTop;
-    let activeIndex = 0;
+    const scrollTop = e.detail.scrollTop
+    const activeIndex = this.categoryPosition.findIndex(top => 
+      scrollTop >= top
+    )
+
+    if (activeIndex !== -1 && activeIndex !== this.data.activeIndex) {
+      this.setData({ activeIndex })
+    }
+  }, 100),
+
+  // 添加到购物车
+  addToCart(e) {
+    const { category_index, food_index } = e.currentTarget.dataset
+    const food = this.data.foodList[category_index].food[food_index]
     
-    this.categoryPosition.forEach((item, i) => {
-      if (scrollTop >= item) {
-        activeIndex = i;
-      }
-    });
-
-    if (activeIndex !== this.data.activeIndex) {
-      this.setData({ activeIndex });
+    // 执行动画
+    if (this.cartAnimate) {
+      this.cartAnimate.start(e)
     }
+    
+    // 更新购物车
+    this.updateCart(food)
   },
 
-  // 添加购物车相关方法
-  addToCart: function(e) {
-    // 获取点击的位置
-    const touches = e.touches[0];
-    
-    // 获取购物车图标的位置
-    const query = wx.createSelectorQuery();
-    query.select('.operate-shopcart-icon').boundingClientRect();
-    query.exec(res => {
-      const cartPos = res[0];
-      
-      // 设置小球的起始位置和结束位置
+  // 显示购物车动画
+  showCartAnimation(x, y) {
+    const query = wx.createSelectorQuery()
+    query.select('.operate-shopcart-icon').boundingClientRect(res => {
       this.setData({
-        ballX: touches.clientX,
-        ballY: touches.clientY,
-        ballY2: 0,
-        showCartBall: true
-      });
+        'ball.show': true,
+        'ball.x': x,
+        'ball.y': y,
+        'ball.y2': res.top - y
+      })
 
-      // 延迟设置结束位置，触发动画
       setTimeout(() => {
-        this.setData({
-          ballY2: cartPos.top - touches.clientY
-        });
-      }, 0);
+        this.setData({ 'ball.show': false })
+      }, 500)
+    }).exec()
+  },
 
-      // 动画结束后隐藏小球
-      setTimeout(() => {
-        this.setData({
-          showCartBall: false
-        });
-      }, 500);
-    });
-
-    // 原有的购物车添加逻辑
-    const category_index = e.currentTarget.dataset.category_index;
-    const food_index = e.currentTarget.dataset.food_index;
-    const food = this.data.foodList[category_index].food[food_index];
-    
-    const cartList = this.data.cartList;
-    const cartItem = cartList[food.id];
+  // 更新购物车数据
+  updateCart(food) {
+    const { cart } = this.data
+    const cartItem = cart.list[food.id]
 
     if (cartItem) {
-      cartItem.number++;
+      cartItem.number++
     } else {
-      cartList[food.id] = {
+      cart.list[food.id] = {
         id: food.id,
         name: food.name,
         price: parseFloat(food.price),
-        number: 1,
-      };
+        number: 1
+      }
     }
 
     this.setData({
-      cartList,
-      cartPrice: this.data.cartPrice + parseFloat(food.price),
-      cartNumber: this.data.cartNumber + 1
-    });
+      'cart.list': cart.list,
+      'cart.price': cart.price + parseFloat(food.price),
+      'cart.number': cart.number + 1
+    })
   },
 
-  // 显示/隐藏购物车列表
-  showCartList: function() {
-    if (this.data.cartNumber > 0) {
+  // 切换购物车显示
+  toggleCart() {
+    if (this.data.cart.number > 0) {
       this.setData({
-        showCart: !this.data.showCart
-      });
+        'cart.show': !this.data.cart.show
+      })
     }
   },
 
   // 清空购物车
-  clearCart: function() {
+  clearCart() {
     this.setData({
-      cartList: [],
-      cartPrice: 0,
-      cartNumber: 0,
-      showCart: false
-    });
+      cart: {
+        price: 0,
+        number: 0,
+        list: [],
+        show: false
+      }
+    })
   },
 
   // 修改商品数量
-  changeNumber: function(e) {
-    const index = e.currentTarget.dataset.index;
-    const type = e.currentTarget.dataset.type;
-    const cartList = this.data.cartList;
-    const item = cartList[index];
+  changeNumber(e) {
+    const { index, type } = e.currentTarget.dataset
+    const { cart } = this.data
+    const item = cart.list[index]
     
+    if (!item) return
+
     if (type === 'add') {
-      item.number++;
+      item.number++
       this.setData({
-        cartList,
-        cartPrice: this.data.cartPrice + item.price,
-        cartNumber: this.data.cartNumber + 1
-      });
+        'cart.list': cart.list,
+        'cart.price': cart.price + item.price,
+        'cart.number': cart.number + 1
+      })
     } else {
-      item.number--;
+      item.number--
       if (item.number === 0) {
-        delete cartList[index];
+        delete cart.list[index]
       }
       this.setData({
-        cartList,
-        cartPrice: this.data.cartPrice - item.price,
-        cartNumber: this.data.cartNumber - 1
-      });
+        'cart.list': cart.list,
+        'cart.price': cart.price - item.price,
+        'cart.number': cart.number - 1
+      })
     }
   },
 
-  // 在现有代码中添加order函数
-  order: function() {
-    if (this.data.cartNumber === 0) {
-      return;
-    }
-    wx.showLoading({ title: '正在生成订单' });
-    app.fetch('/food/order', {
-      order: this.data.cartList
-    }, 'POST').then(data => {
+  // 提交订单
+  async submitOrder() {
+    if (this.data.cart.number === 0) return
+    
+    try {
+      wx.showLoading({ title: '���在生成订单' })
+      const { order_id } = await app.fetch('/food/order', {
+        order: this.data.cart.list
+      }, 'POST')
+      
       wx.navigateTo({
-        url: '/pages/order/checkout/checkout?order_id=' + data.order_id
-      });
-    }).catch(() => {
-      this.order();
-    });
+        url: `/pages/order/checkout/checkout?order_id=${order_id}`
+      })
+    } catch (err) {
+      wx.showToast({
+        title: '提交订单失败，请重试',
+        icon: 'none'
+      })
+    } finally {
+      wx.hideLoading()
+    }
+  },
+
+  // 添加 onShow 生命周期方法
+  onShow() {
+    // 页面显示时重新计算位置
+    if (this.data.foodList.length > 0) {
+      wx.nextTick(() => {
+        this.calculateCategoryPositions()
+      })
+    }
   }
-});
+})
+
+// 节流函数
+function throttle(fn, delay) {
+  let timer = null
+  return function(...args) {
+    if (timer) return
+    timer = setTimeout(() => {
+      fn.apply(this, args)
+      timer = null
+    }, delay)
+  }
+}
