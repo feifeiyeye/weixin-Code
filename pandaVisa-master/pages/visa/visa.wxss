@@ -1,0 +1,149 @@
+/* pages/order/order.wxss */
+@import "/pages/component/rater/rater.wxss";
+.top_box {
+  width: 100%;
+  height: 368rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+}
+
+.area_box {
+  width: 360rpx;
+  height: 100rpx;
+  background: rgba(255, 255, 255, .9);
+  border-radius: 10rpx;
+  color: #6f6f6f;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  padding-right: 60rpx;
+  box-sizing: border-box;
+}
+.area_box.pselect:after{
+  top: 44rpx;
+}
+.area_box_title {
+  margin: 0 30rpx;
+  line-height: 100rpx;
+}
+
+.area_box_check {
+  flex: 1;
+  text-align: right;
+  overflow:hidden; 
+  text-overflow:ellipsis; 
+  display: -webkit-box; 
+  -webkit-line-clamp:1; 
+  -webkit-box-orient:vertical;
+}
+
+
+.visa_list {
+  border-left: 14rpx solid;
+  padding: 28rpx 20rpx;
+  border-bottom: 1px solid #f3f3f3;
+  position: relative;
+}
+
+/*旅游*/
+.visa_1 {
+  border-left-color: #92dda6;
+}
+
+/*商务*/
+.visa_2 {
+  border-left-color: #7ec2f7; 
+}
+
+/*探亲*/
+.visa_3 {
+  border-left-color: #f98483;
+}
+
+/*其他*/
+.visa_4 {
+  border-left-color: #9399ed;
+}
+
+.visa_list_title {
+  font-size: 32rpx;
+  color: #444;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.visa_list_tipsbox {
+  margin: 30rpx 0;
+  height: 30rpx;
+}
+
+.visa_list_cont {
+  font-size: 24rpx;
+  color: #aaa;
+  width: 550rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  white-space: nowrap;
+}
+
+.visa_list_li {
+  display: inline-flex;
+  margin-right: 20rpx;
+}
+
+.visa_list_li text {
+  margin-left: 5rpx;
+}
+.visa_cq_pre {
+  display: flex;
+  float: left;
+  height: 32rpx;
+  line-height: 32rpx;
+  color: #aaa;
+  margin: 0 16rpx 0 30rpx;
+}
+
+.visa_cq_pre text {
+  font-size: 24rpx;
+  margin: 0 10rpx 0 0;
+}
+
+.visa_list_money_box {
+  position: absolute;
+  top: 110rpx;
+  right: 20rpx;
+  color: #6f6f6f;
+  text-align: right;
+}
+
+.visa_list_money {
+  font-size: 24rpx;
+  color: #aaa;
+  display: block;
+  text-align: right;
+  text-decoration: line-through;
+}
+
+.visa_list_moneydw {
+  font-size: 36rpx;
+  color: #ff5a60;
+}
+
+.visa_err_box {
+  width: 100%;
+  text-align: center;
+  margin-top: 40rpx;
+}
+
+.visa_err_word {
+  font-size: 30rpx;
+  color: #bbb;
+  display: block;
+  margin-top: 10rpx;
+}

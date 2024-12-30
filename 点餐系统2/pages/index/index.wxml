@@ -1,0 +1,32 @@
+<!--index.wxml-->
+<navigation-bar title="Weixin" back="{{false}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <!-- 轮播图区域 -->
+    <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000">
+      <block wx:for="{{swiper}}" wx:key="*this">
+        <swiper-item>
+          <image src="{{item}}" />
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <!-- 中间区域 -->
+    <view class="menu-bar">
+      <view class="menu-block" bindtap="start">
+        <view class="menu-start">开启点餐之旅→</view>
+      </view>
+    </view>
+
+    <view class="ad-box">
+      <image src="{{ad}}" class="ad-image" />
+    </view>
+
+    <!-- 底部区域 -->
+    <view class="bottom-box">
+      <view class="bottom-pic" wx:for="{{category}}" wx:key="index">
+        <image src="{{item}}" class="bottom-image" />
+      </view>
+    </view>
+  </view>
+</scroll-view>

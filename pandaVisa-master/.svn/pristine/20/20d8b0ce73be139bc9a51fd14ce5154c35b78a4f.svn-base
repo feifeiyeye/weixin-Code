@@ -1,0 +1,105 @@
+<include src="../../public/footer.wxml" />
+
+<!--pages/apply/photo/marriage.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<form bindsubmit="submit" bindreset="formReset" report-submit="true">
+  <view class="certificate_page">
+    <view class="id_area_box">
+      <text>当前婚姻状况</text>
+      <view class="id_area_box_line">
+        <radio-group class="group" bindchange="radioChange">
+          <view class="check_li check_li_bb" wx:for="{{radioItems}}">
+            <label>
+              <radio id="{{item.name}}" hidden value="{{item.value}}" checked="{{item.checked}}"></radio>
+              <view class="check_li_icon">
+                <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}"></view>
+              </view>
+              <text class="check_li_text">{{item.value}}</text>
+            </label>
+          </view>
+        </radio-group>
+      </view>
+    </view>
+    <view class="id_area_box {{radioItems[1].show}}">
+      <text>结婚证</text>
+      <view class="id_area_box_line marr ">
+        <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/sample/marriage_certificate.png" class="idcard marr_img"></image>
+        <button class="certificate_btn idcard {{btn_hide}} " id="marry" catchtap="selectMarriage">
+          <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+        </button>
+        <view class="certificate_example_box marrout {{marry_hide}}">
+          <view class="certificate_example_box_warp" catchtap="previewImg" id="marry_warp"></view>
+          <button class="certificate_small_btn" catchtap="selectMarriage" id="marry_btn" wx:if="{{((curr_elec_id_info.upload[0].elec_status == 3 || curr_elec_id_info.upload[0].elec_status == 2) && (curr_applicant.applicant_status == 2)) || order_detail.order_status == 1}}">
+            <view catchtap="selectMarriage" id="marry_view">
+              <image catchtap="selectMarriage" id="marry_img" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+            </view>
+          </button>
+          <image src="{{marry_img}}" catchtap="previewImg" id="marry_pre" class="passport" mode="aspectFit"></image>
+          <view class="certificate_example_box_stat" catchtap="previewImg" id="marry_notpass" wx:if="{{curr_elec_id_info.upload[0].elec_status == 3}}">
+            <image catchtap="previewImg" id="marry_notpass_img" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+          </view>
+          <view class="certificate_example_box_stat"  catchtap="previewImg" id="marry_pass" wx:if="{{curr_elec_id_info.upload[0].elec_status == 0}}">
+            <image catchtap="previewImg" id="marry_pass_img" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/pass.png"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="id_area_box {{radioItems[2].show}}">
+      <text>离婚证</text>
+      <view class="id_area_box_line marr">
+        <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/sample/divorce_certificate.png" class="idcard marr_img"></image>
+        <button class="certificate_btn idcard {{btn_divorce_hide}}" id="divorce" catchtap="selectMarriage">
+          <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+        </button>
+        <view class="certificate_example_box marrout {{divorce_hide}}">
+          <view class="certificate_example_box_warp" catchtap="previewImg" id="divorce_warp"></view>
+          <button class="certificate_small_btn" catchtap="selectMarriage" id="divorce_btn" wx:if="{{curr_elec_id_info.upload[0].elec_status == 3 || order_detail.order_status == 1 ||curr_elec_id_info.upload[0].elec_status == 2}}">
+            <view catchtap="selectMarriage" id="divorce_view">
+              <image catchtap="selectMarriage" id="divorce_img" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+            </view>
+          </button>
+          <image src="{{divorce_img}}" catchtap="previewImg" id="divorce_pre" class="passport" mode="aspectFit"></image>
+          <view class="certificate_example_box_stat" catchtap="previewImg" id="divorce_notpass" wx:if="{{curr_elec_id_info.upload[0].elec_status == 3}}">
+            <image catchtap="previewImg" id="divorce_notpass_img" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+          </view>
+          <view class="certificate_example_box_stat" catchtap="previewImg" id="divorce_pass" wx:if="{{curr_elec_id_info.upload[0].elec_status == 0}}">
+            <image catchtap="previewImg" id="divorce_pass_img"  src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/pass.png"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="certificate_ps_top" wx:if="{{curr_elec_id_info.upload[0].elec_status == 3}}">
+    <view class="certificate_ps">
+      <text class="certificate_ps_title">预审不合格</text>
+      <block wx:for="{{curr_elec_id_info.upload}}">
+        <view class="certificate_ps_line" wx:for="{{item.memoArr}}">
+          <view class="icon_li_p"></view>
+          <text>{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view class="certificate_ps">
+    <text class="certificate_ps_title">资料要求</text>
+    <view class="certificate_ps_line">
+      <view class="icon_li_p"></view>
+      <text>如已婚，需提供结婚证；</text>
+    </view>
+    <view class="certificate_ps_line">
+      <view class="icon_li_p"></view>
+      <text>如离异，需提供离婚证；</text>
+    </view>
+    <view class="certificate_ps_line">
+      <view class="icon_li_p"></view>
+      <text>未婚、丧偶此项无需提供</text>
+    </view>
+  </view>
+  <view class="page_btn_bottom_box ">
+    <view class="apply_submit">
+      <button formType="submit" class="apply_subtn btn_red">提交</button>
+    </view>
+  </view>
+</form>

@@ -1,0 +1,74 @@
+
+<!--pages/apply/apply-b.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="apply_cells visited_list">
+  <block wx:for="{{dataArr}}">
+    <view class="apply_div">
+      <view class="apply_cont">
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">国家</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="国家" placeholder-class="pcolor" value="{{item.visit_country}}" bindinput="contentBindInput" id="{{index}}" />
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">访问目的</text>
+            <view class="apply_li_c">
+              <picker bindchange="bindVisitPickerChange" value="{{item.visit_target-1}}" range="{{['旅游','商务']}}" id="{{index}}">
+                <view class="picker pselect">
+                  {{['旅游','商务'][item.visit_target-1]}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">停留时间</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <picker mode="date" value="{{item.visit_start}}" start="1900-01-01" end="2100-01-01" bindchange="bindVisitStartPickerChange" id="{{index}}">
+                  <view class="picker pselect">
+                    {{item.visit_start}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">至</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <picker mode="date" value="{{item.visit_end}}" start="1900-01-01" end="2100-01-01" bindchange="bindVisitEndPickerChange" id="{{index}}">
+                  <view class="picker pselect">
+                    {{item.visit_end}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_button" bindtap="del" id="{{index}}">删除</view>
+    </view>
+  </block>
+  <block wx:if="{{dataArr.length < 3}}">
+    <view class="apply_addspan" bindtap="add">+ 新增</view>
+  </block>
+</view>
+<view class="page_btn_bottom_box ">
+  <view class="apply_submit">
+    <button class="apply_subtn hollow_btn_black" catchtap="cancel">取消</button>
+    <view class="btn_empty"></view>
+    <button class="apply_subtn btn_red" catchtap="save">保存</button>
+  </view>
+</view>

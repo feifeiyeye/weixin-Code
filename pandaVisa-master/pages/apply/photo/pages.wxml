@@ -1,0 +1,64 @@
+
+<!--pages/apply/photo/pages.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="account_page">
+  <view class="acc_photos">
+    <block wx:for="{{curr_elec_id_info.upload}}" wx:for-index="idx">
+      <view class="acc_photo" wx:if="{{item.url}}">
+        <image src="{{item.url}}" id="img_{{item.pos}}" mode="aspectFit" class="acc_photo_img" catchtap="previewImg"></image>
+        <button class="certificate_small_btn" id="btn_{{item.pos}}" catchtap="chooseImage" wx:if="{{((item.elec_status == 3 || item.elec_status == 2)  && (curr_applicant.applicant_status == 2)) || order_detail.order_status == 1 }}">
+          <view catchtap="chooseImage" id="view_{{item.pos}}">
+            <image catchtap="chooseImage" id="img_{{item.pos}}" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+          </view>
+        </button>
+        <view class="certificate_example_box_stat" wx:if="{{item.elec_status == 3}}">
+          <image catchtap="previewImg" id="notpass_{{item.pos}}" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+        </view>
+        <view class="certificate_example_box_stat" wx:if="{{item.elec_status == 0}}">
+          <image catchtap="previewImg" id="pass_{{item.pos}}" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/pass.png"></image>
+        </view>
+      </view>
+    </block>
+    <view class="acc_photo" wx:if="{{((curr_applicant.applicant_status == 2 || (curr_applicant.applicant_status == 1) && curr_elec_status === true) || order_detail.order_status == 1)}}">
+      <button class="certificate_btn" id="new_add" catchtap="{{curr_action}}">
+        <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+      </button>
+    </view>
+    <view class="acc_photo" wx:elif="{{nocamera || (curr_elec_id_info.upload.length <=0 && (curr_applicant.applicant_status >=3)) }}">
+      <button class="certificate_btn">
+        <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/nocamera.png" class="camera_img"></image>
+      </button>
+    </view>
+  </view>
+</view>
+<view class="certificate_ps_top" wx:if="{{isNopass}}">
+  <view class="certificate_ps">
+    <text class="certificate_ps_title">预审不合格</text>
+    <block wx:for="{{curr_elec_id_info.upload}}">
+      <view class="certificate_ps_line" wx:for="{{item.memoArr}}">
+        <view wx:if="{{item}}" class="icon_li_p"></view>
+        <text wx:if="{{item}}">{{item}}</text>
+      </view>
+    </block>
+  </view>
+</view>
+<view class="certificate_ps">
+  <text wx:if="{{tip}}" class="certificate_ps_title">资料要求</text>
+  <view wx:if="{{tip}}" class="certificate_ps_line">
+    <view class="icon_li_p"></view>
+    <block wx:if="{{tip}}">
+      <text>{{tip}}</text>
+    </block>
+    <block wx:else>
+    </block>
+  </view>
+</view>
+<block wx:if="{{List.length > 0 }}">
+  <view class="page_btn_bottom_box  ">
+    <view class="apply_submit" catchtap="submit">
+      <view class="apply_subtn btn_red" catchtap="submit">提交</view>
+    </view>
+  </view>
+</block>

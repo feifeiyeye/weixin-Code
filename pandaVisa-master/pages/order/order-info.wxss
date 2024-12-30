@@ -1,0 +1,94 @@
+/* pages/order/order-info.wxss */
+.od_go{
+    position: relative;
+    padding: 0 0 110rpx;
+}
+.od_go_close{
+    position: absolute;
+    top: 35rpx;
+    right: 25rpx;
+    padding: 0;
+    line-height: normal;
+}
+.od_li{
+    padding: 0 20rpx 20rpx;
+}
+.od_li_tit{
+    padding: 40rpx 0;
+    font-size: 44rpx;
+    color: #444;
+}
+
+.od_li_out{
+    height: 90rpx;
+    line-height: 90rpx;
+    padding: 0 0 0 30rpx;
+    font-size: 28rpx;
+    border: 1rpx solid #e9e9e9;
+    border-radius: 6rpx;
+    display: flex;
+    align-items: center;
+}
+.od_li_out picker{
+    flex: 1;
+}
+.od_li_out .pselect{
+    min-height: auto;
+    line-height: normal; 
+}
+.od_li_add{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    height: 78rpx;
+    font-size: 28rpx;
+}
+.od_li_cli{
+    display: flex;    
+    align-items: center;
+    margin-top: 24rpx;
+    border: 1rpx solid #e9e9e9;
+    border-radius: 6rpx;
+}
+.od_li_apply .od_li_cli:first-child .od_li_del{
+    display: none;
+}
+.od_li_clicont{
+    flex: 1;
+    padding: 0 30rpx;
+}
+.od_li_nli{
+    display: flex;
+    align-items: center;
+    height: 90rpx;
+    border-top: 1rpx solid #e9e9e9;
+}
+.od_li_cli .od_li_nli:first-child{
+    border-top: 0;
+}
+.od_li_n{
+    color: #aaa;
+    font-size: 30rpx;
+    padding-right: 40rpx;
+}
+.od_li_c{
+    flex: 1;
+    font-size: 28rpx;
+}
+.od_li_c .pselect:after{
+    right: 0;
+}
+.od_li_del{
+    box-sizing: border-box;
+    text-align: center;
+    width: 120rpx;
+    height: 110rpx;
+    border-left: 1rpx solid #e9e9e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.page_btn_bottom_box {
+    border-top: 0;
+}

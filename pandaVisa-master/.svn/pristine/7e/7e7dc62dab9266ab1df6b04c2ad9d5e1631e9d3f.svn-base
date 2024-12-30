@@ -1,0 +1,22 @@
+<!--pages/apply/photo/photo-result.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="photo_show">
+    <image src="{{src}}" style="width:{{width}}rpx;height:{{height}}rpx"></image>
+</view>
+<view class="photo_resu ">
+    <view class="photo_resu_li {{item.class}}" wx:for="{{photoResult.des}}">
+        <text class="photo_resu_yn ">{{item.title}}</text>
+        <text class="photo_resu_c ">{{item.text}}</text>
+    </view>
+    <view class="photo_resu_li error"  wx:if="{{result}}">
+    <text class="photo_resu_yn ">{{result}}</text>
+    </view>
+</view>
+<view class="page_btn_bottom_box ">
+    <view class="apply_submit">
+        <button class="apply_subtn btn_red" bindtap="resetPhoto">重新拍摄</button>
+    </view>
+</view>
+<include src="../../public/footer.wxml" />

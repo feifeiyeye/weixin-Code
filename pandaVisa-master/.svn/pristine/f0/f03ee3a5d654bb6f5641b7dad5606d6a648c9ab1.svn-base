@@ -1,0 +1,4 @@
+/* pages/apply/apply-order.wxss */
+@import "/pages/order/order-detail.wxss";
+@import "/pages/apply/apply.wxss";
+@import "/pages/apply/addr/addr-list.wxss";

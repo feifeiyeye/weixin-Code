@@ -1,0 +1,78 @@
+{
+  "pages": [  
+    "pages/index/index",
+    "pages/order/order",
+    "pages/component/popup/popup",
+    "pages/visa/visa",
+    "pages/apply/apply",
+    "pages/apply/data-preview",
+    "pages/apply/express-detail",
+    "pages/apply/apply-data-nopass",
+    "pages/apply/apply-b",
+    "pages/apply/apply-b-person",
+    "pages/apply/apply-singapore",
+    "pages/apply/apply-korea",
+    "pages/apply/apply-data",
+    "pages/apply/apply-data-b",
+    "pages/apply/addr/addr-list",
+    "pages/apply/addr/addr-edit",
+    "pages/visa/visa-detail",
+    "pages/apply/handWriting",
+    "pages/logs/index",
+    "pages/component/rater/rater",
+    "pages/public/footer",
+    "pages/visa/comment",
+    "pages/order/order-mail",
+    "pages/order/order-detail",
+    "pages/order/pay/payok",
+    "pages/order/application",
+    "pages/login/bind",
+    "pages/apply/photo/passport",
+    "pages/apply/photo/one-page",
+    "pages/apply/photo/passport-not",
+    "pages/apply/photo/passport-reada",
+    "pages/apply/photo/idcard",
+    "pages/apply/photo/idcard-not",
+    "pages/apply/photo/idcard-reada",
+    "pages/apply/photo/idcard-readb",
+    "pages/apply/photo/marriage",
+    "pages/apply/photo/photo",
+    "pages/apply/photo/photo-result",
+    "pages/apply/photo/photo-preview",
+    "pages/apply/photo/photo-check",
+    "pages/apply/photo/pages"
+  ], 
+  "window": {
+    "navigationBarBackgroundColor": "#f9f9f9",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "签证",
+    "backgroundColor": "#f9f9f9",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#bbbbbb",
+    "selectedColor": "#fe6f73",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "image/nav_qz_off.png",
+        "selectedIconPath": "image/nav_qz.png",
+        "text": "签证"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "iconPath": "image/nav_dd_off.png",
+        "selectedIconPath": "image/nav_dd.png",
+        "text": "订单"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000,
+    "uploadFile": 10000,
+    "connectSocket": 10000
+  },
+  "debug": true
+}

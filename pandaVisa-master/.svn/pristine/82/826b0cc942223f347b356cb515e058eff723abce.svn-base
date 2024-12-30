@@ -1,0 +1,23 @@
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<block wx:if="{{showLoading}}">
+  <loading>
+    加载中...
+  </loading>
+</block>
+<block wx:else>
+  <view class="container">
+    <block wx:for="{{list}}" wx:key="item">
+      <navigator  url="/pages/visa/visa?visa_country_id={{item.visa_country_id}}&area={{item.area}}&country={{item.country}}" class="widget">
+        <view class="list_box">
+          <image class="list_item_img" src="{{item.background_img}}" />
+          <view class="list_item_word">
+            <view class="list_item_country">{{item.country}}</view>
+            <view class="list_item_ps">{{item.type_name}}</view>
+          </view>
+        </view>
+      </navigator>
+    </block>
+  </view>
+</block>

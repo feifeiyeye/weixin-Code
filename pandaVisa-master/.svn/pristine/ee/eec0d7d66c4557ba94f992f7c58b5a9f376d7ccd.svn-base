@@ -1,0 +1,217 @@
+/* pages/apply/apply-data-nopass.wxss */
+@import "/pages/order/order-detail.wxss";
+.swiper-tab {
+  width: 100%;
+  text-align: center;
+  line-height: 80rpx;
+  background: #f8f8f8;
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  box-sizing: border-box;
+  padding:0 20rpx;
+}
+
+swiper-item {
+  overflow: auto;
+  overflow-y: auto;
+  overflow-x:hidden;
+}
+
+.swiper-tab-list {
+  font-size: 30rpx;
+  display: inline-block;
+  width: 28.33%;
+  color: #b4b4b4;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  position: relative;
+  flex:1;
+}
+
+.jh-tab-bubble {
+  background-color: #ff5a60;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  width: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  border-radius: 50%;
+  color:#fff;
+  font-size: 22rpx;
+}
+
+.on {
+  color: #6f6f6f;
+  border-bottom: 5rpx solid #ff5a60;
+}
+
+.swiper-box {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+@import "/pages/apply/apply-data-b.wxss";
+@import "/pages/apply/apply.wxss";
+
+.borderTop {
+  height: 0;
+}
+
+.borderTop_fixed {
+  height: 0;
+}
+
+.apply_data {
+  padding-bottom: 20rpx;
+}
+
+.apply_data_li.wrong {
+  border: 1px solid #ff5a60;
+  color: #ff5a60;
+}
+
+.apply_data_li.wrong::before {
+  margin-right: 1px;
+  margin-bottom: 1px;
+}
+
+.page_btn_bottom_box.save,.page_btn_bottom_box{
+  display: none;
+}
+
+.nopass_tip {
+  border: 1rpx dashed #ff5a60;
+  margin: 30rpx 20rpx;
+  background: #fffafa;
+  border-radius: 10rpx;
+  padding: 30rpx;
+}
+
+.nopass_title {
+  font-size: 30rpx;
+  color: #ff656a;
+  margin-bottom: 16rpx;
+}
+
+.nopass_desc {
+  font-size: 26rpx;
+  color: #6f6f6f;
+}
+
+.nopass_desc text {
+  display: block;
+  line-height: 48rpx;
+}
+
+.email_material {
+  padding: 30rpx;
+  padding-top: 0;
+  position: relative;
+}
+
+.material_title_text {
+  color: #6f6f6f;
+  font-size: 32rpx;
+  display: block;
+  line-height: 44rpx;
+   margin-left: 50rpx;
+   flex: 3;
+}
+
+.wrong .material_title_text {
+  color: #ff656a;
+}
+
+.material_title {
+  display: flex;
+  align-items: stretc;
+  align-content: stretch;
+  margin-bottom: 20rpx;
+  margin-top: 30rpx;
+  line-height: 44rpx;
+  flex: 3;
+}
+
+.material_title::before {
+  flex: 1;
+  content: "";
+  position: absolute;
+  width: 40rpx;
+  height: 40rpx;
+  background-repeat: no-repeat;
+  background-size: 40rpx 40rpx;
+}
+
+.material_title.finish::before {
+  background-image: url(http://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/check.png);
+}
+
+.material_title.passed::before {
+  background-image: url(http://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/passed.png);
+}
+
+.material_title.wrong::before {
+  background-image: url(http://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/nopassed.png);
+}
+
+.material_desc {
+  padding-left: 50rpx;
+  font-size: 28rpx;
+  color: #aaa;
+}
+
+.material_desc_item {
+  display: block;
+  line-height: 48rpx;
+  flex:1;
+}
+
+.hr {
+  margin-top: 40rpx;
+  border-bottom: 1rpx solid #e9e9e9;
+}
+
+.no_margin {
+  margin-left: 0;
+}
+
+.previewImg {
+  font-size: 26rpx;
+  color: #ff5a60;
+  float: right;
+  display: none;
+}
+
+.wrong .previewImg {
+  display: block;
+}
+
+.material_desc > .nopass_tip {
+  display: none;
+}
+
+.wrong + .material_desc  .nopass_tip {
+  display: block;
+}
+
+page {
+  overflow: hidden;
+  background: #fff;
+  padding: 0;
+}
+.apply_submit{
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  margin: 0 auto;
+  background: #fff;
+}

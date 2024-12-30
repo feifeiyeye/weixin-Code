@@ -1,0 +1,668 @@
+/* pages/visa/visa-detail.wxss */
+@import "/pages/component/rater/rater.wxss";
+
+page {
+  padding-bottom: 110rpx;
+}
+
+.vias_detail_top {
+  width: 100%;
+  background-size: cover;
+  padding-bottom: 40rpx;
+}
+.visa_detail_title {
+  align-items: center;
+  width: 640rpx;
+  min-height: 60rpx;
+  line-height: 60rpx;
+  margin: 0 auto;
+  padding-top: 40rpx;
+  color: #fff;
+  font-size: 40rpx;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.visa_detail_money {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40rpx 0 0 0;
+  text-align: center;
+  color: #fff;
+}
+
+.visa_deatil_money_dw {
+  font-size: 36rpx;
+}
+
+.visa_deatil_money_rmb{
+  font-size: 24rpx;
+}
+.visa_deatil_money_value{
+  font-size: 58rpx;
+  padding-right: 10rpx;
+}
+.visa_detail_money_cont {
+  font-size: 60rpx;
+  margin-right: 25rpx;
+}
+
+.visa_detail_money_a {
+  width: 88rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  font-size: 24rpx;
+  opacity: 0.8;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 54rpx;
+}
+
+.visa_detail_top_time {
+  margin: 40rpx 0 0 0;
+  text-align: center;
+  color: #fff;
+  z-index: 999;
+}
+
+.visa_detail_top_time_title {
+  font-size: 28rpx;
+  opacity: 0.5;
+}
+
+.visa_detail_top_time_cont {
+  font-size: 28rpx;
+  margin-left: 12rpx;
+}
+
+.visa_detail_top_time_arr {
+  width: 18rpx;
+  height: 18rpx;
+  margin-left: 10rpx;
+}
+
+.visa_detail_top_bombox {
+  margin: 40rpx 20rpx 0;
+}
+
+.visa_detail_top_bombox_line_border {
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  opacity: 0.2;
+}
+
+.visa_detail_top_tb {
+  width: 100%;
+  display: flex;
+  margin: 30rpx 0;
+}
+
+.visa_detail_top_td {
+  text-align: center;
+  width: 230rpx;
+}
+
+.visa_detail_top_mid {
+  width: 246rpx;
+}
+
+.visa_detail_top_line {
+  width: 1rpx;
+  height: 42rpx;
+  background: #fff;
+  opacity: 0.5;
+  margin-top: 30rpx;
+}
+
+.visa_detail_top_td_cont {
+  font-size: 44rpx;
+  color: #fff;
+  height: 44rpx;
+  line-height: 54rpx;
+}
+
+.visa_detail_top_td_dw {
+  font-size: 24rpx;
+  color: #fff;
+}
+
+.visa_detail_top_td_ps {
+  font-size: 24rpx;
+  color: #fff;
+  opacity: 0.5;
+  display: block;
+  padding-top: 10rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+}
+
+.visa_detail_contbox {
+  width: 100%;
+  background: #f3f4f6;
+  position: relative;
+  height: 270rpx;
+}
+
+.visa_detail_cont_toptb {
+  width: 710rpx;
+  height: 260rpx;
+  box-sizing: border-box;
+  background: #fff;
+  top: -20rpx;
+  position: absolute;
+  left: 20rpx;
+  box-shadow: 2rpx 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.visa_detail_cont_toptb_topline {
+  overflow: auto;
+  height: 100rpx;
+  width: 660rpx;
+  padding: 30rpx 0 0 0;
+  margin: 0 14rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.visa_detail_cont_toptb_topline_left {
+  float: left;
+  width: 330rpx;
+  position: relative;
+}
+
+.visa_detail_cont_toptb_topline_left_w1 {
+  font-size: 28rpx;
+  color: #aaa;
+  display: block;
+  position: absolute;
+  top: 15rpx;
+  left: 50rpx;
+}
+
+.visa_detail_cont_toptb_topline_left_w2 {
+  font-size: 48rpx;
+  margin: 0 0 0 160rpx;
+  color: #ff5a60;
+}
+
+.visa_detail_cont_toptb_topline_left_w3 {
+  font-size: 28rpx;
+  color: #ff5a60;
+}
+
+.visa_detail_cont_toptb_hr {
+  width: 1px;
+  height: 30rpx;
+  background: #f0f0f0;
+  float: left;
+  margin-top: 20rpx;
+}
+
+.visa_detail_commot_a {
+  width: 326rpx;
+  float: left;
+  position: relative;
+}
+
+.visa_detail_commot_xx {
+  position: absolute;
+  top: 10rpx;
+  left: 130rpx;
+  width: 150rpx;
+}
+
+.visa_detail_commot_cont {
+  font-size: 20rpx;
+  color: #aaa;
+  display: block;
+  text-align: center;
+  position: absolute;
+  top: 30rpx;
+  width: 100%;
+}
+
+.visa_detail_commot_xx_arr {
+  width: 24rpx;
+  height: 24rpx;
+  position: absolute;
+  right: 0;
+  top: 25rpx;
+}
+
+.visa_detail_cont_toptb_bom {
+  overflow: auto;
+  width: 100%;
+  height: 130rpx;
+}
+
+.visa_detail_cont_toptb_bom image {
+  width: 56rpx;
+  height: 58rpx;
+  display: inline-block;
+  margin: 35rpx 60rpx 0;
+}
+
+.datum_box {
+  width: 100%;
+  background: #fff;
+}
+
+.datum_box_title, .information_box_title, .flow_box_title, .photo_box_title {
+  font-size: 28rpx;
+  color: #6f6f6f;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.datum_box_title {
+  padding-top: 15rpx;
+  line-height: 60rpx;
+}
+
+.datum_box_imgbox {
+  width: 100%;
+  overflow: hidden;
+  height: 220rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.datum_box_imgwarp {
+  width: 120%;
+  height: 232rpx;
+}
+
+.datum_box_imgp {
+  text-align: center;
+  display: inline-block;
+  margin: 0 25rpx;
+}
+
+.datum_box_imgcont {
+  height: 140rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.datum_box_imgcont image {
+  width: 110rpx;
+  height: 110rpx;
+}
+
+.datum_box_imgp.active image {
+  width: 140rpx;
+  height: 140rpx;
+}
+
+.datum_box_imgp.active text {
+  color: #ff5a60;
+  line-height: 50rpx;
+}
+
+.datum_box_imgp text {
+  color: #cfcfcf;
+  font-size: 28rpx;
+  display: block;
+}
+
+.datum_box_imgwarp .a_on image {
+  width: 70rpx;
+  height: 70rpx;
+  margin: 24rpx 0;
+}
+
+.datum_box_imgwarp .a_on text {
+  color: #ff5a60;
+  font-size: 32rpx;
+  display: block;
+}
+
+.screen_box {
+  padding: 30rpx 20rpx 40rpx;
+  background: #fff;
+}
+
+.screen_line {
+  position: relative;
+}
+
+.screen_line_mail {
+  margin-left: 10rpx;
+}
+
+.screen_title {
+  font-size: 30rpx;
+  color: #6f6f6f;
+  line-height: 30rpx;
+}
+
+.screen_p {
+  font-size: 30rpx;
+  color: #444;
+  margin: 30rpx 0 28rpx;
+  display: flex;
+  align-items: stretch;
+}
+
+.screen_p text.font_g {
+  flex: 1;
+}
+
+.pop_white_text_line .icon_li_p {
+  background: #aaa;
+}
+
+.visa_detail_cont_ps {
+  font-size: 24rpx;
+  color: #aaa;
+  margin-top: 40rpx;
+}
+
+.visaInfo_button {
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visa_detail_screen_btn {
+  width: 320rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  font-size: 30rpx;
+  color: #f98483;
+}
+
+.visa_detail_screen_btn:after {
+  border: 1rpx solid #f98483;
+}
+
+.information_box, .flow_box, .photo_box {
+  border-top: 30rpx solid #f3f4f6;
+  padding: 30rpx 20rpx;
+  background: #fff;
+}
+
+.information_box_cont_t {
+  font-size: 28rpx;
+  color: #444;
+  display: block;
+  margin-top: 30rpx;
+}
+
+.information_box_p {
+  font-size: 28rpx;
+  line-height: 40rpx;
+  color: #6f6f6f;
+  margin-top: 30rpx;
+  display: flex;
+  align-items: stretch;
+}
+
+.information_box_p text {
+  flex: 1;
+}
+
+.visa_detail_bottom_box {
+  border-top: 1px solid #f3f4f6;
+  overflow: auto;
+  height: 110rpx;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 20;
+  bottom: 0;
+}
+
+.visa_detail_bottom_box_left {
+  width: 168rpx;
+  text-align: center;
+}
+
+.visa_detail_bottom_box_left image {
+  width: 48rpx;
+  height: 48rpx;
+  display: block;
+  margin: 10rpx auto;
+}
+
+.visa_detail_bottom_box_left text {
+  display: block;
+  color: #aaa;
+  font-size: 24rpx;
+}
+
+.visa_detail_bottom_btn {
+  width: 560rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  font-size: 32rpx;
+  margin: 0 20rpx 0 0;
+}
+
+.flow_box_cont {
+  padding: 40rpx 0 0 20rpx;
+}
+
+.flow_box_cont_p {
+  border-left: 1px dashed #f98483;
+  position: relative;
+  padding: 40rpx 0;
+}
+
+.flow_box_cont_p_icon {
+  background: #f98483;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 34rpx;
+  color: #fff;
+  font-size: 24rpx;
+  text-align: center;
+  line-height: 34rpx;
+  position: absolute;
+  left: -16rpx;
+  top: -1rpx;
+}
+
+.flow_box_cont_p_title {
+  font-size: 30rpx;
+  color: #444;
+  left: 30rpx;
+  display: block;
+  position: absolute;
+  top: -5rpx;
+}
+
+.flow_box_cont_p_tex {
+  margin: 0 0 0 30rpx;
+  font-size: 28rpx;
+  color: #aaa;
+  display: block;
+}
+
+.no_border {
+  border: none;
+}
+
+.photo_box_cont {
+  margin-top: 40rpx;
+  width: 100%;
+}
+
+.photo_box_cont image {
+  width: 100%;
+}
+
+.excemple_btn {
+  font-size: 26rpx;
+  color: #ff5a60;
+  width: 138rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+
+.visa_detail_bom_btn_box {
+  position: fixed;
+  height: 110rpx;
+  bottom: 0;
+  left: 20rpx;
+  z-index: 99;
+  width: calc(100% - 40rpx);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.visa_detail_botm_send {
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 30rpx;
+  z-index: 100;
+  position: absolute;
+  top: 10rpx;
+  width: 100%;
+  right: 0;
+}
+
+.visa_detail_botm_input input {
+  background: #f3f4f6;
+  height: 90rpx;
+  line-height: 90rpx;
+  padding-left: 20rpx;
+  color: #444;
+  width: 76%;
+  top: 10rpx;
+  position: absolute;
+  font-size: 30rpx;
+}
+
+/*办理时长*/
+
+.pop_box_text_cont.howlong {
+  padding: 40rpx 20rpx 60rpx;
+}
+
+.pop_box_text_cont.howlong .pop_box_text_cont_top {
+  margin-bottom: 20rpx;
+}
+
+/*办理方式*/
+
+.visa_deatil_money_original{
+  font-size: 24rpx;
+  color: #aaa;
+  text-decoration: line-through;
+}
+
+.pop_white_cont.processing {
+  padding: 45rpx 40rpx;
+}
+
+/*开始办理 - 出行信息*/
+
+.pop_white_cont.travel_info {
+  padding-top: 0;
+}
+
+.od_li {
+  padding: 0 20rpx 20rpx;
+}
+
+.od_li_tit {
+  padding: 40rpx 0;
+  font-size: 44rpx;
+  color: #444;
+}
+
+.od_li_out {
+  height: 90rpx;
+  line-height: 90rpx;
+  padding: 0 0 0 30rpx;
+  font-size: 28rpx;
+  border: 1rpx solid #e9e9e9;
+  border-radius: 6rpx;
+  display: flex;
+  align-items: center;
+}
+
+.od_li_out picker {
+  flex: 1;
+}
+
+.od_li_out .pselect {
+  min-height: auto;
+  line-height: normal;
+}
+
+.od_li_add {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 78rpx;
+  font-size: 28rpx;
+}
+
+.od_li_cli {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+  border: 1rpx solid #e9e9e9;
+  border-radius: 6rpx;
+}
+
+.od_li_apply .od_li_cli:first-child .od_li_del {
+  /*display: none;*/
+}
+
+.od_li_clicont {
+  flex: 1;
+  padding: 0 30rpx;
+}
+
+.od_li_nli {
+  display: flex;
+  align-items: center;
+  height: 90rpx;
+  border-top: 1rpx solid #e9e9e9;
+}
+
+.od_li_cli .od_li_nli:first-child {
+  border-top: 0;
+}
+
+.od_li_n {
+  color: #aaa;
+  font-size: 30rpx;
+  padding-right: 40rpx;
+}
+
+.od_li_c {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.od_li_c .pselect:after {
+  right: 0;
+}
+
+.od_li_del {
+  box-sizing: border-box;
+  text-align: center;
+  width: 120rpx;
+  height: 110rpx;
+  border-left: 1rpx solid #e9e9e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.visa_deatil_fee{
+  margin-right: 0;
+}

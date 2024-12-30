@@ -1,0 +1,10 @@
+/* pages/apply/photo/idcard-reada.wxss */
+@import "/pages/apply/photo/passport.wxss";
+page{
+    padding-bottom: 110rpx;
+    background: #fff;
+}
+
+.page_btn_bottom_box{
+  border-top: 0;
+}

@@ -1,0 +1,47 @@
+/* pages/apply/photo/photo.wxss */
+@import "/pages/apply/photo/passport.wxss";
+.swiper-item{
+  display: block;
+  height: 150px;
+}
+.photo_pop{
+  position: absolute;
+  top:50rpx;
+  left: 50%;
+}
+.pop_box{
+  width: 640rpx;
+}
+swiper{
+  display: block;
+  height: 890rpx;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10rpx 10rpx 0;
+}
+swiper image{
+    height: 830rpx;
+}
+.wx-swiper-dots.wx-swiper-dots-horizontal{
+  margin-bottom: -15rpx;
+}
+.wx-swiper-dot{
+    box-sizing: border-box;
+    background: transparent; 
+}
+.wx-swiper-dot::before{
+    content: " ";
+    border-radius: 50%;
+    color: #fff;      
+    text-shadow: 0 0 1px #ff5a60;
+}
+.wx-swiper-dot.wx-swiper-dot-active::before{
+    color: #ff5a60;
+}
+.photo_have .certificate_example_box{
+  height: 414rpx;
+}
+.photo_have .passport{
+  width: 300rpx;
+  height: 414rpx;
+}

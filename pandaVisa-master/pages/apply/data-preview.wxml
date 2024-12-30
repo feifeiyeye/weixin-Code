@@ -1,0 +1,14 @@
+
+<!--pages/apply/data-preview.wxml-->
+<view class="wrap_preview">
+  <canvas class="croper" disable-scroll="true" 
+  bindtouchstart="touchStart" 
+  bindtouchmove="touchMove" 
+  bindtouchend="touchEnd" 
+  style="width:100%;height:82%;" 
+  canvas-id="cropper" />
+</view>
+<view class="preview_btn">
+  <button class="del" catchtap="delPhoto">删除</button>
+  <button class="resetPhoto" catchtap="resetPhoto">重新拍摄</button>
+</view>

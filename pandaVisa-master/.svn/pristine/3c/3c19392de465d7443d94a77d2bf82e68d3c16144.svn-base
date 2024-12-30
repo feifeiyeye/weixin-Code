@@ -1,0 +1,49 @@
+/* pages/apply/photo/idcard-readb.wxss */
+@import "/pages/apply/photo/passport.wxss";
+@import "/pages/apply/photo/idcard-reada.wxss";
+
+.check_li_icon-checked {
+  top: 0;
+  left: 0;
+}
+
+.check_li_icon {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 4rpx;
+}
+
+.check_li_icon-checked {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 4rpx;
+}
+
+.check_li_icon-checked image {
+  position: absolute;
+  top: -1rpx;
+  left: -1rpx;
+}
+
+.check_li_text {
+  margin-left: 20rpx;
+}
+
+.pselect:after {
+  top: 6rpx;
+}
+
+.read_info_cont {
+  border-right: 1rpx solid #f0f0f0;
+}
+
+.select {
+  position: relative;
+  padding-right: 50rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+  min-height: 30px;
+  line-height: 30px;
+}

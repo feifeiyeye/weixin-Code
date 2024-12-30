@@ -1,0 +1,69 @@
+<include src="../../public/footer.wxml" />
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="read_img">
+  <image src="{{idCardB.url}}" mode="aspectFit"></image>
+</view>
+<form bindsubmit="saveInfo" bindreset="formReset" report-submit="true">
+  <view class="read_info">
+    <view class="read_info_li {{warning.issue_authority}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">签发机关</view>
+        <view class="read_info_cc">
+          <view class="section">
+            <input placeholder="签发机关" maxlength="15" id="issue_authority" bindinput="inputValue" value="{{idCardB.issue_authority}}" placeholder-class="pcolor" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="read_info_li {{warning.start_date}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">有效期限</view>
+        <view class="read_info_cc">
+          <view class="section">
+            <picker mode="date" id="start_date" value="{{start_date}}" start="1900-09-01" end="2100-12-31" bindchange="bindDateChange">
+              <view class="picker pselect">
+                {{idCardB.start_date}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="read_info_li {{warning.end_date}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">至</view>
+        <view class="read_info_cc">
+          <view class="section">
+            <picker mode="date"  disabled="{{longDisabled}}" id="end_date" value="{{end_date}}" start="1900-09-01" end="2100-12-31" bindchange="bindDateChange">
+              <view class="picker {{dateClass}}">
+                {{idCardB.end_date}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="read_info_cont" style="padding-left:45rpx;flex:0.5;">
+        <checkbox-group bindchange="checkboxChange" class="read_info_cc">
+          <view class="check_li" wx:for="{{idCheckBox}}">
+            <label>
+              <checkbox hidden checked="{{item.checked}}" value="long"></checkbox>
+              <view class="check_li_icon">
+                <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}">
+                  <image style="width:28rpx;height:28rpx;" src="{{item.checked ? '/image/checkbox.png': '/image/checkbox-no.png'}}"></image>
+                </view>
+              </view>
+              <text class="check_li_text">{{item.value}}</text>
+            </label>
+          </view>
+        </checkbox-group>
+      </view>
+    </view>
+  </view>
+  <view class="page_btn_bottom_box ">
+    <view class="apply_submit">
+      <button formType="submit" class="apply_subtn btn_red">信息正确，保存上传</button>
+    </view>
+  </view>
+</form>

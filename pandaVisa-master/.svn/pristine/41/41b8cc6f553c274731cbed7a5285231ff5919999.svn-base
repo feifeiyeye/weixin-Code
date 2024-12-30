@@ -1,0 +1,3 @@
+/* pages/apply/photo/passport-reada.wxss */
+@import "/pages/apply/photo/passport.wxss";
+@import "/pages/apply/photo/idcard-reada.wxss";

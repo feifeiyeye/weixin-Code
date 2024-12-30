@@ -1,154 +1,180 @@
 // pages/list/list.js
-const app = getApp();
+const app = getApp()
+const fetch = app.fetch
+
+// 定义一个数组保存每个分类的高度
+const categoryPosition = []
+
+// 引入购物车动画模块
 const shopcartAnimate = require('../../utils/shopcartAnimate.js')
 
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    foodList: [],    
-    promotion: {},   
-    activeIndex: 0,  
-    tapIndex: 0,     
-    cart: {
-      price: 0,    // 购物车总价格
-      number: 0,   // 购物车总数量
-      list: [],    // 购物车商品列表
-      show: false, // 购物车显示状态
-    },
-    ball: {
-      show: false, // 是否显示购物车动画小球
-      x: 0,        // 小球的起始X坐标
-      y: 0,        // 小球的起始Y坐标
-      y2: 0,       // 小球的结束Y坐标
-    },
+    foodList: [],    // 菜单列表数据
+    promotion: {       // 优惠信息
+      full: 50,        // 满50元
+      minus: 10        // 减10元
+    },    
+    activeIndex: 0,    // 当前激活的菜单项索引
+    tapIndex: 0,       // 点击的菜单项索引
+    cartPrice: 0,      // 购物车总价
+    cartNumber: 0,     // 购物车商品总数
+    cartList: {},      // 购物车数据
     cartBall: {
       show: false,
       x: 0,
       y: 0
-    }
+    },
+    showCart: false  // 控制购物车界面显示
   },
 
-  onLoad() {
-    this.loadFoodList()
-    // 延迟初始化购物车动画，确保页面已渲染
-    wx.nextTick(() => {
-      this.cartAnimate = shopcartAnimate('.cart-icon', this)
+  // 是否禁止下一次scroll事件触发
+  disableNextScroll: false,
+
+  // 购物车动画对象
+  shopcartAnimate: null,
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function() {
+    wx.showLoading({
+      title: '努力加载中',
+      mask: true
     })
-  },
 
-  // 加载商品列表
-  async loadFoodList() {
-    try {
-      wx.showLoading({ title: '努力加载中' })
-      const data = await app.fetch('/food/list')
+    fetch('/food/list').then(data => {
+      wx.hideLoading()
       this.setData({
         foodList: data.list,
-        promotion: data.promotion[0] || {}
+        // 不再从接口获取 promotion 数据
+        // promotion: data.promotion[0]
       }, () => {
-        // 在 setData 的回调中执行，确保数据更新后再计算位置
-        wx.nextTick(() => {
-          this.calculateCategoryPositions()
+        // 获取右侧商品列表各分类的位置信息
+        const query = wx.createSelectorQuery()
+        let top = 0
+        let height = 0
+        
+        query.select('.food').boundingClientRect(rect => {
+          top = rect.top
+          height = rect.height
         })
+
+        query.selectAll('.food-category').boundingClientRect(res => {
+          res.forEach(rect => {
+            categoryPosition.push(rect.top - top - height/3)
+          })
+        })
+        query.exec()
       })
-    } catch (err) {
-      wx.showToast({
-        title: '加载失败，请重试',
-        icon: 'none'
-      })
-    } finally {
-      wx.hideLoading()
-    }
+    }, () => {
+      this.onLoad() // 失败时重试
+    })
+
+    // 初始化购物车动画
+    this.shopcartAnimate = shopcartAnimate('.operate-shopcart-icon', this)
   },
 
-  // 计算分类位置
-  calculateCategoryPositions() {
-    const query = wx.createSelectorQuery()
-    query.select('.food').boundingClientRect(rect => {
-      if (!rect) {
-        console.warn('未找到.food元素，将在onShow中重试')
-        return
-      }
-      const top = rect.top
-      const height = rect.height
-      
-      query.selectAll('.food-category').boundingClientRect(res => {
-        if (!res || !res.length) {
-          console.warn('未找到.food-category元素，将在onShow中重试')
-          return
-        }
-        this.categoryPosition = res.map(rect => 
-          rect.top - top - height / 3
-        )
-      }).exec()
-    }).exec()
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady() {
+
   },
 
-  // 点击分类
-  tapCategory(e) {
-    const { index } = e.currentTarget.dataset
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload() {
+
+  },
+
+  /**
+   * 页面相���事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh() {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom() {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {
+
+  },
+
+  // 点击左侧菜单项
+  tapCategory: function(e) {
+    this.disableNextScroll = true
+    const index = e.currentTarget.dataset.index
     this.setData({
       activeIndex: index,
       tapIndex: index
     })
-    this.disableNextScroll = true
   },
 
-  // 滚动监听
-  onFoodScroll: throttle(function(e) {
-    if (this.disableNextScroll) {
+  // 监听右侧商品列表滚动
+  onFoodScroll: function(e) {
+    // 如果是点击左侧菜单项触发的滚动，则忽略
+    if(this.disableNextScroll) {
       this.disableNextScroll = false
       return
     }
 
     const scrollTop = e.detail.scrollTop
-    const activeIndex = this.categoryPosition.findIndex(top => 
-      scrollTop >= top
-    )
+    let activeIndex = 0
 
-    if (activeIndex !== -1 && activeIndex !== this.data.activeIndex) {
+    // 根据滚动位置判断当前分类
+    categoryPosition.forEach((item, i) => {
+      if(scrollTop >= item) {
+        activeIndex = i
+      }
+    })
+
+    // 避免重复设置相同的激活项
+    if(activeIndex !== this.data.activeIndex) {
       this.setData({ activeIndex })
     }
-  }, 100),
-
-  // 添加到购物车
-  addToCart(e) {
-    const { category_index, food_index } = e.currentTarget.dataset
-    const food = this.data.foodList[category_index].food[food_index]
-    
-    // 执行动画
-    if (this.cartAnimate) {
-      this.cartAnimate.start(e)
-    }
-    
-    // 更新购物车
-    this.updateCart(food)
   },
 
-  // 显示购物车动画
-  showCartAnimation(x, y) {
-    const query = wx.createSelectorQuery()
-    query.select('.operate-shopcart-icon').boundingClientRect(res => {
-      this.setData({
-        'ball.show': true,
-        'ball.x': x,
-        'ball.y': y,
-        'ball.y2': res.top - y
-      })
+  // 添加商品到购物车
+  addToCart: function(e) {
+    const index = e.currentTarget.dataset.index
+    const category_index = e.currentTarget.dataset.category_index
+    const food = this.data.foodList[category_index].food[index]
+    const cartList = this.data.cartList
 
-      setTimeout(() => {
-        this.setData({ 'ball.show': false })
-      }, 500)
-    }).exec()
-  },
-
-  // 更新购物车数据
-  updateCart(food) {
-    const { cart } = this.data
-    const cartItem = cart.list[food.id]
-
-    if (cartItem) {
-      cartItem.number++
+    if (cartList[index]) {
+      // 商品已在购物车中，数量加1
+      ++cartList[index].number
     } else {
-      cart.list[food.id] = {
+      // 商品未在购物车中，新增商品
+      cartList[index] = {
         id: food.id,
         name: food.name,
         price: parseFloat(food.price),
@@ -156,104 +182,102 @@ Page({
       }
     }
 
+    // 更新购物车数据
     this.setData({
-      'cart.list': cart.list,
-      'cart.price': cart.price + parseFloat(food.price),
-      'cart.number': cart.number + 1
+      cartList,
+      cartPrice: this.data.cartPrice + cartList[index].price,
+      cartNumber: this.data.cartNumber + 1
+    })
+
+    // 播放小球动画
+    this.shopcartAnimate.start(e)
+  },
+
+  // 显示/隐藏购物车列表
+  showCartList: function() {
+    if (this.data.cartNumber > 0) {
+      this.setData({
+        showCart: !this.data.showCart
+      })
+    }
+  },
+
+  // 增加商品数量
+  cartNumberAdd: function(e) {
+    const id = e.currentTarget.dataset.id
+    const cartList = this.data.cartList
+    
+    // 增加数量
+    ++cartList[id].number
+    
+    // 更新数据
+    this.setData({
+      cartNumber: ++this.data.cartNumber,
+      cartList: cartList,
+      cartPrice: this.data.cartPrice + cartList[id].price
     })
   },
 
-  // 切换购物车显示
-  toggleCart() {
-    if (this.data.cart.number > 0) {
+  // 减少商品数量
+  cartNumberDec: function(e) {
+    const id = e.currentTarget.dataset.id
+    const cartList = this.data.cartList
+    
+    if (cartList[id]) {
+      const price = cartList[id].price
+      
+      if (cartList[id].number > 1) {
+        // 数量大于1时减少数量
+        --cartList[id].number
+      } else {
+        // 数量为1时删除商品
+        delete cartList[id]
+      }
+      
+      // 更新数据
       this.setData({
-        'cart.show': !this.data.cart.show
+        cartList: cartList,
+        cartNumber: --this.data.cartNumber,
+        cartPrice: this.data.cartPrice - price
       })
+      
+      // 当购物车为空时关闭购物车界面
+      if (this.data.cartNumber <= 0) {
+        this.setData({
+          showCart: false
+        })
+      }
     }
   },
 
   // 清空购物车
-  clearCart() {
+  cartClear: function() {
     this.setData({
-      cart: {
-        price: 0,
-        number: 0,
-        list: [],
-        show: false
-      }
+      cartList: {},      // 清空购物车列表
+      cartNumber: 0,     // 重置商品总数
+      cartPrice: 0,      // 重置总价格
+      showCart: false    // 隐藏购物车界面
     })
   },
 
-  // 修改商品数量
-  changeNumber(e) {
-    const { index, type } = e.currentTarget.dataset
-    const { cart } = this.data
-    const item = cart.list[index]
-    
-    if (!item) return
-
-    if (type === 'add') {
-      item.number++
-      this.setData({
-        'cart.list': cart.list,
-        'cart.price': cart.price + item.price,
-        'cart.number': cart.number + 1
-      })
-    } else {
-      item.number--
-      if (item.number === 0) {
-        delete cart.list[index]
-      }
-      this.setData({
-        'cart.list': cart.list,
-        'cart.price': cart.price - item.price,
-        'cart.number': cart.number - 1
-      })
+  // 跳转到订单确认页
+  order: function() {
+    if (this.data.cartNumber === 0) {
+      return
     }
-  },
-
-  // 提交订单
-  async submitOrder() {
-    if (this.data.cart.number === 0) return
     
-    try {
-      wx.showLoading({ title: '���在生成订单' })
-      const { order_id } = await app.fetch('/food/order', {
-        order: this.data.cart.list
-      }, 'POST')
-      
+    wx.showLoading({
+      title: '正在生成订单'
+    })
+    
+    fetch('/food/order', {
+      order: this.data.cartList
+    }, 'POST').then(data => {
       wx.navigateTo({
-        url: `/pages/order/checkout/checkout?order_id=${order_id}`
+        url: '/pages/order/checkout/checkout?order_id=' + data.order_id
       })
-    } catch (err) {
-      wx.showToast({
-        title: '提交订单失败，请重试',
-        icon: 'none'
-      })
-    } finally {
-      wx.hideLoading()
-    }
-  },
-
-  // 添加 onShow 生命周期方法
-  onShow() {
-    // 页面显示时重新计算位置
-    if (this.data.foodList.length > 0) {
-      wx.nextTick(() => {
-        this.calculateCategoryPositions()
-      })
-    }
+    }, () => {
+      this.order() // 失败时重试
+    })
   }
 })
-
-// 节流函数
-function throttle(fn, delay) {
-  let timer = null
-  return function(...args) {
-    if (timer) return
-    timer = setTimeout(() => {
-      fn.apply(this, args)
-      timer = null
-    }, delay)
-  }
-}

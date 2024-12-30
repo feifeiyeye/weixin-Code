@@ -1,0 +1,183 @@
+
+<!--pages/apply/apply-data.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="step">
+  <view class="step_cont" style="justify-content:{{space}}">
+    <block wx:for="{{step_name}}" wx:for-index="idx">
+      <view class="step_li {{step_class[idx]}}">
+        <view class="step_num">{{idx+1}}</view>
+        <view class="step_p">{{step_name[idx]}}</view>
+      </view>
+    </block>
+  </view>
+</view>
+<view class="process zlsc {{step1}}" id="zlsc">
+  <view class="apply_cells list sub">
+    <block wx:for="{{applicant}}">
+      <navigator url="/pages/apply/apply-data-b?order_applicant_id={{item.order_applicant_id}}&user_order_id={{order_detail.user_order_id}}">
+        <view class="apply_cell ">
+          <view class="apply_cell_pro">
+          </view>
+          <view class="apply_cell_n">
+            <view class="apply_sub_n">{{item.applicant_name}}</view>
+            <view class="apply_sub_z">{{identityName[item.material.identity_id]}}</view>
+          </view>
+          <view class="apply_cell_s wri right">资料上传</view>
+        </view>
+      </navigator>
+    </block>
+  </view>
+  <view class="page_btn_bottom_box ">
+    <view class="apply_submit" catchtap="nextStart">
+      <button class="apply_subtn btn_red" catchtap="nextStart">下一步</button>
+    </view>
+  </view>
+</view>
+<view class="process tsqb {{step2}}" id="tsqb">
+  <view class="apply_cells list">
+    <block wx:for="{{applicant}}">
+      <navigator url="/pages/apply/{{order_detail.country == '日本' ? 'apply' : (order_detail.country == '韩国' ? 'apply-korea' : (order_detail.country == '新加坡') ? 'apply-singapore': 'apply-singapore' )}}?order_applicant_id={{item.order_applicant_id}}&user_order_id={{url_params.user_order_id}}">
+        <view class="apply_cell">
+          <view class="apply_cell_n">
+            <view class="apply_sub_n">{{item.applicant_name}}</view>
+            <view class="apply_sub_z">{{identityName[item.material.identity_id]}}</view>
+          </view>
+          <view class="apply_cell_s wri right">填写申请表</view>
+        </view>
+      </navigator>
+    </block>
+    <view class="page_btn_bottom_box ">
+      <view class="apply_submit addzx">
+
+        <!--<modal class="modal zixun" hidden="{{modalHidden}}" bindconfirm="modalChange" bindcancel="modalChange" cancelColor="#aaa" confirmColor="#f98483" confirmText="呼叫">
+          <view>0755-86962269</view>
+          <view>（周一至周日 9:00-18:00）</view>
+        </modal>-->
+        <view class="serv_btn" catchtap="callPhone">
+          <image src="http://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/consultation.png" catchtap="callPhone" /> 咨询
+        </view>
+        <button class="apply_subtn btn_red" catchtap="next2">下一步</button>
+      </view>
+    </view>
+  </view>
+</view>
+<form bindsubmit="submitPay" bindreset="formReset" report-submit="true">
+  <view class="process ddqr {{step3}}" id="ddqr">
+    <view class="re_order">
+      <view class="addr_border">
+        <block wx:for="{{borderColor}}" wx:for-item="val">
+          <view class="bg_{{val}}"></view>
+        </block>
+      </view>
+      <view class="re_order_addr">
+        <block wx:if="{{userAddress.addressee}}">
+          <view class="addr_li" catchtap="addAddress">
+            <view class="addr_cont" id="{{userAddress.user_address_id}}" catchtap="addAddress">
+              <view class="addr_line" catchtap="addAddress">
+                <text class="addr_name" catchtap="addAddress">{{userAddress.addressee}}</text>
+                <text class="addr_tel" catchtap="addAddress">{{userAddress.mobile_phone}}</text>
+              </view>
+              <text class="addr_addr" catchtap="addAddress">{{userAddress.detail_address}}</text>
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <button class="re_order_addbtn" catchtap="addAddress">
+            请添加收货地址
+          </button>
+        </block>
+      </view>
+      <view class="my_order_box">
+        <view class="order_contry">
+          <image src="{{order_detail.national_flag_img}}"></image>
+          <text>{{order_detail.visa_product_name}}</text>
+          <text class="order_result_text">¥{{applicant[0].sell_price/100}} X {{applicant.length}}</text>
+        </view>
+        <block wx:for="{{applicant}}">
+          <view class="order_name_box">
+            <text class="order_name">{{item.applicant_name}}</text>
+            <text class="order_job">{{identityName[item.material.identity_id]}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="order_tic">
+        <view class="order_tic_tit">
+          <text class="order_name">开具发票</text>
+          <block wx:if="{{sysConfig.invoice_price}}">
+            <text class="font_d">(快递费¥{{sysConfig.invoice_price / 100}})</text>
+          </block>
+          <block wx:else>
+            <text class="font_d">(快递费¥10)</text>
+          </block>
+          <checkbox-group class="group" bindchange="noChange">
+            <view class="check_li" wx:for="{{noItems}}">
+              <label>
+                <checkbox hidden checked="{{item.checked}}"></checkbox>
+                <view class="check_li_icon">
+                  <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}">
+                    <icon type="success" size="22" color="#ff5a60" />
+                  </view>
+                  <text class="check_li_text">{{item.value}}</text>
+                </view>
+              </label>
+            </view>
+          </checkbox-group>
+        </view>
+        <view class="order_tic_con {{invoice}}">
+          <view class="order_tic_cli">
+            <text>类型</text>
+            <view class="order_tic_ccon">
+              <radio-group class="group" bindchange="radioChange">
+                <view class="check_li check_li_bb" wx:for="{{radioItems}}">
+                  <label>
+                    <radio id="{{item.name}}" hidden value="{{item.value}}" checked="{{item.checked}}"></radio>
+                    <view class="check_li_icon">
+                      <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}"></view>
+                    </view>
+                    <text class="check_li_text">{{item.value}}</text>
+                  </label>
+                </view>
+              </radio-group>
+            </view>
+          </view>
+          <view class="order_tic_cli">
+            <text>抬头</text>
+            <view class="order_tic_ccon">
+              <view class="section">
+                <input type="text" name="invoice_header" value="{{invoice_header}}" bindinput="inputInvoice" placeholder="请输入抬头" placeholder-style="color:#d7d7d7;" />
+              </view>
+            </view>
+          </view>
+          <text class="order_tic_span">说明：所开发票为增值税普通发票，金额为实际支付商品费用，内容为代办签证费。</text>
+        </view>
+      </view>
+      <view class="re_order_footer">
+        <view class="re_order_pp">
+          <checkbox-group class="group" bindchange="checkboxChange">
+            <view class="check_li check_small" wx:for="{{checkboxItems}}">
+              <label>
+                <checkbox hidden value="{{item.name}}" checked="{{item.checked}}"></checkbox>
+                <view class="check_li_icon">
+                  <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}">
+                    <icon type="success" size="16" color="#ff5a60" />
+                  </view>
+                  <icon type="success" size="16" color="#e2e2e2" />
+                </view>
+                <text class="check_li_text">{{item.value}}</text>
+              </label>
+            </view>
+          </checkbox-group>
+        </view>
+        <text>熊猫签证Visa Care服务协议</text>
+      </view>
+    </view>
+    <view class="page_btn_bottom_box ">
+      <view class="apply_submit">
+        <button formType="submit" class="apply_subtn btn_red">¥{{pay_price/100}} ｜立即支付</button>
+      </view>
+    </view>
+  </view>
+</form>
+<include src="../public/footer.wxml" />

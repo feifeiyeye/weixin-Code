@@ -1,0 +1,95 @@
+
+<!--pages/apply/photo/photo.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<block wx:if="{{uploadStatus == true}}">
+  <view class="certificate_page photo_have ">
+    <view class="certificate_example_box">
+      <view class="certificate_example_box_warp hide"></view>
+      <button class="certificate_small_btn"  wx:if="{{((curr_applicant.id_photo.id_photo_status == 2||curr_applicant.id_photo.id_photo_status == 3 || order_detail.order_status == 1) && (curr_applicant.applicant_status == 2))  || order_detail.order_status == 1 }}" bindtap="photoSelect">
+        <view>
+          <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" bindtap="photoSelect" class="camera_img"></image>
+        </view>
+      </button>
+      <image catchtap="previewImg" src="{{photoStart}}" class="passport" mode="aspectFit"></image>
+      <view class="certificate_example_box_stat" wx:if="{{curr_applicant.id_photo.id_photo_status == 3}}">
+      <image catchtap="previewImg" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+    </view>
+    <view class="certificate_example_box_stat" wx:if="{{curr_applicant.id_photo.id_photo_status == 0}}">
+      <image catchtap="previewImg" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/pass.png"></image>
+    </view>
+    </view>
+  </view>
+</block>
+<block wx:elif="{{uploadStatus == false}}">
+  <view class="certificate_page">
+    <button class="certificate_btn passport" bindtap="photoSelect">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" bindtap="photoSelect" class="camera_img"></image>
+    </button>
+  </view>
+</block>
+<view class="photo_span">
+  <view class="photo_span_c">
+    <text class="screen_line_mail" catchtap="openPopup" id="mail_info">?</text>
+    <text catchtap="openPopup" id="mail_info">拍摄指南</text>
+  </view>
+</view>
+<view class="certificate_ps_top" wx:if="{{curr_applicant.id_photo.id_photo_status == 3}}">
+  <view class="certificate_ps">
+    <text class="certificate_ps_title">预审不合格</text>
+    <block wx:for="{{curr_applicant.id_photo.memoArr}}">
+      <view class="certificate_ps_line">
+        <view class="icon_li_p"></view>
+        <text>{{item}}</text>
+      </view>
+    </block>
+  </view>
+</view>
+<view class="certificate_ps">
+  <text class="certificate_ps_title">资料要求</text>
+  <view class="certificate_ps_line">
+    <view class="icon_li_p"></view>
+    <text>注意光线均匀</text>
+  </view>
+  <view class="certificate_ps_line">
+    <view class="icon_li_p"></view>
+    <text>不要佩戴眼镜</text>
+  </view>
+  <view class="certificate_ps_line">
+    <view class="icon_li_p"></view>
+    <text>正对镜头，双耳漏出</text>
+  </view>
+  <view class="certificate_ps_line">
+    <view class="icon_li_p"></view>
+    <text>注意纯白墙做背景</text>
+  </view>
+  <view class="certificate_ps_line">
+    <view class="icon_li_p"></view>
+    <text>避免衣服与背景色相同</text>
+  </view>
+</view>
+
+<!--弹出层开始-->
+<view class="pop_warp {{bg_hide}}" id="bg_hide" catchtap="closePopup">
+  <view class="pop_close_box">
+    <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/close.png"></image>
+  </view>
+</view>
+<view class="pop_box photo_pop {{mail_info}}">
+  <view class="pop_swiper">
+    <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{imgUrls}}">
+        <swiper-item>
+          <image src="{{item}}" class="slide-image" width="355" height="150" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>
+<view class="page_btn_bottom_box " wx:if="{{curr_applicant.id_photo.id_photo_status != 0}}">
+  <view class="apply_submit" catchtap="submit">
+    <view class="apply_subtn btn_red" catchtap="submit">提交</view>
+  </view>
+</view>
+<include src="../../public/footer.wxml" />

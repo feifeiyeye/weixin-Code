@@ -1,0 +1,17 @@
+<template name="popup">
+  <view class="pop_warp {{hide}}" catchtap="closePopup">
+    <view class="pop_close_box">
+      <icon type="cancel" color="#fff" size="32"></icon>
+    </view>
+  </view>
+  <view class="{{class_name}} {{hide}}">
+    <view class="pop_box_title_box">
+      <text class="pop_box_title">长期居住地{{city_data}}</text>
+    </view>
+    <view class="pop_box_cont" scroll-y="true">
+      <block wx:for-items="{{['北京', '天津', '上海']}}" wx:key="index">
+        <view catchtap="selectCity" class="11" data="{{index}}"><text>{{item}}</text></view>
+      </block>
+    </view>
+  </view>
+</template>

@@ -1,0 +1,8 @@
+/* pages/apply/photo/idcard.wxss */
+@import "/pages/apply/photo/passport.wxss";
+page{
+    padding-bottom: 110rpx;
+}
+.certificate_btn::after{
+    border: 0;
+}

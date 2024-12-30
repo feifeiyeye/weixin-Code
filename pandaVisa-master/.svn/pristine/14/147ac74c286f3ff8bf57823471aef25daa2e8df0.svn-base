@@ -1,0 +1,227 @@
+<include src="../../public/footer.wxml" />
+<!--pages/apply/photo/passport-reada.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="read_img">
+  <image src="{{passPort.url}}" mode="aspectFit"></image>
+</view>
+<form bindsubmit="submit" bindreset="formReset" report-submit="true">
+<view class="read_info">
+  <view class="read_info_li {{warning.name}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">中文姓名</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="填写姓名" maxlength="15" id="name" value="{{passPort.name}}" bindinput="name_input" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.name_en}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">姓(拼音)</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="姓(拼音)" bindinput="en_name_input" maxlength="50" id="name_en" value="{{passPort.name_en}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.name_en_last}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">名(拼音)</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="名(拼音)" maxlength="50" bindinput="en_name_input" id="name_en_last" value="{{passPort.name_en_last}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.sex}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">性别</view>
+      <view class="read_info_cc">
+        <picker bindchange="bindPickerChangeSex" value="{{passPort.sex}}" range="{{sexy}}">
+          <view class="picker pselect">
+            {{sexy[passPort.sex]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.passport_number}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">护照号</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="护照号" maxlength="50" id="passport_number" bindinput="inputVal" value="{{passPort.passport_number}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.birthday}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">出生日期</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <picker mode="date" value="{{passPort.birthday}}"  id="birthday" start="1900-01-01" end="2039-01-01" bindchange="bindDateChange">
+            <view class="picker pselect">
+              {{passPort.birthday}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.birthplace}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">出生地点</view>
+      <view class="read_info_cc">
+        <picker bindchange="bindPickerChangeArea"  id="birthplace" value="{{passPort.birthplace}}" range="{{area}}">
+          <view class="picker pselect">
+            {{area[passPort.birthplace]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <block wx:if="{{birthplace_other}}">
+  <view class="read_info_li {{warning.birthplace_other}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">其他出生地点</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="其他出生地点" maxlength="50" bindinput="other_input" id="birthplace_other" value="" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  </block>
+  <view class="read_info_li {{warning.birthplace_en}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">出生地点英文</view>
+      <view class="read_info_cc">
+        <picker bindchange="bindPickerChangeArea" id="birthplace_en"  value="{{passPort.birthplace}}" range="{{area_en}}">
+          <view class="picker pselect">
+            {{area_en[passPort.birthplace]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <block wx:if="{{birthplace_other}}">
+  <view class="read_info_li  {{warning.birthplace_other_en}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">其它出生地点英文</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="其它出生地点英文" id="birthplace_other_en" bindinput="other_input" maxlength="50" value="" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  </block>
+  <view class="read_info_li  {{warning.issue_place}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">签发地点</view>
+      <view class="read_info_cc">
+        <picker bindchange="bindPickerChangeArea"  id="issue_place" value="{{passPort.issue_place}}" range="{{area}}">
+          <view class="picker pselect">
+            {{area[passPort.issue_place]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <block wx:if="{{issue_place_other}}">
+  <view class="read_info_li {{warning.issue_place_other}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">其他签发地点</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="其他签发地点"  id="issue_place_other" bindinput="other_input" maxlength="50" value="" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  </block>
+  <view class="read_info_li {{warning.issue_place_en}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">签发地点英文</view>
+      <view class="read_info_cc">
+        <picker bindchange="bindPickerChangeArea" id="issue_place_en" value="{{passPort.issue_place_en}}" range="{{area_en}}">
+          <view class="picker pselect">
+            {{area_en[passPort.issue_place_en]}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <block wx:if="{{issue_place_other}}">
+  <view class="read_info_li {{warning.issue_place_other_en}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">其他签发地点英文</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="其他签发地点英文"  id="issue_place_other_en" bindinput="other_input" maxlength="50" value="" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  </block>
+  <view class="read_info_li {{warning.issue_date}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">签发日期</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <picker mode="date" value="{{passPort.issue_date}}"  id="issue_date" start="1900-01-01" end="2039-01-01" bindchange="bindDateChange">
+            <view class="picker pselect">
+              {{passPort.issue_date}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.validity}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">有效期至</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <picker mode="date" value="{{passPort.validity}}" id="validity" start="1900-01-01" end="2039-01-01" bindchange="bindDateChange">
+            <view class="picker pselect">
+              {{passPort.validity}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.issuing}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">签发机关</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="公安部出入境管理局" maxlength="50" bindinput="inputVal" id="issuing" value="{{passPort.issuing}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li {{warning.issuing_en}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">签发机关英文</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="MPS EXIT & ENTRY ADMINISTRATION" bindinput="inputVal" id="issuing_en" maxlength="50" value="{{passPort.issuing_en}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="page_btn_bottom_box ">
+  <view class="apply_submit" >
+    <button formType="submit" class="apply_subtn btn_red">信息正确 保存提交</button>
+  </view>
+</view>
+</form>

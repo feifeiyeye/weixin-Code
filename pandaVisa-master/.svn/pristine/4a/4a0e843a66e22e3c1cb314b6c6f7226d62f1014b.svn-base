@@ -1,0 +1,19 @@
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="container">
+<block wx:for="{{commentList}}" wx:key="key">
+  <view class="comm_line">
+    <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/default_head.png" class="comm_line_pic"></image>
+    <view class="comm_cont_box">
+      <text class="comm_cont_name">{{item.mobile_phone}}</text>
+      <text class="comm_cont_text">{{item.content}}</text>
+      <text class="comm_cont_time">{{item.create_time}}</text>
+      <view class="comm_cont_xx">
+        <import src="/pages/component/rater/rater" />
+        <template is="rater" data="{{...item.rater}}" />
+      </view>
+    </view>
+  </view>
+  </block>
+</view>

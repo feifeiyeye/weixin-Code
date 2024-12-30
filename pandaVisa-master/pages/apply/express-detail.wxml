@@ -1,0 +1,30 @@
+<view class="warp_express">
+  <view class="express_header">
+    <view class="express_status_title">
+      <text>物流状态：</text>
+      <text class="express_status_desc">{{express_detail.status}}</text>
+    </view>
+    <view class="express_desc">
+      <text>快递公司：</text>
+      <text>{{express_detail.express_name}}</text>
+    </view>
+    <view class="express_desc">
+      <text>快递单号：</text>
+      <text>{{express_detail.tracking_number}}</text>
+    </view>
+    <view class="express_desc">
+      <text>官方电话：</text>
+      <text>{{express_detail.official_phone}}</text>
+    </view>
+  </view>
+  <view class="hr"></view>
+  <view class="express_body">
+   <block wx:for="{{express_detail.data}}">
+    <view class="express_item">
+      <text class="express_item_title">{{item.context}}</text>
+      <text class="express_item_time">{{item.ftime}}</text>
+    </view>
+    </block>
+  </view>
+</view>
+<include src="../public/footer.wxml" />

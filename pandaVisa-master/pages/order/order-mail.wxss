@@ -1,0 +1,139 @@
+/* pages/order/order-mail.wxss */
+@import "/pages/order/order-detail.wxss";
+.order_mail_ps {
+  font-size: 32rpx;
+  color: #6f6f6f;
+  display: block;
+  text-align: center;
+}
+
+.order_mail_send_btn {
+  width: 320rpx;
+  text-align: center;
+  height: 90rpx;
+  line-height: 90rpx;
+  display: block;
+  color: #fff;
+  border-radius: 5rpx;
+  margin: 30rpx auto 0;
+  font-size: 28rpx;
+  background: #ff5a60;
+}
+
+.order_mail_postline {
+  padding: 50rpx 20rpx 0;
+  position: relative;
+}
+
+.order_mail_postline .name {
+  color: #6f6f6f;
+  font-size: 32rpx;
+  display: block;
+}
+
+.post {
+  font-size: 30rpx;
+  color: #6f6f6f;
+  display: block;
+  margin: 10rpx 0;
+}
+
+.order_mail_postline .ps {
+  font-size: 28rpx;
+  color: #bbb;
+}
+
+.order_mail_postline .more_excemple {
+  display: block;
+  color: #ff5a60;
+  font-size: 30rpx;
+  float:right;
+}
+
+.order_mail_postline_p .icon_li_p {
+  background: #bbb;
+  float: left;
+}
+
+.order_mail_postline_p text {
+  display: block;
+}
+.post_com_box{
+    width: 560rpx;
+    margin: 20rpx auto;
+    overflow: auto;
+}
+.post_com_box .post_com_title{
+    display: block; 
+    text-align: center;
+    font-size: 32rpx;
+    color: #aaaaaa;
+    margin-bottom: 20rpx;
+}
+
+.post_com_box .post_com_line{
+    width: 50%;
+    float: left;
+    margin: 10rpx 0;
+    text-align: center;
+    font-size: 30rpx;
+}
+
+/*订单申请人信息*/
+.order_human_cell {
+  position: unset;
+}
+
+.order_human_cell .pop_white_text_line_title {
+  font-size: 30rpx;
+  width: 100%;
+}
+
+.order_human_cell .pop_white_text_line_topbox_leftline {
+  top: 2rpx;
+}
+
+.order_human_namefen {
+  position: relative;
+  padding: 0 16rpx 0 10rpx;
+}
+
+.order_human_namefen:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 38rpx;
+  background: #bbb;
+  display: inline-block;
+}
+
+.order_human_cont {
+  position: relative;
+}
+
+.order_human_identity {
+  display: inline-flex;
+  justify-content: center;
+  color: #fff;
+  font-size: 22rpx;
+  background: #d4d4d4;
+  height: 32rpx;
+  text-align: center;
+  border-radius: 4rpx;
+  padding: 0 10rpx;
+}
+
+.order_human_cont .post:first-of-type {
+  padding-right: 140rpx;
+}
+.send_mail{
+    margin: 0 20rpx 40rpx;
+    background: #fff;
+    text-align: center;
+    padding: 35rpx 0;
+}
+.send_mail .pay_h2{
+    padding: 5rpx 0;
+}

@@ -1,0 +1,84 @@
+<include src="../../public/footer.wxml" />
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="read_img">
+  <image src="{{idCard.url}}" mode="aspectFit"></image>
+</view>
+<form bindsubmit="submit" bindreset="formReset" report-submit="true">
+  <view class="read_info">
+    <view class="read_info_li  {{warning.name}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">姓名</view>
+        <view class="read_info_cc">
+          <view class="section">
+            <input placeholder="填写姓名" maxlength="15" id="name" bindinput="inputValue" value="{{idCard.name}}" placeholder-class="pcolor" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="read_info_li {{warning.id_number}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">身份证号码</view>
+        <view class="read_info_cc">
+          <view class="section">
+            <input placeholder="身份证号码" maxlength="50" id="id_number" bindinput="inputValue" value="{{idCard.id_number}}" placeholder-class="pcolor" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="read_info_li {{warning.sex}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">性别</view>
+        <view class="read_info_cc">
+          <picker bindchange="bindPickerChange" value="{{idCard.sex}}" range="{{sexy}}">
+            <view class="picker pselect">
+              {{sexy[idCard.sex]}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="read_info_li {{warning.people}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">民族</view>
+        <view class="read_info_cc">
+          <picker bindchange="ethChange" value="{{idCard.people}}" range="{{ethData}}">
+            <view class="picker pselect">
+              {{ethData[idCard.people]}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="read_info_li {{warning.birthday}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">出生日期</view>
+        <view class="read_info_cc">
+          <view class="section">
+            <picker mode="date" value="{{idCard.birthday}}" start="1900-01-01" end="2039-01-01" bindchange="bindDateChange">
+              <view class="picker pselect">
+                {{idCard.birthday}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="read_info_li {{warning.address}}">
+      <view class="read_info_cont">
+        <view class="read_info_cn">地址</view>
+        <view class="read_info_cc">
+          <view class="section">
+            <input placeholder="地址" id="address" bindinput="inputValue" maxlength="50" value="{{idCard.address}}" placeholder-class="pcolor" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="page_btn_bottom_box ">
+    <view class="apply_submit" >
+      <button formType="submit" class="apply_subtn btn_red">提交</button>
+    </view>
+  </view>
+</form>

@@ -1,0 +1,363 @@
+/* pages/apply/photo/passport.wxss */
+
+page {
+  background: #f3f4f6;
+}
+
+.certificate_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #fff;
+  padding: 40rpx 0;
+}
+
+.certificate_example_box {
+  height: 320rpx;
+  margin-bottom: 40rpx;
+  position: relative;
+}
+
+.certificate_page .passport {
+  width: 520rpx;
+  height: 320rpx;
+}
+
+.certificate_page .idcard,
+.id_area_box .id_area_box_line .certificate_example_box {
+  width: 320rpx;
+  height: 200rpx;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.certificate_btn {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.certificate_btn::after {
+  border: 1px solid #ff5a60;
+}
+
+.certificate_btn .camera_img {
+  width: 86rpx;
+  height: 66rpx;
+}
+
+.certificate_ps_top {
+  background: #fff;
+  width: 100%;
+}
+
+.certificate_ps_top .certificate_ps {
+  background: #f9f8f6;
+}
+
+.certificate_ps_top .certificate_ps .certificate_ps_title {
+  color: #ff5a60;
+}
+
+.certificate_ps {
+  margin: 0 20rpx;
+  padding: 40rpx 20rpx;
+}
+
+.certificate_ps .certificate_ps_title {
+  color: #6f6f6f;
+  font-size: 30rpx;
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.certificate_ps_line {
+  font-size: 28rpx;
+  color: #aaa;
+}
+
+.certificate_ps_line .icon_li_p {
+  background: #aaa;
+  margin-right: 15rpx;
+  float:left;
+}
+
+.certificate_example_box_stat {
+  position: absolute;
+  z-index: 99;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.certificate_example_box_stat image {
+  width: 190rpx;
+  height: 190rpx;
+}
+
+.certificate_example_box_warp {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+
+.certificate_small_btn {
+  position: absolute;
+  width: 74rpx;
+  height: 74rpx;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 74rpx;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index:99;
+}
+
+.certificate_small_btn image {
+  width: 39rpx;
+  height: 30rpx;
+}
+
+.id_area_box {
+  width: 100%;
+}
+
+.id_area_box text {
+  font-size: 30rpx;
+  color: #6f6f6f;
+  padding-left: 20rpx;
+}
+
+.id_area_box .id_area_box_line {
+  display: flex;
+  margin: 40rpx 20rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.certificate_chos_box {
+  display: flex;
+  background: #fff;
+  margin-top: 30rpx;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20rpx;
+  height: 90rpx;
+}
+
+.certificate_chos_box text {
+  font-size: 30rpx;
+  color: #6f6f6f;
+}
+
+/*没有身份证*/
+
+.noshen_why {
+  background: #fff;
+  padding: 0 0 0 80rpx;
+  border-top: 1rpx solid #e9e9e9;
+}
+
+.noshen_why_li {
+  font-size: 28rpx;
+  color: #6f6f6f;
+}
+
+/*身份证读取*/
+
+.read_img {
+  background: #3a3a3a;
+  height: 416rpx;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.read_img image {
+  width: 546rpx;
+  height: 344rpx;
+  background: transparent;
+}
+
+.read_info {
+  padding-left: 20rpx;
+}
+
+.read_info_li {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 110rpx;
+  padding: 10rpx 10rpx 10rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.read_info_cont {
+  flex: 1;
+  width: 100%;
+}
+
+.read_info_cn {
+  font-size: 24rpx;
+  color: #aaa;
+  min-height: 36rpx;
+  line-height: 36rpx;
+}
+
+.read_info_cc {
+  font-size: 30rpx;
+  color: #444;
+  height: 54rpx;
+  line-height: 54rpx;
+}
+
+.read_info_cc input {
+  font-size: 30rpx;
+  color: #444;
+  height: 54rpx;
+}
+
+.pselect::after {
+  top: 0;
+}
+
+/*结婚证*/
+
+.id_area_box_line.marr .marr_img {
+  width: 308rpx;
+  height: 432rpx;
+}
+
+.photo_span {
+  padding: 20rpx 20rpx 30rpx 0;
+  font-size: 28rpx;
+  color: #ff5a60;
+  text-align: right;
+  background: #fff;
+}
+
+.photo_span_c {
+  display: inline-flex;
+  align-items: center;
+  height: 40rpx;
+}
+
+.photo_span .screen_line_mail {
+  border-color: #ff5a60;
+  color: #ff5a60;
+  margin-right: 15rpx;
+}
+.certificate_example_box.marrout,
+.certificate_example_box.marrout .passport{
+  width:308rpx !important; 
+  height:432rpx !important;
+}
+
+
+/*swiper滑动*/
+
+.pop_swiper {
+  width: 640rpx;
+  height: 920rpx;
+  background: #fff;
+}
+
+/*照片结果*/
+
+.photo_show {
+  display: flex;
+  padding: 0 46rpx;
+  height: 910rpx;
+  background: #f7f9fb;
+  box-sizing: border-box;
+}
+
+.photo_show image {
+  height: 100%;
+}
+
+.photo_resu{
+  padding: 40rpx 30rpx 0;
+}
+.photo_resu_li{
+  padding-bottom: 40rpx;
+  font-size: 28rpx;
+  color: #444;
+}
+.photo_resu_yn{
+  padding-left: 36rpx;
+  color: #6f6f6f;
+  margin-right: 20rpx;
+}
+.photo_resu_li.error .photo_resu_yn{
+  background: url(https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/bad%402x.png) 
+  no-repeat left;
+  background-size: 24rpx 24rpx;
+  color: #ff5a60;
+}
+.photo_resu_li.right .photo_resu_yn{
+  background: url(https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/good%402x.png) 
+  no-repeat left;
+  background-size: 24rpx 24rpx;
+}
+
+.photo_tip{
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  border-bottom: 1rpx solid #e9e9e9;
+}
+.photo_tip text{
+  font-size: 26rpx;
+  color: #6f6f6f;
+  margin-left: 20rpx;
+}
+.photo_view{
+  padding: 80rpx 0 0;
+ display: flex;
+ justify-content: center;
+}
+.photo_vimage{
+  width: 600rpx;
+  height: 600rpx;
+  padding: 8rpx 30rpx;
+  background: #fff;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, .1)
+}
+.photo_vimage image{
+  width: 100%;
+  height: 100%;
+}
+.account_page{
+  background: #fff;
+}
+.acc_photos{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 40rpx 10rpx 10rpx;
+}
+.acc_photo{
+  width: 340rpx;
+  height: 240rpx;
+  margin: 0 10rpx 30rpx;
+}
+.acc_photo image{
+  width: 100%;
+  height: 100%;
+}
+.acc_photo .certificate_btn{
+  height: 100%;
+}
+/*错误提示*/
+.read_info_li.warning .read_info_cn{
+  color: #ff5a60;
+}

@@ -1,0 +1,7 @@
+
+<!--pages/apply/photo/photo-check.wxml-->
+<view class="check_wrap">
+  <image style="width:{{width}}rpx;height:{{height}}rpx" src="{{src}}"></image>
+  <view class="cover"></view>
+</view>
+<image class="loading" src="/image/loading.png"></image>

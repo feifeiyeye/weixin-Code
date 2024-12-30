@@ -1,0 +1,66 @@
+
+<!--pages/order/order-info.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="od_go">
+  <button class="od_go_close">
+    <icon type="cancel" size="26" color="#ff5a60" />
+  </button>
+  <view class="od_li">
+    <view class="od_li_tit">预计出行信息</view>
+    <view class="od_li_cont">
+      <view class="od_li_out">
+        <picker mode="date" value="{{date}}" start="2015-09-01" end="2039-09-01" bindchange="bindDateChange">
+          <view class="picker pselect">
+            {{date}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class="od_li">
+    <view class="od_li_tit">申请人信息</view>
+    <view class="od_li_cont">
+      <button class="od_li_add hollow_btn_red" catchtap="newAddApply">+ 新增申请人</button>
+      <view class="od_li_apply">
+        <block wx:for="{{formArray}}" wx:for-index="idx" wx:for-item="item">
+          <block wx:if="{{item.show == 1}}">
+            <view class="od_li_cli">
+              <view class="od_li_clicont">
+                <view class="od_li_nli">
+                  <view class="od_li_n">中文姓名</view>
+                  <view class="od_li_c">
+                    <view class="section">
+                      <input placeholder="" bindinput="nameInput" id="input_{{idx}}" placeholder-class="pcolor" value="{{item.inputvalue}}" />
+                    </view>
+                  </view>
+                </view>
+                <view class="od_li_nli">
+                  <view class="od_li_n">旅客身份</view>
+                  <view class="od_li_c">
+                    <picker bindchange="bindPickerChange" id="picker_{{idx}}" value="{{item.jobIndex}}" range="{{jobid}}">
+                      <view class="picker pselect">
+                        {{jobid[item.jobIndex]}}
+                      </view>
+                    </picker>
+                  </view>
+                </view>
+              </view>
+              <block wx:if="{{idx > 0}}">
+                <button class="od_li_del" catchtap="delApply" id="btn_{{idx}}">
+                  <image style="width:44rpx;height:44rpx;" src="http://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/delete.png" />
+                </button>
+              </block>
+            </view>
+          </block>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="page_btn_bottom_box ">
+  <view class="apply_submit">
+    <button class="apply_subtn btn_red" catchtap="nextStart">下一步</button>
+  </view>
+</view>

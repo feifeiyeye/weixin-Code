@@ -1,0 +1,131 @@
+<include src="../public/footer.wxml" />
+
+<!--index.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<block wx:if="{{showLoading}}">
+  <loading>
+    加载中...
+  </loading>
+</block>
+<block wx:else>
+  <view class="order_warp1" wx:if="{{orderList.length <= 0 && userInfo}}">
+    <view class="no_order">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/noorder.png" mode="aspectFit"></image>
+      <text>想去世界看看？你只差一页签证</text>
+      <view class="no_order_btn" bindtap="goIndex">探索世界</view>
+    </view>
+  </view>
+  <view class="order_warp" wx:elif="{{userInfo && orderList.length > 0}}">
+    <block wx:for="{{orderList}}" wx:key="key">
+      <view class="my_order_line">
+        <block wx:if="{{item.order_status == 1 || item.order_status == 2}}">
+          <navigator url="{{item.url}}">
+            <view class="order_num_box">
+              <text class="order_num">订单号：{{item.user_order_id}}</text>
+              <text class="order_state " wx:if="{{item.order_status == 5}}">{{orderStatus[item.order_status]}}</text>
+              <text class="order_state font_r" wx:else>{{orderStatus[item.order_status]}}</text>
+            </view>
+            <view class="my_order_box">
+              <view class="order_contry">
+                <image src="{{item.national_flag_img}}"></image>
+                <text>{{item.visa_product_name}}</text>
+              </view>
+              <block wx:for="{{item.applicant}}" wx:for-item="applt">
+                <view class="order_name_box">
+                  <text class="order_name">{{applt.applicant_name}}</text>
+                  <text class="order_job">{{identityName[applt.identity_id]}}</text>
+                  <block wx:if="{{showStatus[item.order_status] > 0}}">
+                    <text class="order_result_text font_r" wx:if="{{applt.applicant_status ==2}}">{{identityApplyStatus[applt.applicant_status]}}</text>
+                    <text class="order_result_text" wx:else>{{identityApplyStatus[applt.applicant_status]}}</text>
+                  </block>
+                </view>
+              </block>
+            </view>
+          </navigator>
+        </block>
+        <block wx:else>
+          <navigator url="order-detail?user_order_id={{item.user_order_id}}">
+            <view class="order_num_box">
+              <text class="order_num">订单号：{{item.user_order_id}}</text>
+              <text class="order_state " wx:if="{{item.order_status == 5}}">{{orderStatus[item.order_status]}}</text>
+              <text class="order_state font_r" wx:else>{{orderStatus[item.order_status]}}</text>
+            </view>
+            <view class="my_order_box">
+              <view class="order_contry">
+                <image src="{{item.national_flag_img}}"></image>
+                <text>{{item.visa_product_name}}</text>
+              </view>
+              <block wx:for="{{item.applicant}}" wx:for-item="applt">
+                <view class="order_name_box">
+                  <text class="order_name">{{applt.applicant_name}}</text>
+                  <text class="order_job">{{identityName[applt.identity_id]}}</text>
+                  <block wx:if="{{showStatus[item.order_status] > 0}}">
+                    <text class="order_result_text font_r" wx:if="{{applt.applicant_status ==2}}">{{identityApplyStatus[applt.applicant_status]}}</text>
+                    <text class="order_result_text" wx:else>{{identityApplyStatus[applt.applicant_status]}}</text>
+                  </block>
+                </view>
+              </block>
+            </view>
+          </navigator>
+        </block>
+        <view class="order_line_bom">
+          <view class="order_money">
+            <text>合计：¥{{item.pay_amount/100}}</text>
+          </view>
+          <view class="order_line_bom_btnbox">
+            <block wx:if="{{item.order_status == 0}}">
+            </block>
+            <block wx:elif="{{item.order_status == 1}}">
+              <view catchtap="cancelOrder" id="{{item.user_order_id}}_{{item.order_status}}_view" class="order_cancel_btn hollow_btn_black">
+                <text catchtap="cancelOrder" id="{{item.user_order_id}}_{{item.order_status}}_text">取消订单</text>
+              </view>
+              <navigator url="{{item.url}}" class="order_upload_btn hollow_btn_red">
+                <text>上传资料</text>
+              </navigator>
+            </block>
+            <block wx:elif="{{item.order_status == 2}}">
+              <view catchtap="cancelOrder" id="{{item.user_order_id}}_{{item.order_status}}_view" class="order_cancel_btn hollow_btn_black">
+                <text catchtap="cancelOrder" id="{{item.user_order_id}}_{{item.order_status}}_text">取消订单</text>
+              </view>
+              <navigator url="{{item.url}}" class="order_upload_btn hollow_btn_red">
+                <text>填写申请表</text>
+              </navigator>
+            </block>
+            <block wx:elif="{{item.order_status == 3}}">
+              <view catchtap="cancelOrder" id="{{item.user_order_id}}_{{item.order_status}}_view" class="order_cancel_btn hollow_btn_black">
+                <text catchtap="cancelOrder" id="{{item.user_order_id}}_{{item.order_status}}_text">取消订单</text>
+              </view>
+              <view catchtap="payment" id="view_{{item.user_order_id}}" class="order_upload_btn hollow_btn_red">
+                <text catchtap="payment" id="text_{{item.user_order_id}}">立即付款</text>
+              </view>
+            </block>
+            <block wx:elif="{{item.order_status == 4}}">
+              <navigator url="order-detail?user_order_id={{item.user_order_id}}" class="order_mail_btn hollow_btn_red">
+                <text>填写快递信息</text>
+              </navigator>
+            </block>
+            <block wx:elif="{{item.order_status == 5 && item.applicant.length == 1 && item.applicant[0].applicant_status==2}}">
+
+              <!--<navigator url="{{item.url}}" class="order_mail_btn hollow_btn_red">
+                <text>修改资料</text>
+              </navigator>-->
+            </block>
+            <block wx:elif="{{item.order_status == 6}}">
+              <navigator class="order_pay_btn hollow_btn_red" url="/pages/apply/express-detail?user_order_id={{item.user_order_id}}" class="order_mail_btn hollow_btn_red">
+             
+                  <text>查看物流</text>
+      
+              </navigator>
+            </block>
+            <block wx:elif="{{item.order_status == 7}}">
+            </block>
+            <block wx:elif="{{item.order_status == 8}}">
+            </block>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</block>

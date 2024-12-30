@@ -1,0 +1,74 @@
+.page-body-wrapper {
+  margin-top: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 50rpx;
+  box-sizing: border-box;
+}
+
+.page-body-title {
+  font-size: 60rpx;
+  /*TODO 使用 rpx */
+  line-height: 100px;
+}
+
+.page-body-text {
+  color: #bbb;
+  font-size: 28rpx;
+  /*TODO 使用 rpx */
+  line-height: 20px;
+  margin: 0 0 100rpx 0;
+  text-align: center;
+}
+
+.page-body-button {
+  width: 100%;
+}
+
+.login_box {
+  margin: 100rpx 20rpx 0 20rpx;
+}
+
+.login_box_area {
+  margin-bottom: 60rpx;
+}
+
+.login_box_line {
+  align-items: center;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.login_box_line image {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 30rpx;
+}
+
+.login_box_line input {
+  width: 61%;
+  height: 100rpx;
+  color: #444;
+  font-size: 32rpx;
+}
+
+.login_box_line .placeholdertext {
+  font-size: #cfcfcf;
+}
+
+.login_btn {
+  margin-bottom: 40rpx;
+  height: 90rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login_for_pass {
+  color: #6f6f6f;
+  font-size: 28rpx;
+}

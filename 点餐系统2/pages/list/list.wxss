@@ -1,0 +1,260 @@
+/* pages/list/list.wxss */
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 折扣信息区域样式 */
+.discount {
+  width: 100%;
+  height: 70rpx;
+  line-height: 70rpx;
+  background: #fef9e6;
+  font-size: 28rpx;
+  text-align: center;
+  color: #999;
+}
+
+.discount-txt {
+  color: #fff;
+  padding: 5rpx 10rpx;
+  background: red;
+  margin-right: 15rpx;
+}
+
+/* 菜单列表区域样式 */
+.content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100vh - 70rpx); /* 减去折扣区域的高度 */
+}
+
+/* 左侧菜单栏样式 */
+.category {
+  width: 202rpx;
+  height: 100%;
+  background: #fcfcfc;
+  position: fixed;  /* 固定定位 */
+  left: 0;
+  top: 70rpx;  /* 从折扣区域下方开始 */
+  bottom: 0;
+  overflow-y: auto;
+}
+
+.category-item {
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  border-left: 6rpx solid transparent;
+}
+
+.category-item.active {
+  background: #fff;
+  border-left-color: #ff9c35;
+}
+
+/* 右侧商品列表样式 */
+.food {
+  flex: 1;
+  margin-left: 202rpx; /* 为左侧固定菜单留出空间 */
+  height: 100%;
+  overflow-y: auto;
+}
+
+.food-category {
+  font-size: 24rpx;
+  background: #f3f4f6;
+  padding: 10rpx;
+  color: #ff9c35;
+  position: sticky;  /* 分类标题吸顶 */
+  top: 0;
+  z-index: 1;
+}
+
+.food-item {
+  display: flex;
+  margin: 40rpx 20rpx;
+  align-items: center;  /* 垂直居中对齐 */
+}
+
+.food-item-pic {
+  width: 94rpx;
+  height: 94rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;  /* 防止图片被压缩 */
+}
+
+.food-item-pic image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8rpx;  /* 图片圆角 */
+}
+
+.food-item-info {
+  flex: 1;
+  font-size: 30rpx;
+}
+
+.food-item-price {
+  color: #f05a86;
+  margin-top: 14rpx;
+}
+
+.food-item-opt {
+  width: 50rpx;
+}
+
+/* 购物车底部区域 */
+.operate {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 110rpx;
+  display: flex;
+  background: #fff;
+  border-top: 1rpx solid #eee;
+}
+
+.operate-shopcart {
+  flex: 3;
+  display: flex;
+  align-items: center;
+  background: #353535;
+  padding: 0 20rpx;
+}
+
+.icon-cart {
+  font-size: 60rpx;
+  color: #87888E;
+  position: relative;
+}
+
+.icon-cart.active {
+  color: #FF9C35;
+}
+
+.icon-cart span {
+  position: absolute;
+  right: -15rpx;
+  top: -10rpx;
+  padding: 4rpx 12rpx;
+  font-size: 20rpx;
+  background: #FF4444;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.operate-submit {
+  flex: 1;
+  line-height: 110rpx;
+  text-align: center;
+  background: #eee;
+  color: #aaa;
+}
+
+.operate-submit.active {
+  background: #FF9C35;
+  color: #fff;
+}
+
+/* 购物车小球动画 */
+.cart-ball {
+  position: fixed;
+  width: 20rpx;
+  height: 20rpx;
+  background: #FF9C35;
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41);
+}
+
+/* 购物车列表面板 */
+.cart-list {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 110rpx;
+  background: #fff;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+}
+
+.cart-list.show {
+  transform: translateY(0);
+}
+
+.cart-list-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.cart-list-content {
+  max-height: 500rpx;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.cart-item .name {
+  flex: 1;
+}
+
+.cart-item .price {
+  width: 150rpx;
+  color: #FF4444;
+}
+
+.cart-item .number {
+  width: 200rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-item .minus,
+.cart-item .plus {
+  width: 50rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  border: 1rpx solid #eee;
+  border-radius: 50%;
+}
+
+/* 满减优惠样式 */
+.promotion {
+  position: fixed;
+  left: 0;
+  bottom: 110rpx;
+  width: 100%;
+  padding: 10rpx 0;
+  background: #FFCD9B;
+  color: #fff;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+/* 添加商品按钮样式 */
+.food-item-opt .icon-add {
+  display: block;
+  width: 50rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 40rpx;
+  color: #FF9C35;
+  border: 1rpx solid #FF9C35;
+}
+
+.food-item-opt .icon-add:before {
+  content: "+";
+}

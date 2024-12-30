@@ -1,0 +1,48 @@
+@import "/pages/component/rater/rater.wxss";
+
+.comm_line {
+  padding: 30rpx 22rpx 0;
+  padding-bottom: 22rpx;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+}
+
+.comm_line_pic {
+  width: 70rpx;
+  height: 70rpx;
+}
+
+.comm_cont_box {
+  flex: 1;
+  padding: 0 0 0 20rpx;
+  position: relative;
+}
+
+.comm_cont_name {
+  font-size: 32rpx;
+  color: #aaa;
+  display: block;
+  margin-top: 16rpx;
+}
+
+.comm_cont_text {
+  font-size: 30rpx;
+  color: #777;
+  display: block;
+  margin: 15rpx 0;
+}
+
+.comm_cont_time {
+  font-size: 24rpx;
+  color: #bebebe;
+  display: block;
+}
+.comm_cont_xx{
+    position: absolute;
+    right: 0;
+    top:18rpx;
+}
+.order_contry{
+    height: 100rpx;
+    border-bottom: 1px solid #f0f0f0;
+}

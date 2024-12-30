@@ -1,0 +1,39 @@
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="container hide">
+  <!--<template is="header" data="{{title: 'Login'}}" />-->
+  <view class="page-body ">
+    <view class="page-body-wrapper">
+      <block wx:if="{{hasLogin === true}}">
+        <text class="page-body-title">已登录</text>
+        <text class="page-body-text">每个微信号中仅需登录 1 次，后续每次进入页面即可根据微信 id 自动拉取用户信息</text>
+        <button class="page-body-button" type="primary" bindtap="logout">退出登录</button>
+      </block>
+      <block wx:if="{{hasLogin === false}}">
+        <text class="page-body-text">每个微信号中仅需登录一次</text>
+        <button class="page-body-button" type="primary" bindtap="login">微信登录</button>
+      </block>
+    </view>
+  </view>
+  <!--<template is="footer" />-->
+</view>
+<view class="login_box">
+  <view class="login_box_area">
+    <view class="login_box_line">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/login/phone.png"></image>
+      <input  placeholder-class="placeholdertext" type="number" value="{{phone}}" placeholder="手机号" bindinput="listenerPhoneInput" maxlength="11"/>
+    </view>
+    <view class="login_box_line">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/login/pwd.png"></image>
+      <input placeholder-class="placeholdertext" placeholder="密码" password="true"  maxlength="6" maxlength="20" bindinput="listenerPasswordInput" value="{{password}}"  />
+    </view>
+  </view>
+<button class="{{loginstyle}}" bindtap="{{loginbtnEvent}}">登录</button>
+  <navigator url="register">
+    <view class="login_btn hollow_btn_red">注册</view>
+  </navigator>
+  <navigator url="url">
+    <text class="login_for_pass">忘记密码？</text>
+  </navigator>
+</view>

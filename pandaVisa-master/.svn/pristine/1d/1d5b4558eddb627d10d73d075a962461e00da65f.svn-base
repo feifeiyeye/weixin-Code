@@ -1,0 +1,53 @@
+/* pages/apply/data-preview.wxss */
+
+page {
+  background: #000;
+  height: 100%;
+}
+
+swiper {
+  width: 100%;
+  align-items: center;
+}
+
+.swiperItem {
+  align-items: center;
+}
+.slide-image {
+  width: 100%;
+  align-items: center;
+}
+
+.wrap_preview {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.preview_btn{
+    position: fixed;
+    display: flex;
+    width:100%;
+    bottom: 0;
+    left: 0;
+    color:#fff;
+    padding: 20rpx;
+    box-sizing: border-box;
+}
+.preview_btn button{
+    font-size: 32rpx;
+}
+.resetPhoto{
+    background: #fff;
+    flex: 2;
+    margin-left: 20rpx;
+    color:#444;
+}
+.del{
+    flex:1;
+    color: #fff;
+    border: 1rpx solid #fff;
+}
+

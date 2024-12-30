@@ -1,0 +1,125 @@
+
+<!--pages/apply/photo/idcard.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="certificate_page">
+  <view class="id_area_box">
+    <text>身份证正面</text>
+    <view class="id_area_box_line">
+      <image src="{{idCardZSample}}" class="idcard"></image>
+      <button class="certificate_btn idcard {{btn_hide}}" style="{{borderStyle}}" id="F_Z" catchtap="selectRIdcard">
+        <image src="{{camera}}" class="camera_img"></image>
+      </button>
+      <view class="certificate_example_box {{cer_hide}}">
+        <button class="certificate_small_btn" id="S_Z" catchtap="selectRIdcard" wx:if="{{((curr_elec_id_info.upload[0].elec_status == 3 || curr_elec_id_info.upload[0].elec_status == 2) && curr_applicant.applicant_status == 2) || order_detail.order_status == 1 }}">
+          <view id="V_Z" catchtap="selectRIdcard">
+            <image id="IMG_Z" catchtap="selectRIdcard" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+          </view>
+        </button>
+        <image src="{{idCardZ}}" catchtap="previewImg" id="idCardZ_img" class="idcard" mode="aspectFit"></image>
+        <view class="certificate_example_box_stat" wx:if="{{curr_elec_id_info.upload[0].elec_status == 3}}">
+          <image catchtap="previewImg" id="idCardZ_notpass" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+        </view>
+        <view class="certificate_example_box_stat" wx:if="{{curr_elec_id_info.upload[0].elec_status == 0}}">
+          <image catchtap="previewImg" id="idCardZ_pass" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/pass.png"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="certificate_ps_top" wx:if="{{curr_elec_id_info.upload[0].memoArr && curr_elec_id_info.upload[0].elec_status == 3}}">
+    <view class="certificate_ps">
+      <text class="certificate_ps_title">预审不合格</text>
+      <block wx:for="{{curr_elec_id_info.upload[0].memoArr}}">
+        <view class="certificate_ps_line">
+          <view class="icon_li_p"></view>
+          <text>{{item}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view class="id_area_box">
+    <text>身份证反面</text>
+    <view class="id_area_box_line">
+      <image src="{{idCardRSample}}" class="idcard"></image>
+      <button class="certificate_btn idcard {{btn_r_hide}}" style="{{borderStyle}}" id="F_R" catchtap="selectRIdcard">
+        <image id="IMG_R" catchtap="selectRIdcard" src="{{camera}}" class="camera_img"></image>
+      </button>
+      <view class="certificate_example_box {{cer_r_hide}}">
+        <view class="img_camara_outline">
+          <button class="certificate_small_btn" id="S_R" catchtap="selectRIdcard" wx:if="{{((curr_elec_id_info.upload[1].elec_status == 3 || order_detail.order_status == 1  || curr_elec_id_info.upload[1].elec_status == 2)&& (curr_applicant.applicant_status == 2))  || order_detail.order_status == 1 }}">
+            <view id="V_R" catchtap="selectRIdcard">
+              <image id="IMG_R" catchtap="selectRIdcard" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+            </view>
+          </button>
+          <image src="{{idCardR}}" catchtap="previewImg" id="idCardR_img" class="idcard" mode="aspectFit"></image>
+          <view class="certificate_example_box_stat" wx:if="{{curr_elec_id_info.upload[1].elec_status == 3}}">
+            <image catchtap="previewImg" id="idCardR_notpass" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+          </view>
+          <view class="certificate_example_box_stat" wx:if="{{curr_elec_id_info.upload[1].elec_status == 0}}">
+            <image catchtap="previewImg" id="idCardR_pass" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/pass.png"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="certificate_ps_top" wx:if="{{curr_elec_id_info.upload[1].memoArr && curr_elec_id_info.upload[1].elec_status == 3}}">
+  <view class="certificate_ps">
+    <text class="certificate_ps_title">预审不合格</text>
+    <block wx:for="{{curr_elec_id_info.upload[1].memoArr}}">
+      <view class="certificate_ps_line">
+        <view class="icon_li_p"></view>
+        <text>{{item}}</text>
+      </view>
+    </block>
+  </view>
+</view>
+<view class="certificate_chos_box" wx:if="{{((curr_elec_id_info.upload[0].elec_status == 3 || order_detail.order_status == 1  || curr_elec_id_info.upload[0].elec_status == 2)&& (curr_applicant.applicant_status == 2))  || order_detail.order_status == 1 }}">
+  <text>没有身份证？</text>
+  <checkbox-group class="group" bindchange="noChange">
+    <view class="check_li" wx:for="{{noItems}}">
+      <label>
+        <checkbox hidden checked="{{item.checked}}"></checkbox>
+        <view class="check_li_icon">
+          <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}">
+            <icon type="success" size="22" color="#ff5a60" />
+          </view>
+          <text class="check_li_text">{{item.value}}</text>
+        </view>
+      </label>
+    </view>
+  </checkbox-group>
+</view>
+<view class="noshen_why {{radioHide}}">
+  <view class="noshen_why_li">
+    <radio-group class="group" bindchange="radioChange">
+      <view class="check_li check_li_bb right" wx:for="{{radioItems}}">
+        <label>
+          <text class="check_li_text">{{item.value}}</text>
+          <radio id="{{item.name}}" hidden value="{{item.value}}" checked="{{item.checked}}"></radio>
+          <view class="check_li_icon">
+            <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}"></view>
+          </view>
+        </label>
+      </view>
+    </radio-group>
+  </view>
+</view>
+<view wx:if="{{tip}}" class="certificate_ps">
+  <text wx:if="{{tip}}" class="certificate_ps_title">资料要求</text>
+  <view wx:if="{{tip}}" class="certificate_ps_line">
+    <view wx:if="{{tip}}" class="icon_li_p"></view>
+    <block wx:if="{{tip}}">
+      <text>{{tip}}</text>
+    </block>
+    <block wx:else>
+    </block>
+  </view>
+</view>
+<view class="page_btn_bottom_box " wx:if="{{((curr_elec_id_info.upload[0].elec_status == 3 || order_detail.order_status == 1  || curr_elec_id_info.upload[0].elec_status == 2)&& (curr_applicant.applicant_status == 2))  || order_detail.order_status == 1 }}">
+  <view class="apply_submit" catchtap="submit">
+    <view class="apply_subtn btn_red" catchtap="submit">提交</view>
+  </view>
+</view>
+<include src="../../public/footer.wxml" />

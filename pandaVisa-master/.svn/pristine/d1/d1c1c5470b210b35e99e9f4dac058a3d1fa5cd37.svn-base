@@ -1,0 +1,98 @@
+
+<!--pages/apply/addr/addr-edit.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="read_info">
+  <view class="read_info_li">
+    <view class="read_info_cont">
+      <view class="read_info_cn">联系人</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="联系人" maxlength="15" id="addressee" bindinput="inpuValue" value="{{currAddress.addressee}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li">
+    <view class="read_info_cont">
+      <view class="read_info_cn">手机号码</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="手机号码" maxlength="15" id="mobile_phone" bindinput="inpuValue" value="{{currAddress.mobile_phone}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li">
+    <view class="read_info_cont">
+      <view class="read_info_cn">常用邮箱</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="常用邮箱" maxlength="50" id="email" bindinput="inpuValue" value="{{currAddress.email}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li">
+    <view class="read_info_cont">
+      <view class="read_info_cn">省份</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <picker bindchange="bindPickerChange" id="province" value="{{province_idx[currAddress.province_code]}}" range="{{province_name}}">
+            <view class="picker pselect">
+              {{province_name[province_idx[currAddress.province_code]]}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li">
+    <view class="read_info_cont">
+      <view class="read_info_cn">城市</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <picker bindchange="bindPickerChange" id="city" value="{{city_idx[currAddress.city_code]}}" range="{{city_name}}">
+            <view class="picker pselect">
+              {{city_name[city_idx[currAddress.city_code]]}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li" wx:if="{{countiesShow}}">
+    <view class="read_info_cont">
+      <view class="read_info_cn">区县</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <picker bindchange="bindPickerChange" id="counties" value="{{counties_idx[currAddress.counties_code]}}" range="{{counties_name}}">
+            <view class="picker pselect">
+              {{counties_name[counties_idx[currAddress.counties_code]]}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="read_info_li">
+    <view class="read_info_cont">
+      <view class="read_info_cn">详细地址</view>
+      <view class="read_info_cc">
+        <view class="section">
+          <input placeholder="详细地址" maxlength="50" id="detail_address" bindinput="inpuValue" value="{{currAddress.detail_address}}" placeholder-class="pcolor" />
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="page_btn_bottom_box ">
+  <view class="apply_submit">
+    <block wx:if="{{action =='edit'}}">
+      <view class="apply_subtn hollow_btn_red" catchtap="delAddress">删除</view>
+    </block>
+    <view class="btn_empty" catchtap="saveAddress"></view>
+    <view class="apply_subtn btn_red" catchtap="saveAddress">保存</view>
+  </view>
+</view>

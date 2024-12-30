@@ -1,0 +1,405 @@
+<include src="../public/footer.wxml" />
+
+<!--visa.wxml-->
+<import src="/pages/component/rater/rater" />
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<block wx:if="{{showLoading}}">
+  <loading>
+    加载中...
+  </loading>
+</block>
+<block wx:else>
+  <view class="vias_detail_top" style="{{background}}">
+    <text class="visa_detail_title">{{visa_detail.product_name}}</text>
+    <view class="visa_detail_money">
+      <view class="visa_detail_money_cont">
+        <text class="visa_deatil_money_dw">￥</text>
+        {{visa_detail.sell_price/100}}
+      </view>
+      <view class="visa_detail_money_a" id="fee_" bindtap="openPopup">明细</view>
+    </view>
+    <view class="visa_detail_top_time">
+      <text class="visa_detail_top_time_title">办理时长</text>
+      <text class="visa_detail_top_time_cont" bindtap="openPopup" id="make_time">{{visa_detail.need_days}}工作日</text>
+      <image src="/image/arrowright.png" class="visa_detail_top_time_arr" bindtap="openPopup" id="make_time_img"></image>
+    </view>
+    <view class="visa_detail_top_bombox">
+      <view class="visa_detail_top_bombox_line_border"></view>
+      <view class="visa_detail_top_tb">
+        <view class="visa_detail_top_td">
+          <text class="visa_detail_top_td_cont" wx:if="{{visa_detail.summary_info[0].value > 0 }}">{{visa_detail.summary_info[0].value}}</text>
+          <text class="visa_detail_top_td_dw big" wx:if="{{visa_detail.summary_info[0].value > 0 }}">{{visa_detail.summary_info[0].content}}</text>
+          <text class="visa_detail_top_td_cont" wx:if="{{visa_detail.summary_info[0].value < 0 }}">{{visa_detail.summary_info[0].content}}</text>
+          <text class="visa_detail_top_td_ps">{{visa_detail.summary_info[0].title}}</text>
+        </view>
+        <view class="visa_detail_top_line"></view>
+        <view class="visa_detail_top_td visa_detail_top_mid">
+          <text class="visa_detail_top_td_cont" wx:if="{{visa_detail.summary_info[1].value > 0 }}">{{visa_detail.summary_info[1].value}}</text>
+          <text class="visa_detail_top_td_dw big" wx:if="{{visa_detail.summary_info[1].value > 0 }}">{{visa_detail.summary_info[1].content}}</text>
+          <text class="visa_detail_top_td_cont" wx:if="{{visa_detail.summary_info[1].value < 0 }}">{{visa_detail.summary_info[1].content}}</text>
+          <text class="visa_detail_top_td_ps">{{visa_detail.summary_info[1].title}}</text>
+        </view>
+        <view class="visa_detail_top_line"></view>
+        <view class="visa_detail_top_td">
+          <text class="visa_detail_top_td_cont" wx:if="{{visa_detail.summary_info[2].value > 0 }}">{{visa_detail.summary_info[2].value}}</text>
+          <text class="visa_detail_top_td_dw big" wx:if="{{visa_detail.summary_info[2].value > 0 }}">{{visa_detail.summary_info[2].content}}</text>
+          <text class="visa_detail_top_td_cont" wx:if="{{visa_detail.summary_info[2].value < 0 }}">{{visa_detail.summary_info[2].content}}</text>
+          <text class="visa_detail_top_td_ps">{{visa_detail.summary_info[2].title}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="visa_detail_contbox">
+    <view class="visa_detail_cont_toptb">
+      <view class="visa_detail_cont_toptb_topline">
+        <view class="visa_detail_cont_toptb_topline_left">
+          <text class="visa_detail_cont_toptb_topline_left_w1">出签率</text>
+          <text class="visa_detail_cont_toptb_topline_left_w2">{{visa_detail.pass_rate}}</text>
+          <text class="visa_detail_cont_toptb_topline_left_w3">%</text>
+        </view>
+        <view class="visa_detail_cont_toptb_hr"></view>
+        <view class="visa_detail_commot_a">
+          <block wx:if="{{visa_detail.review.total_count > 0}}">
+            <navigator url="comment" class="widget">
+              <text class="visa_detail_cont_toptb_topline_left_w1">评价</text>
+              <view class="visa_detail_commot_xx">
+                <view class="xx_area">
+                  <block wx:if="{{visa_detail.rater}}">
+                    <template is="rater" data="{{...visa_detail.rater}}" />
+                  </block>
+                </view>
+                <text class="visa_detail_commot_cont">({{visa_detail.review.total_count}})</text>
+              </view>
+              <image src="/image/arrowright2.png" class="visa_detail_commot_xx_arr"></image>
+            </navigator>
+          </block>
+          <block wx:else>
+            <text class="visa_detail_cont_toptb_topline_left_w1">评价</text>
+            <view class="visa_detail_commot_xx">
+              <view class="xx_area">
+                <block wx:if="{{visa_detail.rater}}">
+                  <template is="rater" data="{{...visa_detail.rater}}" />
+                </block>
+              </view>
+              <text class="visa_detail_commot_cont">({{visa_detail.review.total_count}})</text>
+            </view>
+          </block>
+        </view>
+      </view>
+      <view class="visa_detail_cont_toptb_bom">
+        <block wx:for="{{visa_detail.procedure}}" wx:key="key" wx:for-index="idx">
+          <block wx:if="{{visa_detail.procedure.length === 4}}">
+            <image src="{{item.icon}}" binderror="imgerror" bindload="imgload" catchtap="openPopup" id="make_type_{{idx}}"></image>
+          </block>
+          <block wx:elif="{{visa_detail.procedure.length > 4 || visa_detail.procedure.length <= 3}}">
+            <image wx:if="{{idx <=2}}" src="{{item.icon}}" binderror="imgerror" bindload="imgload" catchtap="openPopup" id="make_type_{{idx}}"></image>
+            <image wx:if="{{idx === 3}}" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/icon-more.png" binderror="imgerror" bindload="imgload" catchtap="openPopup" id="make_type_{{idx}}"></image>
+          </block>
+        </block>
+      </view>
+    </view>
+  </view>
+  <view class="datum_box">
+    <text class="datum_box_title">所需资料</text>
+    <scroll-view class="datum_box_imgbox" scroll-x="true" scroll-left="{{scroll_pos}}">
+      <view class="datum_box_imgwarp" style="{{icon_pos}}">
+        <block wx:for="{{visa_detail.identity_material}}" wx:for-index="idx" wx:key="key">
+          <view class="datum_box_imgp {{icon_active[item.identity_id]}}" bindtap="selectIdentity" id="identity_{{item.identity_id}}_view">
+            <view class="datum_box_imgcont">
+              <image src="{{identity_icon[item.identity_id]}}" bindtap="selectIdentity" id="identity_{{item.identity_id}}_img"></image>
+            </view>
+            <text bindtap="selectIdentity" id="identity_{{item.identity_id}}_text">{{identity_material[item.identity_id]}}</text>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="screen_box">
+    <block wx:for="{{curr_identity_material}}" wx:for-index="idx" wx:key="key">
+      <view class="screen_line">
+        <block wx:if="{{item.required.length > 0 || item.optional.length > 0 }}">
+          <text class="screen_title">{{item.title}}</text>
+        </block>
+        <block wx:if="{{visa_detail.visa_photo_id > 0 && item.title=='App拍摄资料'}}">
+          <view class="screen_p">
+            <view class="icon_li_p"></view>
+            <text class="font_g">照片<text class="font_r">*</text>
+            </text>
+          </view>
+        </block>
+        <block wx:if="{{item.title == '邮寄资料' && item.required.length > 0}}">
+          <text class="screen_line_mail" catchtap="openPopup" id="mail_info">?</text>
+        </block>
+        <block wx:for="{{item.required}}" wx:for-index="subidx" wx:for-item="subitem">
+          <view class="screen_p">
+            <view class="icon_li_p"></view>
+            <text class="font_g">{{subitem.name}} <text class="font_r">*</text>
+            </text>
+          </view>
+        </block>
+        <block if="{{item.optional.length > 0}}">
+          <block wx:for="{{item.optional}}" wx:for-index="subidx" wx:for-item="subitem">
+            <view class="screen_p">
+              <view class="icon_li_p"></view>
+              <text class="font_g">{{subitem.name}}</text>
+            </view>
+          </block>
+        </block>
+      </view>
+    </block>
+    <view class="visa_detail_cont_ps">带
+      <text class="font_r">*</text>为必备资料</view>
+    <view class="visaInfo_button">
+      <button class="visa_detail_screen_btn" catchtap="openPopup" id="postion_mail">查看详情</button>
+    </view>
+  </view>
+  <view class="information_box">
+    <text class="information_box_title">基本信息</text>
+    <block wx:for="{{base_info}}" wx:key="key">
+      <text class="information_box_cont_t">{{item.title}}</text>
+      <block wx:for="{{item.content}}" wx:for-item="sub_item">
+        <view class="information_box_p">
+          <view class="icon_li_p"></view>
+          <text>{{sub_item}}</text>
+        </view>
+      </block>
+    </block>
+  </view>
+  <view class="flow_box">
+    <text class="flow_box_title">办理流程</text>
+    <view class="flow_box_cont">
+      <block wx:for="{{handle_process}}" wx:for-index="idx" wx:key="key">
+        <view class="flow_box_cont_p {{idx+1 == handle_process.length ? 'no_border' : ''}}">
+          <view class="flow_box_cont_p_icon ">{{idx+1}}</view>
+          <text class="flow_box_cont_p_title">{{item.title}}</text>
+          <text class="flow_box_cont_p_tex">{{item.content}}</text>
+        </view>
+      </block>
+      <block wx:if="{{reminder}}">
+        <view class="visaInfo_button">
+          <button class="visa_detail_screen_btn" catchtap="openPopup" id="detail">温馨提醒</button>
+        </view>
+      </block>
+    </view>
+  </view>
+  <block wx:if="{{visa_detail.visa_page !=''}}">
+    <view class="photo_box">
+      <text class="photo_box_title">签证图例</text>
+      <view class="photo_box_cont">
+        <image src="{{visa_detail.visa_page}}"></image>
+      </view>
+    </view>
+  </block>
+  <block wx:for="{{identity_icon_active}}" wx:for-item="item" wx:key="key">
+    <image src="{{item}}" style="display:none"></image>
+  </block>
+  <view class="visa_detail_bottom_box">
+    <view class="visa_detail_bottom_box_left" catchtap="callPhone">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/consultation.png" catchtap="callPhone"></image>
+      <text catchtap="callPhone">咨询</text>
+    </view>
+    <button class="visa_detail_bottom_btn btn_red" catchtap="openPopup" id="letsGo">开始办理</button>
+  </view>
+
+  <!--弹出层开始-->
+  <view class="pop_warp {{bg_hide}}" id="bg_hide" catchtap="closePopup">
+    <view class="pop_close_box">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/close.png"></image>
+    </view>
+  </view>
+  <view class="pop_box {{make_time}}">
+    <view class="pop_box_title_box">
+      <text class="pop_box_title">办理时长</text>
+    </view>
+    <view class="pop_box_text_cont howlong">
+      <view class="pop_box_text_cont_top">
+        <text class="pop_box_text_cont_date">{{visa_detail.need_days}}</text>
+        <text class="pop_box_text_cont_dw">工作日</text>
+      </view>
+      <text class="pop_box_text_cont_ps">{{visa_detail.need_days_detail}}</text>
+    </view>
+  </view>
+  <view class="pop_box {{fee_}}">
+    <view class="pop_box_title_box">
+      <text class="pop_box_title">费用明细</text>
+    </view>
+    <view class="pop_box_text_cont howlong">
+      <view class="pop_box_text_cont_top">
+        <view class="pop_box_text_cont_date visa_detail_money_cont visa_deatil_fee"><text class="visa_deatil_money_rmb">￥</text> <text class="visa_deatil_money_value">{{visa_detail.sell_price/100}}</text><text class="visa_deatil_money_original">￥{{visa_detail.original_price/100}}</text></view>
+      </view>
+      <text class="pop_box_text_cont_ps">{{visa_detail.price_detail}}</text>
+    </view>
+  </view>
+  <view class="pop_box {{mail_info}}">
+    <view class="pop_box_title_box">
+      <text class="pop_box_title">邮寄资料</text>
+    </view>
+    <view class="pop_box_text_cont">
+      <text class="pop_box_text_cont_mail">付款后，请将资料邮寄到以下地址：</text>
+      <text class="pop_box_text_cont_address">{{visa_detail.visa_address.addressee}} {{visa_detail.visa_address.mobile_phone}}\n{{visa_detail.visa_address.address}}</text>
+    </view>
+  </view>
+  <view class="pop_box  {{scan_exp}}">
+    <view class="pop_white_box_p">
+      <image src="{{curr_sample}}"></image>
+    </view>
+  </view>
+  <view class="pop_white {{white_bg}}" id="detail_bg">
+    <view class="pop_white_close_box" catchtap="closePopup">
+      <icon type="cancel" color="#ff5a60" size="26"></icon>
+    </view>
+    <view class="pop_white_cont {{detail}}" id="detail_content">
+      <text class="pop_white_title">温馨提醒</text>
+      <block wx:for="{{reminder_list}}">
+        <view class="pop_white_box_p">
+          <view class="icon_li_p"></view>
+          <text>{{item}}</text>
+        </view>
+      </block>
+    </view>
+    <view class="pop_white_cont {{make_type}} processing">
+      <text class="pop_white_title">办理方式</text>
+      <block wx:for="{{visa_detail.procedure}}" wx:key="key" wx:for-index="idx">
+        <view class="pop_white_picline">
+          <image src="{{item.icon}}" id="make_type_{{idx}}"></image>
+          <text>{{item.title}}</text>
+        </view>
+      </block>
+    </view>
+    <view class="pop_white_cont {{postion_mail}}">
+      <text class="pop_white_title">{{identity_material[curr_identity_id]}}</text>
+      <view class="pop_white_cont_ps">
+        <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/tips-warr.png"></image>
+        <text>资料模板文档可通过邮件下载</text>
+      </view>
+      <block wx:for="{{curr_identity_material}}" wx:for-index="idx" wx:key="key">
+      <view class="pop_white_text_line">
+        <block wx:if="{{item.optional.length > 0 || item.required.length > 0 }}">
+          <view class="pop_white_text_line_topbox">
+            <view class="pop_white_text_line_topbox_leftline"></view>
+            <text class="pop_white_text_line_title">{{item.title}}</text>
+          </view>
+        </block>
+        <block wx:if="{{order_detail.id_photo != 'undefined' && item.title=='App拍摄资料'}}">
+         <view class="">
+            <view class="pop_white_text_line_subtitle_box">
+             <view class="pop_white_thing">
+             <text class="pop_white_text_line_subtitle">照片</text><text class="font_r">*</text>
+              </view>
+             </view>
+         </view>
+        </block>
+        <block wx:if="{{item.optional.length > 0 || item.required.length > 0 }}">
+          <view class="pop_white_text_sub_p">
+            <block wx:for="{{item.required}}" wx:for-index="subidx" wx:for-item="subitem">
+              <view class="pop_white_text_line_subtitle_box">
+                <view class="pop_white_thing">
+                  <text class="pop_white_text_line_subtitle">{{subitem.name}}<text class="font_r"> *</text>
+                  <block wx:if="{{ idx == 1 && subitem.template}}">
+                    <text class="pop_white_text_line_subtitle_btn hollow_btn_blue">模版</text>
+                  </block></text>
+                  
+                </view>
+                <block wx:if="{{subitem.sample}}">
+                  <view class="excemple_btn hollow_btn_red" catchtap="previewSample" id="{{subitem.id}}_preview">查看样例</view>
+                </block>
+              </view>
+              <block wx:if="{{subitem.attention}}">
+                <view class="pop_white_box_p">
+                  <view class="icon_li_p"></view>
+                  <text>{{subitem.attention}}</text>
+                </view>
+              </block>
+            </block>
+            <block wx:for="{{item.optional}}" wx:for-index="subidx" wx:for-item="subitem">
+              <view class="pop_white_text_line_subtitle_box">
+                <view class="pop_white_thing">
+                  <text class="pop_white_text_line_subtitle">{{subitem.name}}</text>
+                  <block wx:if="{{ idx == 1 && subitem.template}}">
+                    <text class="pop_white_text_line_subtitle_btn hollow_btn_blue">模版</text>
+                  </block>
+                </view>
+                <block wx:if="{{subitem.sample}}">
+                  <view class="excemple_btn hollow_btn_red" catchtap="previewSample" id="{{subitem.id}}_preview">查看样例</view>
+                </block>
+              </view>
+              <block wx:if="{{subitem.attention}}">
+                <view class="pop_white_box_p">
+                  <view class="icon_li_p"></view>
+                  <text>{{subitem.attention}}</text>
+                </view>
+              </block>
+            </block>
+          </view>
+        </block>
+      </view>
+    </block>
+      <view class="visa_detail_bom_btn_box">
+        <view class="visa_detail_botm_input">
+          <input placeholder="请输入邮箱地址" value="{{email}}" placeholder-class="pop_white_bom_btn_place" bindinput="emailInput" />
+        </view>
+        <button catchtap="sendMail" class="visa_detail_botm_send btn_red" animation="{{animationData}}">{{isInput ? "发送" : "发送到邮箱"}}</button>
+      </view>
+    </view>
+    <form bindsubmit="nextStart" bindreset="formReset" report-submit="true">
+    <view class="pop_white_cont {{letsGo}} travel_info" id="travel_info">
+      <view class="od_li">
+        <view class="od_li_tit">预计出行信息</view>
+        <view class="od_li_cont">
+          <view class="od_li_out">
+            <picker mode="date" value="{{date}}" start="{{start_date}}" end="{{end_date}}" bindchange="bindDateChange">
+              <view class="picker pselect">
+                {{date}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="od_li">
+        <view class="od_li_tit">申请人信息</view>
+        <view class="od_li_cont">
+          <button class="od_li_add hollow_btn_red" catchtap="newAddApply">+ 新增申请人</button>
+          <view class="od_li_apply">
+            <block wx:if="{{formArray.length > 0}}" wx:for="{{formArray}}" wx:for-index="idx" wx:for-item="item">
+              <block wx:if="{{item.show == 1}}">
+                <view class="od_li_cli">
+                  <view class="od_li_clicont">
+                    <view class="od_li_nli">
+                      <view class="od_li_n">中文姓名</view>
+                      <view class="od_li_c">
+                        <view class="section">
+                          <input placeholder="" bindinput="nameInput" id="input_{{idx}}" placeholder-class="pcolor" value="{{item.inputvalue}}" />
+                        </view>
+                      </view>
+                    </view>
+                    <view class="od_li_nli">
+                      <view class="od_li_n">旅客身份</view>
+                      <view class="od_li_c">
+                        <picker bindchange="bindPickerChange" id="picker_{{idx}}" value="{{item.jobIndex}}" range="{{jobid}}">
+                          <view class="picker pselect">
+                            {{jobid[item.jobIndex]}}
+                          </view>
+                        </picker>
+                      </view>
+                    </view>
+                  </view>
+                    <button class="od_li_del" wx:if="{{item.showDel}}" catchtap="delApply" id="btn_{{idx}}">
+                      <image style="width:44rpx;height:44rpx;" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/delete.png" />
+                    </button>
+                </view>
+              </block>
+            </block>
+          </view>
+        </view>
+      </view>
+      <view class="page_btn_bottom_box ">
+        <view class="apply_submit">
+          <button class="apply_subtn btn_red" formType="submit" >下一步</button>
+        </view>
+      </view>
+    </view>
+    </form>
+  </view>
+</block>

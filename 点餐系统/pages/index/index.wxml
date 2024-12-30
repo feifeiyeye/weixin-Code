@@ -1,53 +1,41 @@
 <!--index.wxml-->
-<!--<navigation-bar title="美食屋" back="{{false}}" color="black" background="#FFF"></navigation-bar>-->
 <scroll-view class="scrollarea" scroll-y type="list">
-  <!-- 加载中 -->
-  <view wx:if="{{loading}}" class="loading-container">
-    <text>加载中...</text>
+  <view class="container">
+    <block wx:if="{{isLogin}}">
+      <!-- 轮播图区域 -->
+      <swiper class="swiper" 
+              indicator-dots="true" 
+              autoplay="true" 
+              interval="5000" 
+              duration="1000">
+        <block wx:for="{{swiper}}" wx:key="*this">
+          <swiper-item>
+            <image src="{{item}}" mode="aspectFill"/>
+          </swiper-item>
+        </block>
+      </swiper>
+    </block>
+    <block wx:else>
+      <view>未登录</view>
+    </block>
   </view>
-
-  <!-- 错误提示 -->
-  <view wx:elif="{{error}}" class="error-container">
-    <text>{{error}}</text>
-    <button class="retry-btn" bindtap="retry">重试</button>
-  </view>
-
-  <!-- 页面内容 -->
-  <block wx:else>
-    <!-- 轮播图区域 -->
-    <swiper class="swiper" 
-      indicator-dots
-      autoplay
-      interval="5000" 
-      duration="1000">
-      <swiper-item wx:for="{{swiper}}" 
-        wx:key="*this">
-        <image src="{{item}}" mode="aspectFill"/>
-      </swiper-item>
-    </swiper>
-
-    <!-- 中间区域 -->
-    <view class="menu-bar">
-      <view class="menu-block" bindtap="start">
-        <view class="menu-start">开启点餐之旅→</view>
-      </view>
-    </view>
-
-    <view class="ad-box">
-      <image src="{{ad}}" 
-        class="ad-image" 
-        mode="aspectFill"/>
-    </view>
-
-    <!-- 底部区域 -->
-    <view class="bottom-box">
-      <view class="bottom-pic" 
-        wx:for="{{category}}" 
-        wx:key="index">
-        <image src="{{item}}" 
-          class="bottom-image"
-          mode="aspectFill"/>
-      </view>
-    </view>
-  </block>
 </scroll-view>
+
+<!-- 开启点餐之旅 -->
+<view class="menu-bar">
+  <view class="menu-block" bindtap="start">
+    <view class="menu-start">开启点餐之旅→</view>
+  </view>
+</view>
+
+<!-- 最新消息展示 -->
+<view class="ad-box">
+  <image src="{{ad}}" class="ad-image"/>
+</view>
+
+<!-- 底部分类区域 -->
+<view class="bottom-box">
+  <view class="bottom-pic" wx:for="{{category}}" wx:key="index">
+    <image src="{{item}}" class="bottom-image"/>
+  </view>
+</view>

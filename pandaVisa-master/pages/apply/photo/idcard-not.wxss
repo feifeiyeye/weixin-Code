@@ -1,0 +1,3 @@
+/* pages/apply/photo/idcard-not.wxss */
+@import "/pages/apply/photo/passport.wxss";
+page{ margin-bottom: 110rpx;}

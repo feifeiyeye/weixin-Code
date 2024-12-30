@@ -1,0 +1,6 @@
+/* pages/apply/addr/addr-edit.wxss */
+@import "/pages/apply/photo/passport.wxss";
+page{
+    background: #fff;
+    padding-bottom: 110rpx;
+}

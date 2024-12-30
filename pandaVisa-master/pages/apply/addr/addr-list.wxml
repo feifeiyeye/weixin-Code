@@ -1,0 +1,43 @@
+
+<!--pages/apply/addr/addr-list.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="addr_list">
+  <block wx:for="{{List}}">
+    <block wx:if="{{item.is_default}}">
+      <view class="addr_li this" >
+        <view class="addr_cont" id="{{item.user_address_id}}_view" catchtap="selectAddress">
+          <view class="addr_line" id="{{item.user_address_id}}_line">
+            <text class="addr_name" id="{{item.user_address_id}}_name">{{item.addressee}}</text>
+            <text class="addr_tel" id="{{item.user_address_id}}_tel">{{item.mobile_phone}}</text>
+            <text class="addr_span" id="{{item.user_address_id}}_span">当前</text>
+          </view>
+          <text class="addr_addr" id="{{item.user_address_id}}_addr">{{areaData['86'][item.province_code]}}{{areaData[item.province_code][item.city_code]}}<block wx:if="{{areaData[item.city_code][item.counties_code]}}">{{areaData[item.city_code][item.counties_code]}}</block>{{item.detail_address}}</text>
+        </view>
+        <navigator url="/pages/apply/addr/addr-edit?a=edit&user_address_id={{item.user_address_id}}" class="addr_edit_btn">
+          <image src="/image/edit.png"></image>
+        </navigator>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="addr_li ">
+        <view class="addr_cont " id="{{item.user_address_id}}_view" catchtap="selectAddress">
+          <view class="addr_line" id="{{item.user_address_id}}_line">
+            <text class="addr_name" id="{{item.user_address_id}}_name">{{item.addressee}}</text>
+            <text class="addr_tel" id="{{item.user_address_id}}_tel">{{item.mobile_phone}}</text>
+          </view>
+          <text class="addr_addr" id="{{item.user_address_id}}_addr">{{areaData['86'][item.province_code]}}{{areaData[item.province_code][item.city_code]}}<block wx:if="{{areaData[item.city_code][item.counties_code]}}">{{areaData[item.city_code][item.counties_code]}}</block>{{item.detail_address}}</text>
+        </view>
+        <navigator url="/pages/apply/addr/addr-edit?a=edit&user_address_id={{item.user_address_id}}" class="addr_edit_btn">
+          <image src="/image/edit.png"></image>
+        </navigator>
+      </view>
+    </block>
+  </block>
+</view>
+<view class="page_btn_bottom_box">
+  <view class="apply_submit" catchtap="newAddress">
+    <view class="apply_subtn btn_red" catchtap="newAddress">＋ 新增地址</view>
+  </view>
+</view>

@@ -1,0 +1,5 @@
+/* pages/apply/photo/pages.wxss */
+@import "/pages/apply/photo/passport.wxss";
+page{
+    padding-bottom: 110rpx;
+}

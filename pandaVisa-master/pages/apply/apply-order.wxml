@@ -1,0 +1,232 @@
+
+<!--pages/apply/apply-order.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="step">
+  <view class="step_cont">
+    <view class="step_li ">
+      <view class="step_num">1</view>
+      <view class="step_p">资料上传</view>
+    </view>
+    <view class="step_li ">
+      <view class="step_num">2</view>
+      <view class="step_p">填申请表</view>
+    </view>
+    <view class="step_li li_on">
+      <view class="step_num">3</view>
+      <view class="step_p">订单确认</view>
+    </view>
+  </view>
+</view>
+<view class="process zlsc hide" id="zlsc">
+    <view class="apply_cells sub">
+        <navigator url="/pages/apply/apply-data-b"> 
+        <view class="apply_cell ">
+            <view class="apply_cell_pro">            
+            </view>
+            <view class="apply_cell_n">
+                <view class="apply_sub_n">张三</view>
+                <view class="apply_sub_z">在职人员</view>
+            </view>
+            <view class="apply_cell_s wri right">资料上传</view>
+        </view>
+        </navigator>
+        <view class="apply_cell">
+            <view class="apply_cell_n">
+                <view class="apply_sub_n">张三</view>
+                <view class="apply_sub_z">在职人员</view>
+            </view>
+            <view class="apply_cell_s edit right">修改</view>
+        </view>
+        <view class="apply_cell">
+            <view class="apply_cell_n">
+                <view class="apply_sub_n">张三</view>
+                <view class="apply_sub_z">在职人员</view>
+            </view>
+            <view class="apply_cell_s edit right">修改</view>
+        </view>
+        <template is="circle" />
+    </view>
+    <view class="page_btn_bottom_box ">
+        <navigator url="/pages/apply/apply-sub">
+        <view class="apply_submit">            
+            <button class="apply_subtn btn_red">下一步</button>            
+        </view>
+        </navigator>
+    </view>
+</view>
+<view class="process tsqb hide" id="tsqb">
+    <view class="apply_cells">
+        <navigator url="/pages/apply/apply"> 
+            <view class="apply_cell">
+                <view class="apply_cell_n">
+                    <view class="apply_sub_n">日本</view>
+                    <view class="apply_sub_z">在职人员</view>
+                </view>
+                <view class="apply_cell_s wri right">填写申请表</view>
+            </view>
+        </navigator>
+        <view class="apply_cell">
+            <view class="apply_cell_n">
+                <view class="apply_sub_n">韩国</view>
+                <view class="apply_sub_z">在职人员</view>
+            </view>
+            <view class="apply_cell_s edit right">修改</view>
+        </view>
+        <view class="apply_cell">
+            <view class="apply_cell_n">
+                <view class="apply_sub_n">新加坡</view>
+                <view class="apply_sub_z">在职人员</view>
+            </view>
+            <view class="apply_cell_s edit right">修改</view>
+        </view>
+    </view>
+    <view class="page_btn_bottom_box ">
+        <view class="apply_submit addzx">
+            <view class="serv_btn">
+                <image src="http://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/consultation.png" />
+                咨询
+            </view>
+                <button class="apply_subtn btn_red">下一步</button>
+            
+        </view>
+    </view>
+</view>
+<view class="process ddqr" id="ddqr">
+    <view class="re_order">
+        <view class="addr_border">
+            <view class="bg_r"></view>
+            <view class="bg_w"></view>
+            <view class="bg_b"></view>
+            <view class="bg_w"></view>
+            <view class="bg_r"></view>
+            <view class="bg_w"></view>
+            <view class="bg_b"></view>
+            <view class="bg_w"></view>
+            <view class="bg_r"></view>
+            <view class="bg_w"></view>
+            <view class="bg_b"></view>
+            <view class="bg_w"></view>
+            <view class="bg_r"></view>
+            <view class="bg_w"></view>
+            <view class="bg_b"></view>
+            <view class="bg_w"></view>
+            <view class="bg_r"></view>
+            <view class="bg_w"></view>
+            <view class="bg_b"></view>
+            <view class="bg_w"></view>
+            <view class="bg_r"></view>
+            <view class="bg_w"></view>
+            <view class="bg_b"></view>
+            <view class="bg_w"></view>
+            <view class="bg_r"></view>
+            <view class="bg_w"></view>
+            <view class="bg_b"></view>
+            <view class="bg_w"></view>
+        </view>
+        <navigator url="/pages/apply/addr/addr-list">
+        <view class="re_order_addr">            
+            <view class="addr_li">
+                <view class="addr_cont">
+                    <view class="addr_line">
+                        <text class="addr_name">飘飘宝贝</text>
+                        <text class="addr_tel">15913398789</text>
+                        <text class="addr_span">当前</text>
+                    </view>
+                    <text class="addr_addr">深圳市南山区桃园地铁站a出口xx商务中心</text>
+                </view>
+            </view>
+        </view>
+        </navigator>
+        <view class="my_order_box">
+            <view class="order_contry">
+            <image src="/image/1.jpg"></image>
+            <text>美国单次旅游签-北京送签</text>
+            <text class="order_result_text">¥199x3</text>
+            </view>
+            <view class="order_name_box">
+            <text class="order_name">张智霖</text>
+            <text class="order_job">在职人员</text>
+            </view>
+            <view class="order_name_box">
+            <text class="order_name">张智霖</text>
+            <text class="order_job">在职人员</text>
+            </view>
+            <view class="order_name_box">
+            <text class="order_name">张智霖</text>
+            <text class="order_job">在职人员</text>
+            </view>
+        </view>
+        <view class="order_tic">
+            <view class="order_tic_tit">
+            <text class="order_name">开具发票</text>
+            <text class="font_d">(快递费¥10)</text>
+            <checkbox-group class="group" bindchange="noChange">
+                <view class="check_li" wx:for="{{noItems}}">
+                <label>
+                    <checkbox hidden checked="{{item.checked}}"></checkbox>
+                    <view class="check_li_icon">
+                    <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}">
+                        <icon type="success" size="22" color="#ff5a60" />
+                    </view>
+                    <text class="check_li_text">{{item.value}}</text>
+                    </view>
+                </label>
+                </view>
+            </checkbox-group>
+            </view>
+            <view class="order_tic_con">
+                <view class="order_tic_cli">
+                    <text>类型</text>
+                    <view class="order_tic_ccon">
+                    <radio-group class="group" bindchange="radioChange">
+                        <view class="check_li check_li_bb" wx:for="{{radioItems}}">
+                            <label>
+                            <radio id="{{item.name}}" hidden value="{{item.value}}" checked="{{item.checked}}"></radio>
+                            <view class="check_li_icon">
+                                <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}"></view>
+                            </view>
+                                <text class="check_li_text">{{item.value}}</text>
+                            </label>
+                        </view>
+                    </radio-group>
+                    </view>
+                </view>
+                <view class="order_tic_cli">
+                    <text>抬头</text>
+                    <view class="order_tic_ccon">
+                        <view class="section">
+                            <input placeholder="请输入抬头" placeholder-style="color:#d7d7d7;" />
+                        </view>
+                    </view>
+                </view>
+                <text class="order_tic_span" >说明：所开发票为增值税普通发票，金额为实际支付商品费用，内容为代办签证费。</text>
+            </view>
+        </view>
+        <view class="re_order_footer">
+            <view class="re_order_pp">
+                <checkbox-group class="group" bindchange="checkboxChange">
+                    <view class="check_li check_small" wx:for="{{checkboxItems}}">
+                        <label>
+                        <checkbox hidden value="{{item.name}}" checked="{{item.checked}}"></checkbox>
+                        <view class="check_li_icon">
+                            <view class="check_li_icon-checked" style="opacity:{{item.checked ? 1: 0}}">
+                                <icon type="success" size="16" color="#ff5a60"/>
+                            </view>
+                            <icon type="success" size="16" color="#e2e2e2" />
+                        </view>
+                        <text class="check_li_text">{{item.value}}</text>
+                        </label>
+                    </view>
+                </checkbox-group>
+            </view>
+            <text>熊猫签证Visa Care服务协议</text>
+        </view>
+    </view>
+    <view class="page_btn_bottom_box ">
+        <view class="apply_submit">
+            <view class="apply_subtn btn_red">¥1090 ｜立即支付</view>
+        </view>
+    </view>
+</view>

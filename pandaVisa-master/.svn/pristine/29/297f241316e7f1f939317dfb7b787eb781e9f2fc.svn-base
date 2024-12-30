@@ -1,0 +1,70 @@
+
+<!--pages/apply/apply-b.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="apply_cells visited_list">
+  <block wx:for="{{dataArr}}">
+    <view class="apply_div">
+      <view class="apply_cont">
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">姓名</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="姓名" placeholder-class="pcolor" value="{{item.together_name}}" bindinput="contentBindInput" id="{{index}}" />
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">出生日期</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <picker mode="date" value="{{item.together_birthday}}" start="1900-01-01" end="{{dateNow}}" bindchange="bindVisitStartPickerChange" id="{{index}}">
+                  <view class="picker pselect">
+                    {{item.together_birthday}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">国籍</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="国籍" placeholder-class="pcolor" value="{{item.together_country}}" bindinput="contentBindInput" id="{{index}}" />
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="apply_block">
+          <view class="apply_li">
+            <text class="apply_li_n">关系</text>
+            <view class="apply_li_c">
+              <picker bindchange="bindRelationPickerChange" value="{{selectRelationIndexs[index]}}" range="{{relations}}" id="{{index}}">
+                <view class="picker pselect">
+                  {{item.together_relation}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_button" bindtap="del" id="{{index}}">删除</view>
+    </view>
+  </block>
+  <block wx:if="{{dataArr.length < 3}}">
+    <view class="apply_addspan" bindtap="add">+ 新增</view>
+  </block>
+</view>
+<view class="page_btn_bottom_box ">
+  <view class="apply_submit">
+    <button class="apply_subtn hollow_btn_black" catchtap="cancel">取消</button>
+    <view class="btn_empty"></view>
+    <button class="apply_subtn btn_red" catchtap="save">保存</button>
+  </view>
+</view>

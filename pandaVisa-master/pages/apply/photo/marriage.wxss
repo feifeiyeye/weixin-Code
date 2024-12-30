@@ -1,0 +1,32 @@
+/* pages/apply/photo/marriage.wxss */
+@import "/pages/apply/photo/passport.wxss";
+
+page {
+  padding-bottom: 110rpx;
+}
+
+.id_area_box wx-text {
+  padding-left: 0;
+}
+
+.certificate_page {
+  padding: 20rpx;
+  width: auto;
+}
+
+.id_area_box {
+  padding-top: 20rpx;
+  border-top: 1rpx solid #e9e9e9;
+}
+
+.id_area_box .id_area_box_line {
+  margin: 40rpx 20rpx 40rpx 0;
+}
+
+.certificate_page .id_area_box:first-child {
+  border-top: 0;
+}
+
+.check_li {
+  margin-right: 50rpx;
+}

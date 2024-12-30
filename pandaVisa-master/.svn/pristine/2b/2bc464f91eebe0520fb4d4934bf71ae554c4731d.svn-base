@@ -1,0 +1,13 @@
+<view class="wrapper">
+  <view class="handBtn">
+    <button catchtap="retDraw" class="delBtn"><image style="width:40rpx;height:42rpx;" src='/image/rubber.png'></image> 清除</button>
+    <button catchtap="subCanvas" class="subBtn">完成</button>
+  </view>
+  <view class="handCenter">
+  <canvas class="handWriting" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove" bindtouchend="uploadScaleEnd" bindtap="mouseDown" canvas-id="handWriting">
+  </canvas>
+  </view>
+  <view class="handRight">
+    <view class="handTitle">手写签名</view>
+  </view>
+</view>

@@ -1,0 +1,49 @@
+.vux-rater {
+  text-align: left;
+  display: flex;
+  line-height: normal;
+  justify-content:space-between;
+  width:100%;
+}
+.vux-rater view {
+  display: flex;
+  text-align: center;
+  cursor: pointer;
+  color: #ccc;
+  align-items: stretch;
+  justify-content: space-between;
+}
+.vux-rater view.is-disabled {
+  color: #ccc !important;
+  cursor: not-allowed;
+}
+.vux-rater-box {
+  position: relative;
+}
+.vux-rater-inner {
+  position: relative;
+  display: inline-block;
+}
+.star_a .vux-rater-outer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-block;
+  overflow: hidden;
+  width: 50%;
+  color: #fe8583;
+}
+.span{
+    color: activeColor;
+    width: 50%;
+}
+.star_a{
+    color:#ccc;
+    font-size: 30rpx;
+    width: 32rpx;
+    height:32rpx;
+    line-height:32rpx;
+}
+.star_a .star_active{
+  color: #fe8583;
+}

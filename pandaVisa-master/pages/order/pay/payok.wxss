@@ -1,0 +1,105 @@
+/* pages/order/pay/payok.wxss */
+@import "/pages/order/order-mail.wxss";
+
+page {
+  background: #f3f4f6;
+}
+
+.pay_ok {
+  text-align: center;
+}
+
+.pay_icon {
+  height: 80px;
+  margin: 50rpx 0 0;
+}
+
+.pay_h1 {
+  font-size: 32rpx;
+  color: #6f6f6f;
+  padding: 30rpx 0;
+}
+
+.pay_h3 {
+  font-size: 24rpx;
+  color: #aaa;
+}
+
+.pay_h2 {
+  font-size: 32rpx;
+  color: #6f6f6f;
+  padding: 18rpx 0 30rpx;
+}
+
+.pay_toorder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 400rpx;
+  height: 76rpx;
+  font-size: 28rpx;
+  margin: 0 0 40rpx;
+}
+
+.pay_tips {
+  padding: 0 20rpx;
+}
+
+.tips_topbor {
+  width: 100%;
+  height: 8px;
+  background: url(/image/panel_bg.png) no-repeat;
+  background-size: 100% 100%;
+}
+
+.pay_tips_cont {
+  background: #fff;
+  box-sizing: border-box;
+  padding: 40rpx 0;
+  border-bottom: 1rpx dashed #e9e9e9;
+}
+
+.pay_h4 {
+  text-align: center;
+  font-size: 32rpx;
+  color: #444;
+  margin-bottom: 30rpx;
+}
+
+.pay_addr {
+  display: flex;
+  align-items: center;
+  padding: 0 30rpx;
+}
+
+.pay_pos {
+  width: 30rpx;
+  height: 44rpx;
+  margin-right: 30rpx;
+}
+
+.pay_pos image {
+  width: 100%;
+  height: 100%;
+}
+
+.pay_addr_cont {
+  flex: 1;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  color: #6f6f6f;
+}
+
+.one_line {
+  line-height: 40rpx;
+  padding: 5rpx 0;
+}
+
+.pay_info {
+  background: #fff;
+  margin: 0 20rpx;
+  padding-bottom: 50rpx;
+  border-bottom: 1rpx dashed #e9e9e9;
+}
+
+

@@ -4,8 +4,8 @@ class AuthService {
   // 登录
   static async login() {
     try {
-      const code = await this.getLoginCode();
-      const data = await this.loginWithCode(code);
+      const code = await AuthService.getLoginCode();
+      const data = await AuthService.loginWithCode(code);
       
       if (!data?.isLogin) {
         throw new Error('登录失败（请检查服务器端配置）');
@@ -13,7 +13,7 @@ class AuthService {
 
       return data;
     } catch (err) {
-      return this.handleLoginError(err);
+      return AuthService.handleLoginError(err);
     }
   }
 

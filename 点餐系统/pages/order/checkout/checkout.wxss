@@ -1,180 +1,130 @@
 /* pages/order/checkout/checkout.wxss */
-.page-container {
-  min-height: 100vh;
+page {
   display: flex;
   flex-direction: column;
+  height: 100%;
   background: #f8f8f8;
 }
 
-/* 加载状态 */
-.loading-container,
-.error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40rpx;
-  color: #666;
-}
-
-.error-container text {
-  color: #f56c6c;
-  margin-bottom: 20rpx;
-}
-
-.retry-btn {
-  width: 200rpx;
-  margin-top: 20rpx;
-  font-size: 28rpx;
-  background: #ff9c35;
-  color: #fff;
-  border: none;
-}
-
-/* 内容区域 */
 .content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  overflow: scroll;
+  margin-bottom: 40rpx;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 标题区域样式 */
 .content-title {
   height: 80rpx;
   line-height: 80rpx;
   font-size: 28rpx;
-  background: #fff;
-  padding: 0 30rpx;
-  color: #333;
+  background: white;
+  padding: 0 10rpx;
 }
 
-/* 订单信息 */
+/* 订单信息区域基本样式 */
 .order {
-  background: #fff;
+  background: white;
   margin-top: 20rpx;
+}
+
+.order-title {
+  font-size: 24rpx;
+  color: #a2a1a0;
+  padding: 24rpx;
+}
+
+.order-list {
   padding: 0 30rpx;
 }
 
+/* 订单商品列表项样式 */
 .order-item {
+  background: #fff;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20rpx 0;
-  border-bottom: 1rpx solid #f8f8f8;
+  font-size: 32rpx;
+  padding: 25rpx 0;
+  border-top: 1rpx #e3e3e3 solid;
 }
 
 .order-item-left {
+  flex: 1;
   display: flex;
-  align-items: center;
 }
 
 .order-item-image {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 8rpx;
-  margin-right: 20rpx;
-}
-
-.order-item-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.order-item-name {
-  font-size: 28rpx;
-  color: #333;
+  width: 94rpx;
+  height: 94rpx;
+  margin-right: 25rpx;
 }
 
 .order-item-number {
+  color: #a3a3a3;
+  margin-top: 4rpx;
+  font-size: 28rpx;
+}
+
+/* 满减优惠样式 */
+.order-promotion-icon {
+  display: inline-block;
+  background: #ff4500;
+  padding: 2rpx 6rpx;
+  color: #fff;
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.order-promotion-price {
+  color: #ff4500;
+}
+
+/* 小计样式 */
+.order-total-price {
+  font-size: 40rpx;
+}
+
+/* 备注区域样式 */
+.content-comment {
+  padding: 10rpx 30rpx 20rpx;
+  background: white;
+  margin-top: 20rpx;
+}
+
+.content-comment > label {
+  font-size: 32rpx;
+  color: #a3a3a3;
+}
+
+.content-comment > textarea {
+  width: 95%;
   font-size: 24rpx;
-  color: #999;
+  background: #f2f2f2;
+  padding: 20rpx;
+  height: 160rpx;
   margin-top: 10rpx;
 }
 
-.order-item-price {
-  font-size: 28rpx;
-  color: #ff9c35;
-  font-weight: bold;
-}
-
-/* 优惠信息 */
-.promotion-tag {
-  color: #fff;
-  background: #ff9c35;
-  padding: 4rpx 8rpx;
-  border-radius: 4rpx;
-  font-size: 24rpx;
-  margin-right: 10rpx;
-}
-
-.promotion-price {
-  color: #ff9c35;
-  font-weight: bold;
-}
-
-.total-price {
-  color: #ff9c35;
-  font-size: 32rpx;
-  font-weight: bold;
-}
-
-/* 备注区域 */
-.comment-section {
-  margin-top: 20rpx;
-  padding: 20rpx 30rpx;
-  background: #fff;
-}
-
-.comment-label {
-  font-size: 28rpx;
-  color: #666;
-}
-
-.comment-input {
-  width: 100%;
-  height: 160rpx;
-  font-size: 28rpx;
-  background: #f8f8f8;
-  padding: 20rpx;
-  margin-top: 20rpx;
-  border-radius: 8rpx;
-  box-sizing: border-box;
-}
-
-/* 支付区域 */
 .operate {
-  height: 100rpx;
+  height: 110rpx;
   display: flex;
-  align-items: center;
-  background: #fff;
-  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
 
-.price-info {
-  flex: 1;
-  padding-left: 30rpx;
-  font-size: 32rpx;
-  font-weight: bold;
-  color: #ff9c35;
-}
-
-.submit-btn {
-  width: 240rpx;
-  height: 100%;
-  font-size: 32rpx;
+.operate-info {
+  width: 74%;
+  background: #353535;
   color: #fff;
+  line-height: 110rpx;
+  padding-left: 40rpx;
+}
+
+.operate-submit {
+  width: 26%;
+  font-size: 30rpx;
+  text-align: center;
+  line-height: 110rpx;
   background: #ff9c35;
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.submit-btn.disabled {
-  background: #ccc;
-}
-
-/* 适配 iPhone X 底部区域 */
-.operate {
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
+  color: #fff;
 }

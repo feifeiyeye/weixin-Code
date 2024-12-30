@@ -1,0 +1,164 @@
+/* pages/order/order.wxss */
+page{
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.order_warp {
+  width: 100%;
+  display: block;
+  flex-direction: column;
+  position: absolute;
+  background: #f3f4f6;
+}
+
+
+.my_order_line {
+  margin-bottom: 30rpx;
+}
+
+.order_num_box {
+  height: 78rpx;
+  background: #fff;
+  align-items: center;
+  display: flex;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #aaa;
+  justify-content: space-between;
+}
+
+.my_order_box {
+  background: #fbfbfb;
+  padding: 0 20rpx;
+}
+
+.order_contry {
+  height: 100rpx;
+  border-bottom: 1px solid #f0f0f0;
+  align-items: center;
+  display: flex;
+}
+
+.order_contry image {
+  width: 58rpx;
+  height: 38rpx;
+  border: 1px solid #f0f0f0;
+  margin: 0 20rpx 0 0;
+}
+
+.order_contry text {
+  font-size: 30rpx;
+  color: #444;
+}
+
+.order_name_box {
+  height: 90rpx;
+  border-bottom: 1px solid #f0f0f0;
+  margin-left: 84rpx;
+  display: flex;
+  align-items: center;
+}
+
+.order_name {
+  font-size: 30rpx;
+  color: #444;
+  margin-right: 20rpx;
+}
+
+.order_job {
+  font-size: 26rpx;
+  color: #aaa;
+}
+
+.order_result_text {
+  font-size: 28rpx;
+  color: #6f6f6f;
+  flex: 1;
+  text-align: right;
+}
+
+.order_name_box .font_r {
+  color: #ff5a60;
+}
+
+.order_line_bom {
+  height: 110rpx;
+  background: #fff;
+  margin-top: -1px;
+  display: flex;
+  align-items: center;
+  padding: 0 20rpx;
+  justify-content: space-between;
+}
+
+.order_money {
+  font-size: 28rpx;
+  color: #6f6f6f;
+  width: 280rpx;
+}
+
+.order_line_bom_btnbox {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.order_pay_btn, .order_mail_btn {
+  width: 200rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+}
+
+.order_upload_btn, .order_cancel_btn {
+  width: 169rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+}
+
+.order_warp1 {
+  background: #f3f4f6;
+  height: 100%;
+  display: flex;
+}
+
+.no_order {
+  padding: 130rpx 20rpx 0;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.no_order image{
+  width: 520rpx;
+  height: 260rpx;
+}
+.no_order text {
+  color: #bbb;
+  font-size: 28rpx;
+  display: block;
+  margin: 40rpx 0 60rpx 0;
+}
+
+.no_order_btn {
+  width: 330rpx;
+  height: 80rpx;
+  background: #ff5a60;
+  color: #fff;
+  text-align: center;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  margin: 0 auto;
+  border-radius: 5rpx;
+}
+
+.no_order no_order_btn {
+  margin-bottom: 80rpx;
+}
+
+.my_order_box .order_name_box:last-child{
+    border: 0;
+}

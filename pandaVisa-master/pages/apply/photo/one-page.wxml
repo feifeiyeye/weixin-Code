@@ -1,0 +1,53 @@
+
+<!--pages/apply/photo/passport.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="certificate_page">
+  <view class="certificate_example_box" wx:if="{{previewImg}}">
+    <image src="{{previewImg}}" class="passport"></image>
+  </view>
+  <button class="certificate_btn passport {{btn_hide}}"  catchtap="chooseImage">
+    <image src="{{imagePath}}" class="camera_img" data-src="{{imagePath}}" catchtap="chooseImage"></image>
+  </button>
+  <view class="certificate_example_box {{hz_hide}}" >
+    <button class="certificate_small_btn" catchtap="chooseImage" wx:if="{{((curr_elec_id_info.upload[0].elec_status == 3  || curr_elec_id_info.upload[0].elec_status == 2) && (curr_applicant.applicant_status == 2))  || order_detail.order_status == 1 }}">
+      <view catchtap="chooseImage">
+        <image catchtap="chooseImage" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+      </view>
+    </button>
+    <view class="certificate_example_box_warp" catchtap="previewImg"></view>
+    <image src="{{upload_passport}}" class="passport" mode="aspectFit"></image>
+    <view class="certificate_example_box_stat" wx:if="{{curr_elec_id_info.upload[0].elec_status == 3}}">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+    </view>
+    <view class="certificate_example_box_stat" wx:if="{{curr_elec_id_info.upload[0].elec_status == 0}}">
+      <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/pass.png"></image>
+    </view>
+  </view>
+</view>
+<view class="certificate_ps_top" wx:if="{{curr_elec_id_info.upload[0].elec_status == 3}}">
+  <view class="certificate_ps">
+    <text class="certificate_ps_title">预审不合格</text>
+    <block wx:for="{{curr_elec_id_info.upload}}">
+      <view class="certificate_ps_line" wx:for="{{item.memoArr}}">
+        <view class="icon_li_p"></view>
+        <text>{{item}}</text>
+      </view>
+    </block>
+  </view>
+</view>
+<view wx:if="{{tip}}" class="certificate_ps">
+  <text wx:if="{{tip}}" class="certificate_ps_title">资料要求</text>
+  <view wx:if="{{tip}}" class="certificate_ps_line">
+    <view class="icon_li_p"></view>
+    <block wx:if="{{tip}}">
+      <text>{{tip}}</text>
+    </block>
+    <block wx:else>
+    </block>
+  </view>
+</view>
+<view class="page_btn_bottom_box" catchtap="passPortSave">
+  <view class="page_btn_bottom btn_red" catchtap="passPortSave">确定</view>
+</view>

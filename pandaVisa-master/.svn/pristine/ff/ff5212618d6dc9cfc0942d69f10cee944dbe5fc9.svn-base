@@ -1,0 +1,8 @@
+
+/* pages/apply/apply-data.wxss */
+@import "/pages/apply/apply.wxss";
+page{
+    background: #fff;    
+    height: 100%;
+    box-sizing: border-box;
+}

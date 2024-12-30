@@ -1,0 +1,76 @@
+
+<!--pages/apply/photo/idcard.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="certificate_page">
+  <view class="id_area_box">
+    <text>身份证正面</text>
+    <view class="id_area_box_line">
+      <image src="/image/1.jpg" class="idcard"></image>
+      <view class="certificate_example_box">
+        <view class="certificate_example_box_warp"></view>
+        <button class="certificate_small_btn">
+          <view>
+            <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+          </view>
+        </button>
+        <image src="/image/1.jpg" class="idcard"></image>
+        <view class="certificate_example_box_stat">
+          <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass%402x.png"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+    <view class="certificate_ps_top">
+      <view class="certificate_ps">
+        <text class="certificate_ps_title">资料要求</text>
+        <view class="certificate_ps_line">
+          <view class="icon_li_p"></view>
+          <text>头发过少，看不清楚</text>
+        </view>
+        <view class="certificate_ps_line">
+          <view class="icon_li_p"></view>
+          <text>头发过少，看不清楚</text>
+        </view>
+        <view class="certificate_ps_line">
+          <view class="icon_li_p"></view>
+          <text>头发过少，看不清楚</text>
+        </view>
+      </view>
+      </view>
+  <view class="certificate_page">
+  <view class="id_area_box">
+    <text>身份证正面</text>
+    <view class="id_area_box_line">
+      <image src="/image/1.jpg" class="idcard"></image>
+      <view class="certificate_example_box">
+        <view class="certificate_example_box_warp"></view>
+        <button class="certificate_small_btn">
+          <view>
+            <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/camera.png" class="camera_img"></image>
+          </view>
+        </button>
+        <image src="/image/1.jpg" class="idcard"></image>
+        <view class="certificate_example_box_stat">
+          <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/applicant/notpass.png"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+    <view class="certificate_ps">
+      <text class="certificate_ps_title">资料要求</text>
+      <view class="certificate_ps_line">
+        <view class="icon_li_p"></view>
+        <text>这是身份证的注意事项这是身份证的</text>
+      </view>
+    </view>
+    <view class="page_btn_bottom_box">
+      <navigator url="/pages/apply/photo/idcard-reada">
+        <view class="apply_submit">
+            <view class="apply_subtn btn_red">提交</view>
+        </view>
+        </navigator>
+    </view>

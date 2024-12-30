@@ -1,0 +1,214 @@
+
+<!--pages/order/order-detail.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="order_warp">
+  <navigator url="/pages/apply/express-detail?user_order_id={{order_detail.user_order_id}}" wx:if="{{order_detail.order_status == 6 && order_detail.return_express.length> 0}}">
+    <view class="express_header">
+      <image src="/image/address.png" style="width:28rpx;height:36rpx;"></image>
+      <view style="flex:1;padding:0 22rpx;font-size:30rpx;color：#444;line-height:36rpx;">{{express_detail.data[0].context}}</view>
+      <image style="width:24rpx;height:24rpx;" src="/image/arrowright2.png"></image>
+    </view>
+  </navigator>
+  <view class="addr_border " url="/pages/apply/express-detail?user_order_id={{order_detail.user_order_id}}" wx:if="{{order_detail.order_status == 6 && order_detail.return_express.length> 0}}" style="margin-bottom:30rpx">
+    <block wx:for="{{borderColor}}" wx:for-item="val">
+      <view class="bg_{{val}}"></view>
+    </block>
+  </view>
+  <block wx:if="{{order_detail.order_status == 0}}">
+    <view class="order_cancel_box ">
+      <view class="order_detail_box">
+        <navigator url="/pages/visa/visa-detail?visa_product_id={{order_detail.visa_product_id}}">
+          <view class="order_contry">
+            <image src="{{order_detail.national_flag_img}}"></image>
+            <text>{{order_detail.visa_product_name}}</text>
+          </view>
+        </navigator>
+        <block wx:for="{{order_detail.applicant}}">
+          <view class="order_name_box">
+            <view class="order_name_top">
+              <text class="order_name">{{item.applicant_name}}</text>
+              <text class="order_job">{{identity_material[item.material.identity_id]}}</text>
+            </view>
+          </view>
+        </block>
+        <view class="order_line_bom">
+          <text>合计:
+            <text class="font_r">￥{{total_price / 100 }}</text>
+          </text>
+        </view>
+      </view>
+      <view class="order_cancel_box_stat">
+        <text>订单号：{{user_order_id}}</text>
+        <text>订单状态：{{orderStatus[order_detail.order_status]}}</text>
+      </view>
+    </view>
+  </block>
+  <block wx:elif="{{order_detail.order_status >=3}}">
+    <view class="order_mail_list_box" wx:if="{{order_detail.order_status == 4}}">
+      <view class="order_mail_list_box_top">
+        <view wx:for="{{[1,2,3,4,5,6,7,8,9,10,11,12]}}"></view>
+      </view>
+      <view class="oreder_mail_list_mid">
+        <text class="oreder_mail_list_mid_title">邮寄资料清单</text>
+        <view class="oreder_mail_list_mid_stat">
+          <block wx:if="{{order_detail.user_express.length > 0 || submitKdOk}}">
+            <text class="order_mail_list_mid_list">已寄出</text>
+            <text class="order_mail_list_mid_list">{{kdCompany[kd_index]}}</text>
+            <text class="order_mail_list_mid_num">{{kdOrderNo}}</text>
+          </block>
+          <block wx:else>
+            <text class="order_mail_list_mid_nomail">尚未邮寄</text>
+          </block>
+        </view>
+      </view>
+      <view class="oreder_mail_list_contbox">
+        <block wx:for="{{order_detail.applicant}}">
+          <view class="oreder_mail_list_cont_line">
+            <text class="oreder_mail_list_cont_name">{{item.applicant_name}}</text>
+            <text class="oreder_mail_list_cont_type">{{item.attr_1_len}}项目</text>
+          </view>
+        </block>
+      </view>
+      <view class="oreder_mail_list_bom">
+        <navigator url="order-mail?user_order_id={{order_detail.user_order_id}}">
+          <text>查看详情</text>
+        </navigator>
+      </view>
+    </view>
+
+    <!-- 待支付 -->
+    <view class="order_detail_box " wx:if="{{order_detail.order_status >=3 }}">
+      <navigator url="/pages/visa/visa-detail?visa_product_id={{order_detail.visa_product_id}}">
+        <view class="order_contry">
+          <image src="{{order_detail.national_flag_img}}"></image>
+          <text>{{order_detail.visa_product_name}}</text>
+        </view>
+      </navigator>
+      <block wx:for="{{order_detail.applicant}}">
+        <navigator url="{{item.data_url}}">
+          <view class="order_name_box">
+            <view class="order_name_top">
+              <text class="order_name">{{item.applicant_name}}</text>
+              <text class="order_job">{{identity_material[item.material.identity_id]}}</text>
+              <block wx:if="{{identityApplyStatus[item.applicant_status]}}">
+                <text class="order_type">{{identityApplyStatus[item.applicant_status]}}</text>
+              </block>
+            </view>
+            <view class="order_info">
+              <text>查看资料</text>
+              <image src="/image/arrowright2.png"></image>
+            </view>
+          </view>
+        </navigator>
+      </block>
+      <view class="order_line_bom">
+        <text>合计:
+          <text class="font_r">￥{{total_price / 100 }}</text>
+        </text>
+      </view>
+    </view>
+    <view class="order_mail_box">
+      <view class="order_mail_addbox">
+        <view class="order_mail_name">
+          <text>{{order_detail.user_address.addressee}}</text>
+          <text class="order_mail_num">{{order_detail.user_address.mobile_phone}}</text>
+        </view>
+        <text class="order_mail_add">{{areaData['86'][order_detail.user_address.province_code]}}{{areaData[order_detail.user_address.province_code][order_detail.user_address.city_code]}} {{areaData[order_detail.user_address.city_code][order_detail.user_address.counties_code]}}{{order_detail.user_address.detail_address}}
+        </text>
+        <text class="order_mail_email" wx:if="{{order_detail.user_address.email}}">{{order_detail.user_address.email}}</text>
+      </view>
+      <view class="order_mail_ordercont">
+        <view>
+          <text>订单编号：</text>
+          <text>{{order_detail.user_order_id}}</text>
+        </view>
+        <view>
+          <text>订单状态：</text>
+          <text>{{orderStatus[order_detail.order_status]}}</text>
+        </view>
+        <view>
+          <text>下单时间：</text>
+          <text>{{order_detail.create_time}}</text>
+        </view>
+        <view>
+          <text>支付方式：</text>
+          <text>微信支付</text>
+        </view>
+        <view wx:if="{{order_detail.pay_info.invoice_type}}">
+          <text>发票信息：</text>
+          <block wx:if="order_detail.pay_info.invoice_type == 1">
+            <text class="invoice_head">个人</text>
+          </block>
+          <block wx:elif="order_detail.pay_info.invoice_type == 2">
+            <text class="invoice_head">公司</text>
+          </block>
+          <text>{{order_detail.pay_info.invoice_header}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
+<view class="pop_warp {{bg_hide}}" id="bg_hide" catchtap="closePopup">
+  <view class="pop_close_box">
+    <icon type="cancel" color="#fff" size="32" catchtap="closePopup"></icon>
+  </view>
+</view>
+<view class="pop_box {{kd_info_class}}">
+  <view class="pop_box_title_box">
+    <text class="pop_box_title">填写快递信息</text>
+  </view>
+  <view class="pop_box_text_cont_postmail">
+    <view class="pop_box_text_cont_postmail_title">已邮寄资料到该地址</view>
+    <view class="order_mail_dwadd">
+      <image src="/image/address.png"></image>
+      <text class="mail_name">{{order_detail.visa_address.addressee}}</text>
+      <text class="mail_tel">{{order_detail.visa_address.mobile_phone}}</text>
+      <text class="mail_add">{{order_detail.visa_address.detail_address}}</text>
+    </view>
+    <view class="pop_box_text_chosecom">
+      <picker bindchange="bindPickerChange" value="{{kd_index}}" range="{{kdCompany}}">
+        <view class="chosecom">
+          {{kdCompany[kd_index]}}
+        </view>
+        <view class="triangle"></view>
+      </picker>
+      <view class="pop_box_text_input">
+        <input placeholder="请输入快递单号" bindinput="kdOrder" placeholder-style="placeholder" />
+      </view>
+      <view class="pop_box_text_chosecom_btn btn_red" catchtap="submitKdInfo">确定</view>
+    </view>
+  </view>
+</view>
+
+<!--底部按钮-->
+<block wx:if="{{order_detail.order_status == 0 }}">
+  <view></view>
+</block>
+<block wx:elif="{{order_detail.order_status == 3 }}">
+  <view class="page_btn_bottom_box ">
+    <view class="">
+      <view class="order_btn_box_cancel hollow_btn_black" catchtap="cancalOrder">取消订单</view>
+      <view class="order_btn_box_pay btn_red" catchtap="payOrder">立即支付</view>
+    </view>
+  </view>
+</block>
+<block wx:elif="{{order_detail.order_status == 4 }}">
+  <view class="page_btn_bottom_box {{kdInfoBtn}}" catchtap="kdInfo">
+    <view class="page_btn_bottom btn_red" catchtap="kdInfo">填写快递信息</view>
+  </view>
+</block>
+<block wx:elif="{{order_detail.order_status == 5 }}">
+  <view></view>
+</block>
+<block wx:elif="{{order_detail.order_status == 6 }}">
+  <view></view>
+</block>
+<block wx:elif="{{order_detail.order_status == 7 }}">
+  <view></view>
+</block>
+<block wx:elif="{{order_detail.order_status == 8 }}">
+  <view></view>
+</block>
+<include src="../public/footer.wxml" />

@@ -1,0 +1,94 @@
+
+<!--pages/order/pay/payok.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="pay_ok">
+  <view class="pay_icon">
+    <icon type="success" size="80" color="#50c57f" />
+  </view>
+  <view class="pay_h1">支付成功</view>
+  <view class="pay_h3">若资料于{{start_date}}前通过预审，则预计出签时间：</view>
+  <view class="pay_h2">{{end_date}}左右</view>
+  <navigator url="/pages/order/order-detail?user_order_id={{order_detail.user_order_id}}" class="pay_toorder hollow_btn_red">查看订单</navigator>
+</view>
+<view class="pay_tips" wx:if="{{curr_identity_material[0].material_paper.optional.length > 0 || curr_identity_material[0].material_paper.required.length > 0 }}">
+  <view class="tips_topbor"></view>
+  <view class="pay_tips_cont">
+    <view class="pay_h4">请及时将以下资料快递给我们</view>
+    <view class="pay_addr">
+      <view class="pay_pos">
+        <image src="/image/address.png"></image>
+      </view>
+      <view class="pay_addr_cont">
+        <text>{{order_detail.visa_address.addressee}} {{order_detail.visa_address.mobile_phone}}</text>
+        <view class="one_line">{{areaJson['86'][order_detail.visa_address.province_code]}}{{areaJson[order_detail.visa_address.province_code][order_detail.visa_address.city_code]}}{{areaJson[order_detail.visa_address.city_code][order_detail.visa_address.counties_code]}}{{order_detail.visa_address.detail_address}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="pay_info" wx:if="{{curr_identity_material[0].material_paper.optional.length > 0 || curr_identity_material[0].material_paper.required.length > 0 }}">
+  <block wx:for="{{applicant}}">
+    <view class="order_mail_postline order_human_cell">
+      <view class="pop_white_text_line_topbox">
+        <view class="pop_white_text_line_topbox_leftline"></view>
+        <view class="pop_white_text_line_title">
+          {{item.applicant_name}}
+        </view>
+        <view class="order_human_identity">{{identityName[item.material.identity_id]}}</view>
+      </view>
+      <view class="order_human_cont">
+        <block wx:for="{{curr_identity_material[item.material.identity_id].material_paper.required}}">
+          <view class="more_excemple" wx:if="{{item.sample}}" id="{{item.id}}" catchtap="previewImg">查看样例</view>
+          <view class="post">{{item.name}}
+            <text class="font_r">*</text>
+            <view class="order_mail_postline_p" wx:if="{{item.attention}}">
+              <view class="icon_li_p"></view>
+              <text class="ps">{{item.attention}}</text>
+            </view>
+          </view>
+        </block>
+        <block wx:for="{{curr_identity_material[item.material.identity_id].material_paper.optional}}">
+          <view class="more_excemple" wx:if="{{item.sample}}" id="{{item.id}}" catchtap="previewImg">查看样例</view>
+         <view class="post">{{item.name}}
+            <view class="order_mail_postline_p" wx:if="{{item.attention}}">
+              <view class="icon_li_p"></view>
+              <text class="ps">{{item.attention}}</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </block>
+</view>
+<view class="send_mail" wx:if="{{curr_identity_material[0].material_paper.optional.length > 0 || curr_identity_material[0].material_paper.required.length > 0 }}">
+  <view class="pay_h2">邮寄资料清单已发送至邮箱</view>
+  <view class="pay_h2">{{order_detail.user_address.email}}</view>
+</view>
+<view class="post_com_box" wx:if="{{curr_identity_material[0].material_paper.optional.length > 0 || curr_identity_material[0].material_paper.required.length > 0 }}">
+  <text class="post_com_title">快递热线</text>
+  <view class="post_com_line">
+    <text class="font_b">顺丰：</text>
+    <text class="font_blue">95338</text>
+  </view>
+  <view class="post_com_line">
+    <text class="font_b">EMS：</text>
+    <text class="font_blue">11183</text>
+  </view>
+  <view class="post_com_line">
+    <text class="font_b">圆通：</text>
+    <text class="font_blue">95554</text>
+  </view>
+  <view class="post_com_line">
+    <text class="font_b">申通：</text>
+    <text class="font_blue">95543</text>
+  </view>
+  <view class="post_com_line">
+    <text class="font_b">韵达：</text>
+    <text class="font_blue">95546</text>
+  </view>
+  <view class="post_com_line">
+    <text class="font_b">中通：</text>
+    <text class="font_blue">95311</text>
+  </view>
+</view>

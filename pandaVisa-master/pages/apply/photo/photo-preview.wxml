@@ -1,0 +1,19 @@
+<!--pages/apply/photo/photo-preview.wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="photo_tip">
+    <icon type="info_circle" size="20" color="#ff5a60"/>
+    <text>签证照片要尽量真实，否则海关哥哥会认不出你哦</text>
+</view>
+<view class="photo_view">
+    <view class="photo_vimage">
+        <image src="{{src}}"></image>
+    </view>
+</view>
+<view class="page_btn_bottom_box ">
+    <view class="apply_submit">
+        <button class="apply_subtn btn_red" bindtap="submitOk">确定</button>
+    </view>
+</view>
+

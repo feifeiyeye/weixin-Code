@@ -1,0 +1,78 @@
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="top_box" style="{{background}}">
+  <view class="area_box pselect" catchtap="openPopup">
+    <text class="area_box_title" catchtap="openPopup">{{['长期居住地', '护照签发地'][area]}}</text>
+    <text class="area_box_check" catchtap="openPopup">{{activeCity}}</text>
+  </view>
+</view>
+<block wx:if="{{visaList.length <= 0 && isLoad == false}}">
+  <view class="visa_err_box">
+    <icon type="warn" size="50"></icon>
+    <text class="visa_err_word">暂时没有您想要的签证服务哦~</text>
+  </view>
+</block>
+<block wx:elif="{{visaList.length > 0}}">
+  <view>
+    <block wx:for="{{visaList}}" wx:key="key">
+      <navigator open-type="redirect" url="visa-detail?visa_product_id={{item.visa_product_id}}" class="widget">
+        <view class="visa_list" style="border-left-color:{{item.type_id == 10000 ? '#92dda6' : (item.type_id == 10001 ? '#7ec2f7' : (item.type_id == 10002 ? '#f98483' : '#9399ed'))}}">
+          <text class="visa_list_title">{{item.product_name}}</text>
+          <view class="visa_list_tipsbox">
+            <view class="xx_area">
+              <view class="vux-rater">
+                <view class="vux-rater-box star_a" wx:for="{{[1,2,3,4,5]}}" wx:key="key" wx:for-item="itemsub" wx:for-index="idx">
+                  <view class="vux-rater-inner star_active" wx:if="{{item.score.fraction > 0 && item.score.fraction >= itemsub }}">★
+                  </view>
+                  <view class="vux-rater-inner" wx:else>
+                    ★
+                    <view class="vux-rater-outer span" style="width:{{item.score.float*100}}%" wx:if="{{item.score.float > 0 &&  itemsub - item.score.fraction == 1}}">★</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="visa_cq_pre">
+              <text>出签率</text>
+              <text class="color_red">{{item.pass_rate}}%</text>
+            </view>
+          </view>
+          <view class="visa_list_cont">
+            <view class="visa_list_li">
+              <icon type="success_circle" size="16" color="#ffa8ab"></icon>
+              <text>办理{{item.need_days}}</text>
+            </view>
+            <view class="visa_list_li">
+              <icon type="success_circle" size="16" color="#ffa8ab"></icon>
+              <text>拒签退全款</text>
+            </view>
+            <view class="visa_list_li">
+              <icon type="success_circle" size="16" color="#ffa8ab"></icon>
+              <text>免费拍照</text>
+            </view>
+          </view>
+          <view class="visa_list_money_box">
+            <text class="visa_list_money">￥{{item.original_price/100}}</text>
+            <text class="visa_list_moneydw">￥{{item.sell_price/100}}</text>
+          </view>
+        </view>
+      </navigator>
+    </block>
+  </view>
+</block>
+<view class="pop_warp {{hide}}" catchtap="closePopup">
+  <view class="pop_close_box">
+    <image src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/close.png"></image>
+  </view>
+</view>
+<view class="{{class_name}} {{hide}}">
+  <view class="pop_box_title_box">
+    <text class="pop_box_title">长期居住地</text>
+  </view>
+  <scroll-view class="pop_box_cont" scroll-y="true">
+    <block wx:for-items="{{cityList}}" wx:key="index">
+      <text wx:if="{{activeCity === item }}" class="selected" id="{{index}}" catchtap="selectCity" data="{{item}}">{{item}}</text>
+      <text wx:else id="{{index}}" catchtap="selectCity" data="{{item}}">{{item}}</text>
+    </block>
+  </scroll-view>
+</view>

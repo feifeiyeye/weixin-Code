@@ -1,0 +1,688 @@
+
+<!--pages/apply/apply-korea-temp-wxml-->
+<view class="borderTop">
+  <view class="borderTop_fixed"></view>
+</view>
+<view class="apply_cells">
+<form bindsubmit="KoreasaveInfo" bindreset="formReset" report-submit="true" id="0">
+  <view class="apply_cell {{selectedIndex == 0 ? 'apply_cell_highlighted_background' : ''}}" catchtap="KoreatapToExpand" id="100">
+    <view class="apply_cell_n">基本信息</view>
+    <view class="apply_cell_s finish {{selectedIndex == 0 ? 'apply_cell_s_highlighted_arrow' : ''}}">
+      {{selectedIndex == 0 ? ' ' : '已完成'}}</view>
+    <image class="apply_cell_image" src="{{img_src}}" animation="{{animationArrowDatas[0]}}" mode="aspectFit"></image>
+  </view>
+  <view class="apply_div" animation="{{animationDatas[0]}}" style="height:0px;overflow: hidden">
+    <view class="apply_cont">
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">姓(拼音)</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="姓(拼音)" maxlength="15" placeholder-class="pcolor" value="{{content.first_name_en}}" bindinput="KoreacontentBindInput" id="first_name_en" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">名(拼音)</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="名(拼音)" maxlength="15" placeholder-class="pcolor" value="{{content.second_name_en}}" bindinput="KoreacontentBindInput" id="second_name_en" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">姓(中文)</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="姓(中文)" maxlength="15" placeholder-class="pcolor" value="{{content.first_name_cn}}" bindinput="KoreacontentBindInput" id="first_name_cn" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">名(中文)</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="名(中文)" maxlength="15" placeholder-class="pcolor" value="{{content.second_name_cn}}" bindinput="KoreacontentBindInput" id="second_name_cn" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">曾用名</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindOldNamePickerChange" value="{{content.old_name}}" range="{{oldNames}}">
+              <view class="picker pselect">
+                {{oldNames[content.old_name]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{content.old_name == 1}}">
+          <view class="apply_li">
+            <text class="apply_li_n">曾用姓名(拼音)</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="曾用姓名(拼音)" maxlength="15" placeholder-class="pcolor" value="{{content.old_name_en}}" bindinput="KoreacontentBindInput" id="old_name_en" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">曾用姓名(中文)</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="曾用姓名(中文)" maxlength="15" placeholder-class="pcolor" value="{{content.old_name_cn}}" bindinput="KoreacontentBindInput" id="old_name_cn" />
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">性别</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindSexPickerChange" value="{{content.gender}}" range="{{sexy}}">
+              <view class="picker pselect">
+                {{sexy[content.gender]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">出生日期</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <picker mode="date" value="{{content.birthday}}" start="1900-01-01" end="{{dateNow}}" bindchange="KoreabindDateChange" id="birthday">
+                <view class="picker pselect">
+                  {{content.birthday}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">出生国</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="请输入出生国" placeholder-class="pcolor" value="{{content.country}}" bindinput="KoreacontentBindInput" id="country" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">身份证号</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="身份证号" maxlength="18" placeholder-class="pcolor" value="{{content.id_no}}" bindinput="KoreacontentBindInput" id="id_no" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">双重国籍</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindNormalPickerChange" value="{{content.double_country}}" range="{{shiOrfou}}" id="double_country">
+              <view class="picker pselect">
+                {{shiOrfou[content.double_country]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{content.double_country==1}}">
+          <view class="apply_li">
+            <text class="apply_li_n">另有国籍</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="请输入另有国籍" maxlength="18" placeholder-class="pcolor" value="{{content.other_country}}" bindinput="KoreacontentBindInput" id="other_country" />
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">婚姻状况</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindMarryStatusPickerChange" value="{{content.marry-1}}" range="{{marryStatus}}">
+              <view class="picker pselect">
+                {{marryStatus[content.marry-1]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="apply_button">
+      <button class="hollow_btn_red" formType="submit"  > 保存 </button>
+    </view>
+  </view>
+  </form>
+<form bindsubmit="KoreasaveInfo" bindreset="formReset" report-submit="true" id="1">
+  <view class="apply_cell {{selectedIndex == 1 ? 'apply_cell_highlighted_background' : ''}}" catchtap="KoreatapToExpand"id="101">
+    <view class="apply_cell_n">护照信息</view>
+    <view class="apply_cell_s finish">{{selectedIndex == 1 ? ' ' : '已完成'}}</view>
+    <image class="apply_cell_image" src="https://visa.oss-cn-shenzhen.aliyuncs.com/icon/wxa/product/in.png" animation="{{animationArrowDatas[1]}}" mode="aspectFit"></image>
+  </view>
+  <view class="apply_div" animation="{{animationDatas[1]}}" style="height:0px;overflow: hidden">
+    <view class="apply_cont">
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">护照号</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="护照号码" maxlength="15" placeholder-class="pcolor" value="{{content.passport_number}}" bindinput="KoreacontentBindInput" id="passport_number" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">签发地点</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindIssuedProvincePickerChange" value="{{issueProvinceIndex}}" range="{{provinces}}" id="issue_place_cn">
+              <view class="picker pselect">
+                {{content.issue_place_cn.length == 0 ? '请选择' : content.issue_place_cn}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{content.issue_place_cn=='其他'}}">
+          <view class="apply_li">
+            <text class="apply_li_n"></text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="请输入地点名称" maxlength="15" placeholder-class="pcolor" value="{{content.other_issue_place_cn}}" bindinput="KoreacontentBindInput" id="other_issue_place_cn" />
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">签发日期</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <picker mode="date" value="{{content.ps_issue_date}}" start="1900-01-01" end="{{dateNow}}" bindchange="KoreabindDateChange" id="ps_issue_date">
+                <view class="picker pselect">
+                  {{content.ps_issue_date.length == 0 ? '请选择' : content.ps_issue_date}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">有效期至</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <picker mode="date" value="{{content.ps_expire_date}}" start="{{dateNow}}" end="2100-01-01" bindchange="KoreabindDateChange" id="ps_expire_date">
+                <view class="picker pselect">
+                  {{content.ps_expire_date.length == 0 ? '请选择' : content.ps_expire_date}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">是否有其他护照</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindNormalPickerChange" value="{{content.other_passport}}" range="{{shiOrfou}}" id="other_passport">
+              <view class="picker pselect">
+                {{shiOrfou[content.other_passport]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{content.other_passport==1}}">
+          <view class="apply_li">
+            <text class="apply_li_n">护照类型</text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindSpecialPickerChange" value="{{content.other_passport_type-1}}" range="{{otherPassportTypeArr}}" id="other_passport_type">
+                <view class="picker pselect">
+                  {{otherPassportTypeArr[content.other_passport_type-1]}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">护照号码</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="护照号码" maxlength="15" placeholder-class="pcolor" value="{{content.other_passport_number}}" bindinput="KoreacontentBindInput" id="other_passport_number" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">签发国</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="请输入签发国" maxlength="15" placeholder-class="pcolor" value="{{content.other_passport_country}}" bindinput="KoreacontentBindInput" id="other_passport_country" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">有效期至</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <picker mode="date" value="{{content.other_passport_expire_date}}" start="{{dateNow}}" end="2100-01-01" bindchange="KoreabindDateChange" id="other_passport_expire_date">
+                  <view class="picker pselect">
+                    {{content.other_passport_expire_date.length == 0 ? '请选择' : content.other_passport_expire_date}}
+                  </view>
+                </picker>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">停留天数</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindEverDurationPickerChange" value="{{content.stay-1}}" range="{{days}}" id="stay">
+              <view class="picker pselect">
+                {{days[content.stay-1]}}天
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">预计到达日期</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <picker mode="date" value="{{content.arrive}}" start="dateNow" end="2100-01-01" bindchange="KoreabindDateChange" id="arrive">
+                <view class="picker pselect">
+                  {{content.arrive.length == 0 ? '请选择' : content.arrive}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="apply_button">
+      <button class="hollow_btn_red" formType="submit" > 保存 </button>
+    </view>
+  </view>
+  </form>
+<form bindsubmit="KoreasaveInfo" bindreset="formReset" report-submit="true" id="2">
+  <view class="apply_cell {{selectedIndex == 2 ? 'apply_cell_highlighted_background' : ''}}" catchtap="KoreatapToExpand"id="102">
+    <view class="apply_cell_n">家庭与职业信息</view>
+    <view class="apply_cell_s {{inputStatus[2] == 0 ? 'wri' : 'finish'}}">
+      {{selectedIndex == 2 ? ' ' : (inputStatus[2] == 0 ? '填写' : '已完成')}}</view>
+    <image class="apply_cell_image" src="{{img_src}}" animation="{{animationArrowDatas[2]}}" mode="aspectFit"></image>
+  </view>
+  <view class="apply_div" animation="{{animationDatas[2]}}" style="height:0px;overflow: hidden">
+    <view class="apply_cont">
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">居住地址</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindPickerChange" id="province" value="{{province_idx[currentAddressHome.province_code]}}" range="{{province_name}}">
+              <view class="picker pselect">
+                {{currentAddressHome.province}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="apply_li">
+          <text class="apply_li_n"></text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindPickerChange" id="city" value="{{city_idx[currentAddressHome.city_code]}}" range="{{city_name}}">
+              <view class="picker pselect">
+                {{currentAddressHome.city}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="apply_li">
+          <text class="apply_li_n"></text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindPickerChange" id="counties" value="{{counties_idx[currentAddressHome.counties_code]}}" range="{{counties_name}}">
+              <view class="picker pselect">
+                {{currentAddressHome.country}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <view class="apply_li">
+          <text class="apply_li_n"></text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="详细地址" placeholder-class="pcolor" value="{{content.home_street}}" bindinput="KoreacontentBindInput" id="home_street" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">手机</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="儿童请填写父母手机" placeholder-class="pcolor" value="{{content.home_mobile}}" bindinput="KoreacontentBindInput" id="home_mobile" />
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">紧急联系人姓名</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="填写姓名" maxlength="15" placeholder-class="pcolor" value="{{content.ugent_name}}" bindinput="KoreacontentBindInput" id="ugent_name" />
+            </view>
+          </view>
+        </view>
+        <view class="apply_li">
+          <text class="apply_li_n">紧急联系人所在国家</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="所在国家" placeholder-class="pcolor" value="{{content.ugent_country}}" bindinput="KoreacontentBindInput" id="ugent_country" />
+            </view>
+          </view>
+        </view>
+        <view class="apply_li">
+          <text class="apply_li_n">紧急联系人电话</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <input placeholder="电话" placeholder-class="pcolor" value="{{content.ugent_mobile}}" bindinput="KoreacontentBindInput" id="ugent_mobile" />
+            </view>
+          </view>
+        </view>
+        <view class="apply_li">
+          <text class="apply_li_n">与申请人关系</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindRelationPickerChange" value="{{selectRelationIndex}}" range="{{relations}}">
+              <view class="picker pselect">
+                {{content.ugent_relation}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="apply_button">
+      <button class="hollow_btn_red" formType="submit" > 保存 </button>
+    </view>
+  </view>
+  </form>
+<form bindsubmit="KoreasaveInfo" bindreset="formReset" report-submit="true" id="3">
+  <view class="apply_cell {{selectedIndex == 3 ? 'apply_cell_highlighted_background' : ''}}" catchtap="KoreatapToExpand"id="103">
+    <view class="apply_cell_n">职业与教育信息</view>
+    <view class="apply_cell_s {{inputStatus[3] == 0 ? 'wri' : 'finish'}}">
+      {{selectedIndex == 3 ? ' ' : (inputStatus[3] == 0 ? '填写' : '已完成')}}</view>
+    <image class="apply_cell_image" src="{{img_src}}" animation="{{animationArrowDatas[3]}}" mode="aspectFit"></image>
+  </view>
+  <view class="apply_div" animation="{{animationDatas[3]}}" style="height:0px;overflow: hidden">
+    <view class="apply_cont">
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">最高学历</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindXueliPickerChange" value="{{selectXueliIndex}}" range="{{xueliArr}}">
+              <view class="picker pselect">
+                {{content.xueli}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{content.xueli!='文盲'}}">
+          <view class="apply_li">
+            <text class="apply_li_n">学校名称</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="学校名称" placeholder-class="pcolor" value="{{content.school}}" bindinput="KoreacontentBindInput" id="school" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">学校地址</text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindWorkPickerChange" id="province" value="{{province_idx[currentAddressWork.province_code]}}" range="{{province_name}}">
+                <view class="picker pselect">
+                  {{currentAddressWork.province}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n"></text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindWorkPickerChange" id="city" value="{{city_idx[currentAddressWork.city_code]}}" range="{{city_name}}">
+                <view class="picker pselect">
+                  {{currentAddressWork.city}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n"></text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindWorkPickerChange" id="counties" value="{{counties_idx[currentAddressWork.counties_code]}}" range="{{counties_name}}">
+                <view class="picker pselect">
+                  {{currentAddressWork.country}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n"></text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="详细地址" placeholder-class="pcolor" value="{{content.school_address_detail}}" bindinput="KoreacontentBindInput" id="school_address_detail" />
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">职业</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindJobPickerChange" value="{{selectJobIndex}}" range="{{jobArr}}">
+              <view class="picker pselect">
+                {{content.job}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{selectJobIndex <= 4}}">
+          <view class="apply_li">
+            <text class="apply_li_n">单位名称</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="单位名称" placeholder-class="pcolor" value="{{content.company}}" bindinput="KoreacontentBindInput" id="company" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">职位</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="职位" placeholder-class="pcolor" value="{{content.position}}" bindinput="KoreacontentBindInput" id="position" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">单位地址</text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindJJPickerChange" id="province" value="{{province_idx[currentAddressJJ.province_code]}}" range="{{province_name}}">
+                <view class="picker pselect">
+                  {{currentAddressJJ.province}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n"></text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindJJPickerChange" id="city" value="{{city_idx[currentAddressJJ.city_code]}}" range="{{city_name}}">
+                <view class="picker pselect">
+                  {{currentAddressJJ.city}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n"></text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindJJPickerChange" id="counties" value="{{counties_idx[currentAddressJJ.counties_code]}}" range="{{counties_name}}">
+                <view class="picker pselect">
+                  {{currentAddressJJ.country}}
+                </view>
+              </picker>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">详细地址</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="详细地址" placeholder-class="pcolor" value="{{content.company_address_detail}}" bindinput="KoreacontentBindInput" id="company_address_detail" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">电话</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="电话" placeholder-class="pcolor" value="{{content.company_phone}}" bindinput="KoreacontentBindInput" id="company_phone" />
+              </view>
+            </view>
+          </view>
+        </block>
+        <block wx:if="{{content.job == '其它'}}">
+          <view class="apply_li">
+            <text class="apply_li_n">具体职业</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="具体职业" placeholder-class="pcolor" value="{{content.other_job}}" bindinput="KoreacontentBindInput" id="other_job" />
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class="apply_button">
+      <button class="hollow_btn_red"  formType="submit" > 保存 </button>
+    </view>
+  </view>
+  </form>
+<form bindsubmit="KoreasaveInfo" bindreset="formReset" report-submit="true" id="4">
+  <view class="apply_cell {{selectedIndex == 4 ? 'apply_cell_highlighted_background' : ''}}" catchtap="KoreatapToExpand"id="104">
+    <view class="apply_cell_n">其他信息</view>
+    <view class="apply_cell_s {{inputStatus[4] == 0 ? 'wri' : 'finish'}}">
+      {{selectedIndex == 4 ? ' ' : (inputStatus[4] == 0 ? '填写' : '已完成')}}</view>
+    <image class="apply_cell_image" src="{{img_src}}" animation="{{animationArrowDatas[4]}}" mode="aspectFit"></image>
+  </view>
+  <view class="apply_div" animation="{{animationDatas[4]}}" style="height:0px;overflow: hidden">
+    <view class="apply_cont">
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">访问目的</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindSpecialPickerChange" value="{{content.target-1}}" range="{{['旅游','商务']}}" id="target">
+              <view class="picker pselect">
+                {{['旅游','商务'][content.target-1]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">五年内是否访问过韩国</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindNormalPickerChange" value="{{content.ever_go}}" range="{{shiOrfou}}" id="ever_go">
+              <view class="picker pselect">
+                {{shiOrfou[content.ever_go]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{content.ever_go == 1}}">
+          <view class="apply_li">
+            <text class="apply_li_n">访问次数</text>
+            <view class="apply_li_c">
+              <view class="section">
+                <input placeholder="访问次数" placeholder-class="pcolor" value="{{content.ever_times}}" bindinput="KoreacontentBindInput" id="ever_times" />
+              </view>
+            </view>
+          </view>
+          <view class="apply_li">
+            <text class="apply_li_n">最近访韩目的</text>
+            <view class="apply_li_c">
+              <picker bindchange="KoreabindSpecialPickerChange" value="{{content.ever_target-1}}" range="{{['旅游','商务']}}" id="ever_target">
+                <view class="picker pselect">
+                  {{['旅游','商务'][content.ever_target-1]}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">最近五年是否访问过其他国家</text>
+          <view class="apply_li_c">
+            <view class="section">
+              <picker bindchange="KoreabindNormalPickerChange" value="{{content.other_visit}}" range="{{shiOrfou}}" id="other_visit">
+                <view class="picker pselect">
+                  {{shiOrfou[content.other_visit]}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <block wx:if="{{content.other_visit == 1}}">
+          <view class="apply_li apply_person_add">
+            <text class="apply_li_n">访问记录({{content['visitsData'].length}}条)</text>
+            <view class="apply_cell_s wri" catchtap="editHistory">编辑</view>
+          </view>
+        </block>
+      </view>
+      <view class="apply_block">
+        <view class="apply_li">
+          <text class="apply_li_n">是否有家属同行</text>
+          <view class="apply_li_c">
+            <picker bindchange="KoreabindNormalPickerChange" value="{{content.together}}" range="{{shiOrfou}}" id="together">
+              <view class="picker pselect">
+                {{shiOrfou[content.together]}}
+              </view>
+            </picker>
+          </view>
+        </view>
+        <block wx:if="{{content.together == 1}}">
+          <view class="apply_li apply_person_add">
+            <text class="apply_li_n">同行家属信息({{content['togetherData'].length}}人)</text>
+            <view class="apply_cell_s wri" catchtap="editPerson">编辑</view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class="apply_button">
+      <button class="hollow_btn_red"  formType="submit"> 保存 </button>
+    </view>
+  </view>
+  </form>
+</view>
+<view class="page_btn_bottom_box ">
+  <view class="apply_submit">
+    <view class="apply_subtn btn_red" catchtap="tijiao">提交</view>
+  </view>
+</view>

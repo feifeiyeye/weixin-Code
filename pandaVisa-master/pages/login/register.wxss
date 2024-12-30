@@ -1,0 +1,24 @@
+/* pages/login/register.wxss */
+@import "/pages/login/login.wxss";
+@import "/pages/apply/apply.wxss";
+.obtain_key{
+    display: block;
+    position: absolute;
+    right: 20rpx;
+    font-size: 24rpx;
+    top:50%;
+    z-index: 99;
+    transform: translate(0,-50%);
+}
+.page_btn_bottom_box{
+    background: transparent;
+    border: 0;
+    height: auto;
+}
+.re_order_footer{
+    margin: 0;
+    padding-bottom: 60rpx;
+}
+.check_li {
+    margin: 0;
+}

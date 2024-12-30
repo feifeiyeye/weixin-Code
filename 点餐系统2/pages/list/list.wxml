@@ -1,0 +1,113 @@
+<!--pages/list/list.wxml-->
+<view class="discount">
+  <text class="discount-txt">减</text>
+  满{{promotion.full}}元减{{promotion.reduce}}元（在线支付专享）
+</view>
+
+<!-- 菜单列表区域 -->
+<view class="content">
+  <!-- 左侧菜单栏 -->
+  <scroll-view class="category" scroll-y>
+    <view wx:for="{{foodList}}" 
+          wx:key="id" 
+          class="category-item {{activeIndex === index ? 'active' : ''}}"
+          bindtap="tapCategory"
+          data-index="{{index}}">
+      <view class="category-name">{{item.name}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 右侧商品列表 -->
+  <scroll-view class="food" 
+              scroll-y 
+              scroll-into-view="category_{{tapIndex}}" 
+              scroll-with-animation 
+              bindscroll="onFoodScroll">
+    <block wx:for="{{foodList}}" wx:key="id" wx:for-item="category">
+      <view id="category_{{index}}" class="food-category">{{category.name}}</view>
+      <view class="food-item" 
+            wx:for="{{category.food}}" 
+            wx:key="id" 
+            wx:for-item="food">
+        <view class="food-item-pic">
+          <image mode="widthFix" src="{{food.image_url}}" />
+        </view>
+        <view class="food-item-info">
+          <view>{{food.name}}</view>
+          <view class="food-item-price">{{priceFormat(food.price)}}</view>
+        </view>
+        <view class="food-item-opt">
+          <view class="icon-add" 
+                data-category_index="{{index}}" 
+                data-index="{{index}}"
+                bindtap="addToCart">
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>
+
+<!-- 金额格式化函数 -->
+<wxs module="priceFormat">
+  module.exports = function (price) {
+    return '￥' + parseFloat(price);
+  };
+</wxs>
+
+<!-- 底部购物车区域 -->
+<view class="operate">
+  <view class="operate-shopcart" bindtap="toggleCart">
+    <i class="iconfont icon-cart {{ cartNumber > 0 ? 'active' : '' }}">
+      <span wx:if="{{ cartNumber > 0 }}">{{ cartNumber }}</span>
+    </i>
+    <view class="operate-shopcart-empty" wx:if="{{ cartNumber == 0 }}">
+      购物车是空的
+    </view>
+    <view class="operate-shopcart-price" wx:else>
+      <block wx:if="{{ cartPrice >= promotion.k }}">
+        <view>{{ priceFormat(cartPrice - promotion.v) }}</view>
+        <text>{{ priceFormat(cartPrice) }}</text>
+      </block>
+      <view wx:else>{{ priceFormat(cartPrice) }}</view>
+    </view>
+  </view>
+  <view class="operate-submit {{ cartNumber !== 0 ? 'active' : '' }}">
+    选好了
+  </view>
+</view>
+
+<!-- 购物车小球 -->
+<view class="cart-ball" 
+      hidden="{{ !cartBall.show }}"
+      style="left:{{ cartBall.x }}px; top:{{ cartBall.y }}px">
+</view>
+
+<!-- 购物车列表面板 -->
+<view class="cart-list {{ showCart ? 'show' : '' }}" wx:if="{{ cartNumber > 0 }}">
+  <view class="cart-list-header">
+    <text>已选商品</text>
+    <text class="clear">清空</text>
+  </view>
+  <scroll-view scroll-y class="cart-list-content">
+    <view class="cart-item" wx:for="{{ cartList }}" wx:key="id">
+      <text class="name">{{ item.name }}</text>
+      <text class="price">{{ priceFormat(item.price) }}</text>
+      <view class="number">
+        <text class="minus">-</text>
+        <text>{{ item.number }}</text>
+        <text class="plus">+</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 满减优惠信息 -->
+<view class="promotion" wx:if="{{ cartPrice > 0 }}">
+  <block wx:if="{{ cartPrice >= promotion.k }}">
+    <text>已满{{ promotion.k }}元可减{{ promotion.v }}元</text>
+  </block>
+  <block wx:else>
+    <text>满{{ promotion.k }}元减{{ promotion.v }}元，还差{{ promotion.k - cartPrice }}元</text>
+  </block>
+</view>

@@ -1,0 +1,12 @@
+<template name="rater">
+  <view class="vux-rater">
+    <view class="vux-rater-box star_a" wx:for="{{[1,2,3,4,5]}}" wx:key="key" wx:for-item="item" wx:for-index="idx">
+      <view class="vux-rater-inner star_active" wx:if="{{fraction > 0 && fraction >= idx }}">★
+      </view>
+      <view class="vux-rater-inner" wx:else>
+        ★
+        <view class="vux-rater-outer span" style="width:{{float*100}}%" wx:if="{{float > 0 &&  item - fraction == 1}}">★</view>
+      </view>
+    </view>
+  </view>
+</template>
